@@ -1,0 +1,99 @@
+/*body{*/
+/*background-image: url("../img/back5.png");*/
+/*margin: 0;*/
+/*height: 100%;*/
+/*}*/
+body {
+    background-image: url("../img/back5.png");
+    margin: 0;
+    padding: 0;
+    /*background-color: #17a2b8;*/
+    height: 100vh;
+}
+/*Admin start*/
+
+#flags, #cancel{
+    margin-left: 1000px;
+}
+
+#routs, #stations{
+
+    font-size: 20px;
+    width: 250px;
+    height: 80px;
+    margin: 10px 10px 10px 10px;
+
+}
+
+.allButtons{
+    margin-left: 100px;
+    padding: 200px 150px 200px 150px;
+
+
+}
+/*Admin finish*/
+/*Create station start*/
+#createStation{
+    width: 120px;
+}
+/*Create station finish*/
+
+/*Footer start*/
+.copyright{
+    text-align: center;
+}
+
+footer{
+    position: fixed;
+    left: 0; bottom: 0;
+    padding: 10px;
+    width: 100%;
+}
+/* Footer finish*/
+/*login start*/
+.col-md-12{
+    padding-top: 20px;
+}
+#title{
+    margin-top: 10px;
+    padding-left: 450px;
+}
+#flags{
+    margin-top: 10px;
+}
+#login .container #login-row #login-column #login-box {
+    margin-top: 120px;
+    margin-left: 300px;
+    max-width: 600px;
+    height: 250px;
+    border: 1px solid #9C9C9C;
+    background-color: #EAEAEA;
+}
+#login .container #login-row #login-column #login-box #login-form {
+    padding: 20px;
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+    margin-top: -85px;
+}
+/*login finish*/
+/*register start*/
+#regForm{
+    margin-top: 10px;
+}
+.firstName .lastName .email{
+    margin-top: 100px;
+}
+#regBut{
+    margin-top: 20px;
+    padding-left: 20px;
+}
+.cancelButton{
+    margin-left: 5px;
+}
+#registerUserButton{
+    width: 150px;
+}
+#cancelButton{
+    width: 150px;
+}
+/*register finish*/

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title class="lang" key="title">Stations</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/Style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10" style="margin-top: 10px;">
+            <table class="table table-striped" id="clientsTable">
+                <thead class="thead-dark">
+                <tr>
+                    <th class="lang" key="id" scope="col" style="width: 50px; text-align: center;"></th>
+                    <th class="lang" key="name" scope="col" style="width: 300px; text-align: center;"></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="row" style="margin-top: 10px; margin-left: auto; margin-right: 0;">
+                <div>
+                    <button class="lang" key="new station" id="createNewStation">New station</button>
+                </div>
+                <div >
+                    <button class="lang" key="home" id="home">Home</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" style="margin-top: 10px;">
+            <div class="row">
+                <div>
+                    <button class="translate" id="ru"><img src="../../img/Ru.jpg" alt="Русский"></button>
+                </div>
+                <div>
+                    <button class="translate" id="en"><img src="../../img/eng.png" alt="English"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/station/StationsList.js"></script>
+</body>
+<footer>
+    <p class="copyright" > &#169; Copyright Made for Epam Systems by Sergey Udaltsov  email: sergii.udaltsov@gmail.com, skype: afranij31</p>
+</footer>
+</html>
