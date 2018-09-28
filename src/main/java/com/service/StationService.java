@@ -2,6 +2,7 @@ package com.service;
 
 import com.entity.Station;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -9,8 +10,10 @@ import java.util.List;
  */
 public interface StationService {
 
-    public abstract void addNewStation(Station station);
-    public abstract boolean checkIfStationExists(String stationName);
+    public abstract void addNewStation(Station station) throws SQLException;
     public abstract List<Station> getAllStations();
+    public abstract Station getStationById(int stationId);
+    public abstract void updateStation(Station station) throws SQLException;
+    public abstract void deleteStationById(int stationId) throws SQLException;
 
 }

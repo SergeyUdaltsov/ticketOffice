@@ -13,7 +13,7 @@ $(window).ready(function () {
 
     $("#createStation").click(function () {
 
-        station.name = $("#stationName").val();
+        station.name = $("#name").val();
 
         var data = JSON.stringify(station);
 
@@ -94,7 +94,8 @@ function createStation(data) {
         },
         complete: function (data) {
             if (data.status === 200) {
-                window.history.back();
+                $(location).attr('href', 'http://localhost:9999/html/station/StationsList.html');
+
             }
         }
     });

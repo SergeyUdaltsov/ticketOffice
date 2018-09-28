@@ -1,6 +1,6 @@
-package com.controller.command.impl.user;
+package com.controller.impl.user;
 
-import com.controller.command.Command;
+import com.controller.Command;
 import com.dao.DAOFactory;
 import com.entity.User;
 import com.google.gson.Gson;

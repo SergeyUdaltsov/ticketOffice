@@ -24,9 +24,9 @@ $(window).ready(function () {
 
 
 
-    $("#cancelButton").click(function () {
+    $("#home").click(function () {
 
-        window.history.back();
+        $(location).attr('href', 'http://localhost:9999/html/admin/AdminStartPage.html');
 
     });
 
@@ -57,7 +57,7 @@ function getVocabulary() {
             'new station': 'Добавить станцию',
             'home': 'Отмена',
             'cancel': 'Отмена',
-            'pass': 'Пароль',
+            'stationName': 'Название',
             'exists': 'Пользователь с таким адресом уже зарегистрирован.',
             'fillUp': 'Заполните все поля.'
         },
@@ -68,7 +68,7 @@ function getVocabulary() {
             'new station': 'New station',
             'home': 'Отмена',
             'cancel': 'Cancel',
-            'pass': 'Password',
+            'stationName': 'Name',
             'exists': 'User with this email already registered.',
             'fillUp': 'Fill up all the fields'
         }
@@ -106,7 +106,7 @@ function loadStations(url) {
                 var nod = document.createElement('a');
                 var nodText = document.createTextNode(this.name);
 
-                nod.setAttribute('href', 'http://localhost:9999/HTML/client/ShowClient.html?id=' + this.id);
+                nod.setAttribute('href', 'http://localhost:9999/html/station/EditStation.html?id=' + this.id);
                 nod.appendChild(nodText);
 
 

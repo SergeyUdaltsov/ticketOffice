@@ -15,8 +15,8 @@ public class TrainBuilder {
         return this;
     }
 
-    public TrainBuilder buildNumber(String number) {
-        this.train.setNumber(number);
+    public TrainBuilder buildName(String name) {
+        this.train.setName(name);
         return this;
     }
 
@@ -25,9 +25,18 @@ public class TrainBuilder {
         return this;
     }
 
+    public TrainBuilder buildEconomy(int economyPlaces) {
+        this.train.setEconomyPlacesCount(economyPlaces);
+        return this;
+    }
+
     public TrainBuilder buildBusiness(int businessPlaces) {
         this.train.setBusinessPlacesCount(businessPlaces);
         return this;
+    }
+
+    public Train build() {
+        return this.train;
     }
 
 

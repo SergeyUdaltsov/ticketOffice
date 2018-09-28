@@ -1,7 +1,10 @@
 package com.service.mysqlimpl;
 
 import com.dbConnector.MySQLConnectorManager;
+import com.entity.AbstractEntity;
 import com.entity.Station;
+import com.entity.builder.AbstractBuilder;
+import com.entity.builder.StationBuilder;
 import com.service.StationService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -11,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.utils.UtilConstants.*;
+
 /**
  * This is the MySQL implementation of {@code StationService interface}
- *
  */
-public class MySQLStationService implements StationService {
+public class MySQLStationService extends MySQLAbstractService implements StationService {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserService.class);
 
@@ -23,81 +26,31 @@ public class MySQLStationService implements StationService {
      * Adds new Station to the data base.
      *
      * @param station {@code Station} from {@code AddNewStationCommand} controller.
-     * */
+     */
     @Override
-    public void addNewStation(Station station) {
+    public void addNewStation(Station station) throws SQLException {
 
-        Connection connection = MySQLConnectorManager.getConnection();
+        AbstractEntity newStation = new AbstractBuilder()
+                .buildStationName(station.getName())
+                .buildClass(station.getClass().getSimpleName())
+                .build();
 
-        MySQLConnectorManager.startTransaction(connection);
+        addNewItem(newStation, SQL_ADD_NEW_STATION);
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_ADD_NEW_STATION);
+        LOGGER.info(STATION + station.getName() + CREATED);
 
-            statement.setString(1, station.getName());
+    }
 
-            statement.executeUpdate();
+    public void deleteStationById(int stationId) throws SQLException {
 
-            MySQLConnectorManager.commitTransaction(connection);
-
-        } catch (SQLException e) {
-
-            LOGGER.error(e.getMessage());
-
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
-        }
-        LOGGER.info("Station " + station.getName() + " created");
-
+        deleteItem(stationId, SQL_DELETE_STATION);
     }
 
     /**
-     * Checks if there is a Station with specified name in data base.
+     * Gets all the Station from data base.
      *
-     * @param stationName {@code String} from {@code addNewStation() method}
-     * */
-    @Override
-    public boolean checkIfStationExists(String stationName) {
-        boolean exists = false;
-
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
-
-        try {
-
-            PreparedStatement statement = connection.prepareStatement(SQL_CHECK_IF_EXISTS_STATION);
-
-            statement.setString(1, stationName);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                int count = resultSet.getInt(1);
-
-                if (count != 0) {
-                    exists = true;
-                }
-            }
-
-            MySQLConnectorManager.commitTransaction(connection);
-
-        } catch (SQLException e) {
-
-            LOGGER.error(e.getMessage());
-
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
-        }
-
-        return exists;
-    }
-
+     * @return {@code List<Station>} all the Station stored in data base.
+     */
     @Override
     public List<Station> getAllStations() {
         Connection connection = MySQLConnectorManager.getConnection();
@@ -112,14 +65,50 @@ public class MySQLStationService implements StationService {
 
             while (resultSet.next()) {
 
-//                Client client = new ClientBuilder()
-//                        .buildId(Integer.parseInt(resultSet.getString("client_id")))
-//                        .buildFirstName(resultSet.getString("first_name"))
-//                        .buildLastName(resultSet.getString("last_name"))
-//                        .buildPhone(resultSet.getString("phone"))
-//                        .build();
-//
-//                clients.add(client);
+                Station station = new StationBuilder()
+                        .buildName(resultSet.getString("name"))
+                        .buildId(resultSet.getInt("station_id"))
+                        .build();
+
+                stations.add(station);
+            }
+
+            MySQLConnectorManager.commitTransaction(connection);
+
+        } catch (SQLException e) {
+
+            LOGGER.error(e.getMessage());
+
+            MySQLConnectorManager.rollbackTransaction(connection);
+
+        } finally {
+            MySQLConnectorManager.closeConnection(connection);
+        }
+        return stations;
+    }
+
+    @Override
+    public Station getStationById(int stationId) {
+        Connection connection = MySQLConnectorManager.getConnection();
+
+        MySQLConnectorManager.startTransaction(connection);
+
+        Station station = null;
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement(SQL_GET_STATION_BY_ID);
+
+            statement.setInt(1, stationId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                station = new StationBuilder()
+                        .buildId(resultSet.getInt("station_id"))
+                        .buildName(resultSet.getString("name"))
+                        .build();
             }
 
             MySQLConnectorManager.commitTransaction(connection);
@@ -134,7 +123,20 @@ public class MySQLStationService implements StationService {
             MySQLConnectorManager.closeConnection(connection);
         }
 
+        return station;
+    }
 
-        return null;
+    @Override
+    public void updateStation(Station station) throws SQLException {
+
+        AbstractEntity stationUpdate = new AbstractBuilder()
+                .buildStationName(station.getName())
+                .buildId(station.getId())
+                .buildClass(station.getClass().getSimpleName())
+                .build();
+
+        updateItem(stationUpdate, SQL_UPDATE_STATION);
+
+        LOGGER.info(STATION + station.getName() + UPDATED);
     }
 }

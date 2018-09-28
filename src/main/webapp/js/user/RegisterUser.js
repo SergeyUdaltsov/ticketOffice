@@ -97,7 +97,7 @@ function registerUser(data) {
         },
         complete: function (data) {
             if (data.status === 200) {
-                window.history.back();
+                $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
             }
         }
     });

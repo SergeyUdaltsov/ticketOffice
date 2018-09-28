@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title class="lang" key="title">Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/Style.css">
+</head>
+<body>
+<div  class="container">
+    <p class="lang" key="economy"></p>
+    <p id="economy"></p>
+    <p class="lang" key="business"></p>
+    <p id="business"></p>
+    <p class="lang" key="comfort"></p>
+    <p id="comfort"></p>
+
+    <div class="col-md-10">
+        <table class="table table-striped" id="ordersTable">
+            <thead class="thead-dark">
+            <tr>
+                <th class="lang" key="name" scope="col" style="background-color: #B8948C; width: 140px; text-align: center;">Name</th>
+                <th class="lang" key="arrDate" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Arr. date</th>
+                <th class="lang" key="arr_time" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Arr. time</th>
+                <th class="lang" key="depart_time" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Dep. time</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <input type="number" id="ticketsCount">
+    <button id="buy" class="lang" key="buy"></button>
+    <button id="cancel" class="lang" key="cancel"></button>
+</div>
+
+
+</body>
+<script src="../../js/ticket/BuyTicket.js"></script>
+
+<footer>
+    <p class="copyright" > &#169; Copyright Made for Epam Systems by Sergey Udaltsov  email: sergii.udaltsov@gmail.com, skype: afranij31</p>
+</footer>
+</html>

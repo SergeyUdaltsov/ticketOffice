@@ -1,4 +1,4 @@
-package com.controller.command;
+package com.controller;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -53,7 +53,8 @@ public class FrontControllerServlet extends HttpServlet {
      * @param response HttpServletResponse
      */
     private void commandProcess(HttpServletRequest request, HttpServletResponse response) {
-        String commandURL = request.getRequestURI().replaceAll(".*" + FRONT_CONTROLLER_SERVLET, "")
+        String commandURL = request.getRequestURI()
+                .replaceAll(".*" + FRONT_CONTROLLER_SERVLET, "")
                 .replaceAll("\\d+", "");
 
         Command command = COMMANDS_MAP.get(commandURL);

@@ -1,7 +1,6 @@
 package com.dao;
 
-import com.service.StationService;
-import com.service.UserService;
+import com.service.*;
 
 import static com.utils.UtilConstants.*;
 
@@ -20,7 +19,14 @@ public abstract class DAOFactory {
         }
     }
 
+    public abstract TicketService getTicketService();
+
     public abstract UserService getUserService();
+
     public abstract StationService getStationService();
+
+    public abstract RouteService getRouteService();
+
+    public abstract TrainService getTrainService();
 
 }

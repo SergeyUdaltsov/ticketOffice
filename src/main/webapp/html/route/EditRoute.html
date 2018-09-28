@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title class="lang" key="title">Edit route</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/Style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <p class="lang" key="stFrom"></p>
+        <b id="depSt" style="margin-left: 5px"></b>
+        <p class="lang" key="timeFrom" style="margin-left: 5px"></p>
+        <b id="startTime" style="margin-left: 5px"></b>
+        <p class="lang" key="dateFrom" style="margin-left: 5px"></p>
+        <b id="startDate" style="margin-left: 5px"></b>
+        <p class="lang" key="stTo" style="margin-left: 50px"></p>
+        <b id="arrSt" style="margin-left: 5px"></b>
+        <p class="lang" key="timeTo" style="margin-left: 5px"></p>
+        <b id="finTime" style="margin-left: 5px"></b>
+        <p class="lang" key="dateTo" style="margin-left: 5px"></p>
+        <b id="finDate" style="margin-left: 5px"></b>
+        <p class="lang" key="train" style="margin-left: 50px"></p>
+        <b id="train" style="margin-left: 5px"></b>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-2" style="margin-top: 10px;">
+                <div class="row">
+                    <div>
+                        <button class="translate" id="ru"><img src="../../img/Ru.jpg" alt="Русский"></button>
+                    </div>
+                    <div>
+                        <button class="translate" id="en"><img src="../../img/eng.png" alt="English"></button>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="startStText">
+                    <h6 class="lang" key="interSt">Add intermediate station</h6>
+                </div>
+                <div class="startStData">
+                    <select id="startStSelect" size="1"></select>
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="arrivalDate">
+                    <h6 class="lang" key="arrDate">Arrival date</h6>
+                </div>
+                <div class="startStData">
+                    <input type="date" id="arrDate">
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="arrivalTime">
+                    <h6 class="lang" key="arrTime">Arrival time</h6>
+                </div>
+                <div class="startStData">
+                    <input type="time" id="arrTime">
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="depTime">
+                    <h6 class="lang" key="depTime">Departure time</h6>
+                </div>
+                <div class="startStData">
+                    <input type="time" id="depTime">
+                </div>
+            </div>
+            <div style="margin-top: 30px;">
+                <div class="trainText">
+                    <h6 class="lang" key="train">Set train</h6>
+                </div>
+                <div class="trainData">
+                    <select id="trainSelect" size="1"></select>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 20px; padding-left: 200px;">
+                <div class="createButton">
+                    <button class="lang" key="add" id="addStationButton">Add</button>
+                </div>
+                <div class="cancelButton">
+                    <button class="lang" key="cancel" id="cancelButton">Cancel</button>
+                </div>
+                <div class="deleteButton">
+                    <button class="lang" key="delete" id="deleteButton">Delete</button>
+                </div>
+                <div class="setTrain">
+                    <button class="lang" key="setTrain" id="setTrainButton">Set train</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <table class="table table-striped" id="ordersTable">
+                <thead class="thead-dark">
+                <tr>
+                    <th class="lang" key="id" scope="col" style="background-color: #B8948C; width: 140px; text-align: center;">Id</th>
+                    <th class="lang" key="name" scope="col" style="background-color: #B8948C; width: 120px; text-align: center;">Name</th>
+                    <th class="lang" key="arrTime" scope="col" style="background-color: #B8948C; width: 200px; text-align: center;">Arr. time</th>
+                    <th class="lang" key="depTime" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Dep. time</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+    <script src="../../js/route/EditRoute.js"></script>
+</body>
+<footer>
+    <p class="copyright"> &#169; Copyright Made for Epam Systems by Sergey Udaltsov email: sergii.udaltsov@gmail.com,
+        skype: afranij31</p>
+</footer>
+</html>

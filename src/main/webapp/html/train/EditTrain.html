@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title class="lang" key="title">Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/Style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-2" style="margin-top: 10px;">
+                <div class="row">
+                    <div>
+                        <button class="translate" id="ru"><img src="../../img/Ru.jpg" alt="Русский"></button>
+                    </div>
+                    <div>
+                        <button class="translate" id="en"><img src="../../img/eng.png" alt="English"></button>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="nameText">
+                    <h6 class="lang" key="name">Train name</h6>
+                </div>
+                <div class="startStData">
+                    <input type="text" id="trainName">
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="econText">
+                    <h6 class="lang" key="econ">Economy</h6>
+                </div>
+                <div class="econData">
+                    <input type="number" id="econCount">
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="busText">
+                    <h6 class="lang" key="bus">Business</h6>
+                </div>
+                <div class="busData">
+                    <input type="number" id="busCount">
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="comfText">
+                    <h6 class="lang" key="comf">Comfort</h6>
+                </div>
+                <div class="comfData">
+                    <input type="number" id="comfCount">
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 20px; padding-left: 200px;">
+                <div class="saveButton">
+                    <button class="lang" key="save" id="saveButton">Save</button>
+                </div>
+                <div class="cancelButton">
+                    <button class="lang" key="cancel" id="cancelButton">Cancel</button>
+                </div>
+                <div class="deleteButton">
+                    <button class="lang" key="delete" id="deleteButton">Delete</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../../js/train/EditTrain.js"></script>
+</body>
+<footer>
+    <p class="copyright"> &#169; Copyright Made for Epam Systems by Sergey Udaltsov email: sergii.udaltsov@gmail.com,
+        skype: afranij31</p>
+</footer>
+</html>

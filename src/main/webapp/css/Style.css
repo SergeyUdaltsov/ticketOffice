@@ -10,13 +10,27 @@ body {
     /*background-color: #17a2b8;*/
     height: 100vh;
 }
+
+/*User start page start*/
+#depSelect, #arrSelect{
+    width: 300px;
+
+}
+/*User start page finish*/
+/*Create route start*/
+#startStSelect, #finishStSelect, #trainSelect{
+
+width: 300px;
+}
+
+/*Create route finish*/
 /*Admin start*/
 
 #flags, #cancel{
     margin-left: 1000px;
 }
 
-#routs, #stations{
+#routs, #stations, #trains{
 
     font-size: 20px;
     width: 250px;
@@ -27,7 +41,7 @@ body {
 
 .allButtons{
     margin-left: 100px;
-    padding: 200px 150px 200px 150px;
+    padding: 100px 150px 200px 150px;
 
 
 }

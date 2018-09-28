@@ -73,24 +73,18 @@ function validateUser(data) {
         url: 'http://localhost:9999/railways/user/validate',
         dataType: 'JSON',
         data: {
-            jsonLogin: data,
+            jsonLogin: data
         },
         success: function (data) {
             if (data.administrator === true) {
                 $(location).attr('href', 'http://localhost:9999/html/admin/AdminStartPage.html');
-
+            }else {
+                $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
             }
-
         },
         error: function (data) {
             if (data.status === 406) {
                 alert(vocabulary[language]['exists']);
-            }
-        },
-        complete: function (data) {
-
-            if (data.status === 200) {
-                // $(location).attr('href', 'http://localhost:9999/html/info/Info.html');
             }
         }
     });

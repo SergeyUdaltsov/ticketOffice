@@ -17,11 +17,22 @@ $(window).ready(function () {
 
     });
 
+    $("#routs").click(function () {
 
+        $(location).attr('href', 'http://localhost:9999/html/route/RoutesList.html');
+
+    });
+
+    $("#trains").click(function () {
+
+        $(location).attr('href', 'http://localhost:9999/html/train/TrainsList.html');
+
+    });
 
     $("#cancelButton").click(function () {
 
-        window.history.back();
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+
 
     });
 
@@ -49,6 +60,7 @@ function getVocabulary() {
             'title': 'Украинские ЖД',
             'stations': 'Станции',
             'routs': 'Маршруты',
+            'trains': 'Поезда',
             'lName': 'Фамилия',
             'register': 'Зарегистрировать',
             'cancel': 'Отмена',
@@ -60,6 +72,7 @@ function getVocabulary() {
             'title': 'Ukrainian railways',
             'stations': 'Stations',
             'routs': 'Routs',
+            'trains': 'Trains',
             'lName': 'Last name',
             'register': 'Register',
             'cancel': 'Cancel',

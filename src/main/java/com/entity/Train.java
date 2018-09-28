@@ -5,7 +5,7 @@ import static com.utils.UtilConstants.*;
 public class Train {
 
     private int id;
-    private String number;
+    private String name;
     private int comfortPlacesCount;
     private int businessPlacesCount;
     private int economyPlacesCount;
@@ -24,12 +24,12 @@ public class Train {
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getName() {
+        return name;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getComfortPlacesCount() {

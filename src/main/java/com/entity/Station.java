@@ -1,6 +1,6 @@
 package com.entity;
 
-public class Station {
+public class Station implements Sendable{
 
     private int id;
     private String name;
@@ -12,6 +12,7 @@ public class Station {
     public void setId(int id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
