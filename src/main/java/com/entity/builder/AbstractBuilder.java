@@ -3,6 +3,7 @@ package com.entity.builder;
 import com.entity.AbstractEntity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -140,4 +141,31 @@ public class AbstractBuilder {
         this.entity.setEndStation(isEndStation);
         return this;
     }
+
+    public AbstractBuilder buildArrDateTime(LocalDateTime arrDateTime) {
+        this.entity.setArrivalDateTime(arrDateTime);
+        return this;
+    }
+
+    public AbstractBuilder buildArrTimeDateString(String arrTimeDate) {
+        this.entity.setArrTimeDateString(arrTimeDate);
+        return this;
+    }
+
+    public AbstractBuilder buildDepTimeString(String depTime) {
+        this.entity.setDepTimeString(depTime);
+        return this;
+    }
+
+    public AbstractBuilder buildDepTimeDateString(String depTimeDate) {
+        this.entity.setDepTimeDateString(depTimeDate);
+        return this;
+    }
+
+    public AbstractBuilder buildArrTimeDateFinString(String arrTimeDateFin) {
+        this.entity.setArrTimeDateFinString(arrTimeDateFin);
+        return this;
+    }
+
+
 }

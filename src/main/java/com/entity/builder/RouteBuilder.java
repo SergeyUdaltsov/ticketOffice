@@ -61,11 +61,6 @@ public class RouteBuilder {
         return this;
     }
 
-    public RouteBuilder buildIntermediateStation(Map<Station, List<LocalTime>> intermediateStations) {
-        this.rout.setIntermediateStations(intermediateStations);
-        return this;
-    }
-
     public RouteBuilder buildDepStationString(String stationName) {
         this.rout.setDepartureStation(stationName);
         return this;
@@ -73,6 +68,26 @@ public class RouteBuilder {
 
     public RouteBuilder buildArrStationString(String stationName) {
         this.rout.setArrivalStation(stationName);
+        return this;
+    }
+
+    public RouteBuilder buildArrDateString(String arrDate) {
+        this.rout.setArrDateString(arrDate);
+        return this;
+    }
+
+    public RouteBuilder buildArrTimeString(String arrTime) {
+        this.rout.setArrTimeString(arrTime);
+        return this;
+    }
+
+    public RouteBuilder buildDepDateString(String depDate) {
+        this.rout.setDepDateString(depDate);
+        return this;
+    }
+
+    public RouteBuilder buildDepTimeString(String depTime) {
+        this.rout.setDepTimeString(depTime);
         return this;
     }
 

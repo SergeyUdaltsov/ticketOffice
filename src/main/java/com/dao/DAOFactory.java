@@ -29,4 +29,6 @@ public abstract class DAOFactory {
 
     public abstract TrainService getTrainService();
 
+    public abstract MailService getMailService();
+
 }

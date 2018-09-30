@@ -46,9 +46,15 @@ function getVocabulary() {
 
     return {
         ru: {
-            'title': 'Регистрация',
+            'title': 'Маршруты',
             'email': 'Эл.почта',
             'fName': 'Имя',
+            'train': 'Поезд',
+            'arrival': 'Прибытие',
+            'departure': 'Отправление',
+            'station': 'Станция',
+            'tourTime': 'Время в пути',
+            'tourPrice': 'Ст-ть',
             'lName': 'Фамилия',
             'register': 'Зарегистрировать',
             'cancel': 'Отмена',
@@ -58,8 +64,14 @@ function getVocabulary() {
             'fillUp': 'Заполните все поля.'
         },
         en: {
-            'title': 'Registration',
+            'title': 'Routes',
             'email': 'Email',
+            'train': 'Train',
+            'arrival': 'Arrival',
+            'departure': 'Departure',
+            'station': 'Station',
+            'tourTime': 'Time in tour',
+            'tourPrice': 'Price',
             'fName': 'First name',
             'lName': 'Last name',
             'buy': 'Buy',
@@ -104,16 +116,14 @@ function loadTrains(data) {
                 cell6 = document.createElement("td");
                 cell7 = document.createElement("td");
                 cell8 = document.createElement("td");
-                cell9 = document.createElement("td");
 
-                textNode2 = document.createTextNode(prepareDate(this.departureDate));
-                textNode3 = document.createTextNode(prepareTime(this.departureTime));
+                textNode2 = document.createTextNode(this.arrTimeDateString);
+                textNode3 = document.createTextNode(this.depTimeString);
                 textNode4 = document.createTextNode(this.depStation);
-                textNode5 = document.createTextNode(prepareDate(this.arrivalDate));
-                textNode6 = document.createTextNode(prepareTime(this.arrivalTime));
-                textNode7 = document.createTextNode(this.arrStation);
-                textNode8 = document.createTextNode(this.tourTime);
-                textNode9 = document.createTextNode(this.tourPrice);
+                textNode5 = document.createTextNode(this.arrTimeDateFinString);
+                textNode6 = document.createTextNode(this.arrStation);
+                textNode7 = document.createTextNode(this.tourTime);
+                textNode8 = document.createTextNode(this.tourPrice);
 
 
                 var nod = document.createElement('a');
@@ -131,7 +141,6 @@ function loadTrains(data) {
                 cell6.appendChild(textNode6);
                 cell7.appendChild(textNode7);
                 cell8.appendChild(textNode8);
-                cell9.appendChild(textNode9);
 
                 row.appendChild(cell1);
                 row.appendChild(cell2);
@@ -141,7 +150,6 @@ function loadTrains(data) {
                 row.appendChild(cell6);
                 row.appendChild(cell7);
                 row.appendChild(cell8);
-                row.appendChild(cell9);
 
                 new_tbody.appendChild(row);
 
@@ -153,19 +161,19 @@ function loadTrains(data) {
     });
 }
 
-function prepareTime(time) {
-
-    var hours = (Object.values(time)[0] < 10) ? ("0" + Object.values(time)[0]) : (Object.values(time)[0]);
-    var minutes = (Object.values(time)[1] < 10) ? ("0" + Object.values(time)[1]) : (Object.values(time)[1]);
-    var res = hours + ":" + minutes;
-    return res;
-}
-
-function prepareDate(date) {
-    var month = (Object.values(date)[1] < 10) ? ("-0" + Object.values(date)[1]) : ("-" + Object.values(date)[1]);
-
-    var day = (Object.values(date)[2] < 10) ? ("-0" + Object.values(date)[2]) : ("-" + Object.values(date)[2]);
-
-    var date = Object.values(date)[0] + month + day;
-    return date;
-}
+// function prepareTime(time) {
+//
+//     var hours = (Object.values(time)[0] < 10) ? ("0" + Object.values(time)[0]) : (Object.values(time)[0]);
+//     var minutes = (Object.values(time)[1] < 10) ? ("0" + Object.values(time)[1]) : (Object.values(time)[1]);
+//     var res = hours + ":" + minutes;
+//     return res;
+// }
+//
+// function prepareDate(date) {
+//     var month = (Object.values(date)[1] < 10) ? ("-0" + Object.values(date)[1]) : ("-" + Object.values(date)[1]);
+//
+//     var day = (Object.values(date)[2] < 10) ? ("-0" + Object.values(date)[2]) : ("-" + Object.values(date)[2]);
+//
+//     var date = Object.values(date)[0] + month + day;
+//     return date;
+// }

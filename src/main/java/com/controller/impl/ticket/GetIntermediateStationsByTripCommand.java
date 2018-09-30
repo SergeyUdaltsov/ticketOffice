@@ -3,7 +3,9 @@ package com.controller.impl.ticket;
 import com.controller.Command;
 import com.dao.DAOFactory;
 import com.entity.AbstractEntity;
+import com.entity.Station;
 import com.google.gson.Gson;
+import com.service.StationService;
 import com.service.TicketService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -23,7 +25,7 @@ public class GetIntermediateStationsByTripCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetIntermediateStationsByTripCommand.class);
 
-    private static final TicketService SERVICE = DAOFactory.getDAOFactory().getTicketService();
+    private static final StationService SERVICE = DAOFactory.getDAOFactory().getStationService();
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -38,7 +40,7 @@ public class GetIntermediateStationsByTripCommand implements Command {
 
         try {
 
-            List<AbstractEntity> stations = SERVICE.getIntermediateStationsByTrip(routeId, depStId, arrStId);
+            List<Station> stations = SERVICE.getIntermediateStationsByTrip(routeId, depStId, arrStId);
 
             response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding(ENCODING);

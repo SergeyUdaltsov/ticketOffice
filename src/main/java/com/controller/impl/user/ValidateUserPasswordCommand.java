@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
+import static com.utils.UtilConstants.*;
 
 /**
  * The {@code ValidateUserPasswordCommand} class is an implementation of
@@ -23,7 +24,7 @@ public class ValidateUserPasswordCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(ValidateUserPasswordCommand.class);
 
-    UserService service = DAOFactory.getDAOFactory().getUserService();
+    private static final UserService SERVICE = DAOFactory.getDAOFactory().getUserService();
 
     /**
      * Receives request and response, gets user email and password from request,
@@ -44,7 +45,7 @@ public class ValidateUserPasswordCommand implements Command {
             String email = jsonObject.getString("email");
             String password = jsonObject.getString("password");
 
-            User user = service.validateUser(email, password);
+            User user = SERVICE.validateUser(email, password);
 
             if (Objects.isNull(user)){
                 response.setStatus(406);
@@ -52,8 +53,8 @@ public class ValidateUserPasswordCommand implements Command {
             }
 
             try {
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
+                response.setContentType(CONTENT_TYPE);
+                response.setCharacterEncoding(ENCODING);
                 response.getWriter().write(new Gson().toJson(user));
 
             } catch (IOException e) {

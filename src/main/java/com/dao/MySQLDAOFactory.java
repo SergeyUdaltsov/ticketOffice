@@ -31,4 +31,9 @@ public class MySQLDAOFactory extends DAOFactory{
     public TrainService getTrainService() {
         return  new MySQLTrainService();
     }
+
+    @Override
+    public MailService getMailService() {
+        return new MySQLMailService();
+    }
 }

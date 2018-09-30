@@ -5,6 +5,10 @@ $(window).ready(function () {
 
     vocabulary = getVocabulary();
 
+    if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+    }
+
     language = JSON.parse(window.localStorage.getItem('lang'));
 
     if (language !== null && language !== undefined) {
@@ -30,6 +34,8 @@ $(window).ready(function () {
     });
 
     $("#cancelButton").click(function () {
+
+        window.localStorage.setItem('status', JSON.stringify(''));
 
         $(location).attr('href', 'http://localhost:9999/index.jsp');
 

@@ -3,6 +3,10 @@ var language;
 var station = new Object();
 $(window).ready(function () {
 
+    if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+    }
+
     vocabulary = getVocabulary();
 
     language = JSON.parse(window.localStorage.getItem('lang'));

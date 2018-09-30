@@ -1,15 +1,27 @@
 var vocabulary;
 var language;
 var request = new Object();
+var economyCount;
+var businessCount;
+var comfortCount;
+
 $(window).ready(function () {
+
+    if(JSON.parse(window.localStorage.getItem('status')) !== 'registered'){
+
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+
+    }
 
     var routeId = window.location.href.split("?")[1].split("=")[1].split("&")[0];
     var depStId = window.location.href.split("&")[1].split("=")[1];
     var arrStId = window.location.href.split("&")[2].split("=")[1];
 
+    var user = JSON.parse(window.localStorage.getItem('user'));
+
     loadTicketsInfo(routeId, depStId, arrStId);
 
-    // loadTrip(routeId, depStId, arrStId);
+    loadTrip(routeId, depStId, arrStId);
 
     vocabulary = getVocabulary();
 
@@ -21,11 +33,26 @@ $(window).ready(function () {
 
     $("#buy").click(function () {
 
+        request.ecoCountToBuy = ($("#ecoCount").val() === "")? 0 : $("#ecoCount").val();
+        request.busCountToBuy = ($("#busCount").val() === "")? 0 : $("#busCount").val();
+        request.comCountToBuy = ($("#comCount").val() === "")? 0 : $("#comCount").val();
+        request.routeId = routeId;
+        request.depStId = depStId;
+        request.arrStId = arrStId;
+        request.userFirstName = user.firstName;
+        request.userLastName = user.lastName;
+        request.userEmail = user.email;
+
+        (request.ecoCountToBuy === 0 && request.busCountToBuy === 0 && request.comCountToBuy === 0)
+            ?alert(vocabulary[language]['fillUp'])
+            :((economyCount - request.ecoCountToBuy) < 0 || (businessCount - request.busCountToBuy) < 0 || (comfortCount - request.comCountToBuy) < 0)
+            ? alert(vocabulary[language]['noTickets'])
+            : buyTickets(JSON.stringify(request));
 
     });
 
 
-    $("#cancelButton").click(function () {
+    $("#cancelB").click(function () {
 
         window.history.back();
 
@@ -40,41 +67,29 @@ $(window).ready(function () {
     });
 });
 
-function translatePage(transLang) {
-
-    $('.lang').each(function (index, element) {
-        $(this).text(vocabulary[transLang][$(this).attr('key')]);
-    });
-
-}
-
-function getVocabulary() {
-
-    return {
-        ru: {
-            'title': 'Новая станция',
-            'create': 'Создать',
-            'stName': 'Название',
-            'lName': 'Фамилия',
-            'register': 'Зарегистрировать',
-            'cancel': 'Отмена',
-            'pass': 'Пароль',
-            'exists': 'Cтанция уже есть в базе.',
-            'fillUp': 'Заполните все поля.'
+function buyTickets(request) {
+    $.ajax({
+        type: 'post',
+        url: 'http://localhost:9999/railways/ticket/buy',
+        dataType: 'JSON',
+        data: {
+            jsRequest: request
         },
-        en: {
-            'title': 'New station',
-            'create': 'Create',
-            'stName': 'Station name',
-            'lName': 'Last name',
-            'register': 'Register',
-            'cancel': 'Cancel',
-            'pass': 'Password',
-            'exists': 'Station already exists.',
-            'fillUp': 'Fill up all the fields'
-        }
+        success: function (data) {
 
-    };
+        },
+        error: function (data) {
+            if (data.status === 406) {
+                alert(vocabulary[language]['noTickets']);
+            }
+        },
+        complete: function (data) {
+            if (data.status === 200) {
+                window.history.back();
+
+            }
+        }
+    });
 }
 
 function loadTrip(routeId, depSt, arrSt) {
@@ -92,10 +107,9 @@ function loadTrip(routeId, depSt, arrSt) {
 
             var new_tbody = document.createElement('tbody');
 
-            if (data.length === 0){
+            if (data.length === 0) {
 
-                document.getElementsByTagName("tbody").item(0).parentNode.
-                replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
+                document.getElementsByTagName("tbody").item(0).parentNode.replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
 
                 return;
             }
@@ -106,27 +120,22 @@ function loadTrip(routeId, depSt, arrSt) {
                 cell1 = document.createElement("td");
                 cell2 = document.createElement("td");
                 cell3 = document.createElement("td");
-                cell4 = document.createElement("td");
 
-                textNode1 = document.createTextNode(this.arrStation);
-                textNode2 = document.createTextNode(prepareDate(this.arrivalDate));
-                textNode3 = document.createTextNode(prepareTime(this.arrivalTime));
-                textNode4 = document.createTextNode(prepareTime(this.departureTime));
+                textNode1 = document.createTextNode(this.name);
+                textNode2 = document.createTextNode(this.arrDateTimeString);
+                textNode3 = document.createTextNode(this.depTimeString);
 
                 cell1.appendChild(textNode1);
                 cell2.appendChild(textNode2);
                 cell3.appendChild(textNode3);
-                cell4.appendChild(textNode4);
 
                 row.appendChild(cell1);
                 row.appendChild(cell2);
                 row.appendChild(cell3);
-                row.appendChild(cell4);
 
                 new_tbody.appendChild(row);
 
-                document.getElementsByTagName("tbody").item(0).parentNode.
-                replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
+                document.getElementsByTagName("tbody").item(0).parentNode.replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
 
             });
 
@@ -149,34 +158,72 @@ function loadTicketsInfo(routeId, depSt, arrSt) {
 
         success: function (data) {
 
-            var econ = document.createTextNode(data[0]);
-            document.getElementById("economy").appendChild(econ);
+            economyCount = data[0];
+            businessCount = data[1];
+            comfortCount = data[2];
 
-            var bus = document.createTextNode(data[1]);
-            document.getElementById("business").appendChild(bus);
+            var econ = document.createTextNode(" " + economyCount);
+            document.getElementById("ecoId").appendChild(econ);
 
-            var comf = document.createTextNode(data[2]);
-            document.getElementById("comfort").appendChild(comf);
+            var bus = document.createTextNode(" " + businessCount);
+            document.getElementById("busId").appendChild(bus);
+
+            var comf = document.createTextNode(" " + comfortCount);
+            document.getElementById("comId").appendChild(comf);
 
 
         }
 
     });
 }
+function translatePage(transLang) {
 
-function prepareTime(time) {
+    $('.lang').each(function (index, element) {
+        $(this).text(vocabulary[transLang][$(this).attr('key')]);
+    });
 
-    var hours = (Object.values(time)[0] < 10)? ("0" + Object.values(time)[0]) : (Object.values(time)[0]);
-    var minutes = (Object.values(time)[1] < 10)? ("0" + Object.values(time)[1]) : (Object.values(time)[1]);
-    var res =hours + ":" + minutes;
-    return res;
 }
 
-function prepareDate(date) {
-    var month = (Object.values(date)[1] < 10)? ("-0" + Object.values(date)[1]) : ("-" + Object.values(date)[1]);
+function getVocabulary() {
 
-    var day = (Object.values(date)[2] < 10)? ("-0" + Object.values(date)[2]) : ("-" + Object.values(date)[2]);
+    return {
+        ru: {
+            'title': 'Купить билет',
+            'create': 'Создать',
+            'stName': 'Название',
+            'economy': 'Общий:',
+            'business': 'Плацкарт:',
+            'comfort': 'Купе:',
+            'name': 'Станция',
+            'buy': 'Купить',
+            'arrival': 'Прибытие',
+            'departure': 'Отправление',
+            'register': 'Зарегистрировать',
+            'cancel': 'Отмена',
+            'noTickets': 'Недостаточно билетов',
+            'pass': 'Пароль',
+            'exists': 'Cтанция уже есть в базе.',
+            'fillUp': 'Заполните все поля.'
+        },
+        en: {
+            'title': 'Buy ticket',
+            'create': 'Create',
+            'name': 'Name',
+            'buy': 'Buy',
+            'arrival': 'Arrival',
+            'departure': 'Departure',
+            'economy': 'Count of economy:',
+            'business': 'Count of business:',
+            'comfort': 'Count of comfort:',
+            'stName': 'Station name',
+            'lName': 'Last name',
+            'register': 'Register',
+            'noTickets': 'There are no tickets.',
+            'cancel': 'Cancel',
+            'pass': 'Password',
+            'exists': 'Station already exists.',
+            'fillUp': 'Fill up all the fields'
+        }
 
-    var date = Object.values(date)[0] + month + day;
-    return date;
+    };
 }

@@ -2,6 +2,7 @@ package com.service;
 
 import com.entity.AbstractEntity;
 import com.entity.Route;
+import com.entity.Station;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,13 +20,11 @@ public interface RouteService {
 
     void deleteIntermediateStationById(int stationId) throws SQLException;
 
-    List<AbstractEntity> getIntermediateStationsByRouteId(int routeId);
+    List<Station> getIntermediateStationsByRouteId(int routeId);
 
     void deleteRouteById(int routeId) throws SQLException;
 
     void setTrain(int trainId, int routeId);
-
-    int getRouteIdByCode(String code);
 
     Route getRouteById(int routId);
 

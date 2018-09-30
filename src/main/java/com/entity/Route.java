@@ -2,8 +2,6 @@ package com.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
 
 public class Route implements Sendable {
 
@@ -11,6 +9,10 @@ public class Route implements Sendable {
     private int startStationId;
     private int finishStationId;
     private String departureStation;
+    private String depTimeString;
+    private String depDateString;
+    private String arrTimeString;
+    private String arrDateString;
     private String arrivalStation;
     private String code;
     private LocalTime departureTime;
@@ -42,9 +44,6 @@ public class Route implements Sendable {
     public void setArrivalDate(LocalDate arrivalDate) {
         this.arrivalDate = arrivalDate;
     }
-
-    private Map<Station, List<LocalTime>> intermediateStations;
-
 
     public String getDepartureStation() {
         return departureStation;
@@ -110,11 +109,35 @@ public class Route implements Sendable {
         this.arrivalTime = arrivalTime;
     }
 
-    public Map<Station, List<LocalTime>> getIntermediateStations() {
-        return intermediateStations;
+    public String getDepTimeString() {
+        return depTimeString;
     }
 
-    public void setIntermediateStations(Map<Station, List<LocalTime>> intermediateStations) {
-        this.intermediateStations = intermediateStations;
+    public void setDepTimeString(String depTimeString) {
+        this.depTimeString = depTimeString;
+    }
+
+    public String getDepDateString() {
+        return depDateString;
+    }
+
+    public void setDepDateString(String depDateString) {
+        this.depDateString = depDateString;
+    }
+
+    public String getArrTimeString() {
+        return arrTimeString;
+    }
+
+    public void setArrTimeString(String arrTimeString) {
+        this.arrTimeString = arrTimeString;
+    }
+
+    public String getArrDateString() {
+        return arrDateString;
+    }
+
+    public void setArrDateString(String arrDateString) {
+        this.arrDateString = arrDateString;
     }
 }

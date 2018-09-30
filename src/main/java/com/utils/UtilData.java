@@ -4,6 +4,7 @@ import com.controller.impl.route.AddIntermediateStationCommand;
 import com.controller.impl.route.DeleteIntermediateStationByIdCommand;
 import com.controller.impl.route.*;
 import com.controller.impl.station.*;
+import com.controller.impl.ticket.BuyTicketsCommand;
 import com.controller.impl.ticket.GetIntermediateStationsByTripCommand;
 import com.controller.impl.ticket.GetTicketsCountCommand;
 import com.controller.impl.train.*;
@@ -52,6 +53,7 @@ public class UtilData {
         COMMANDS_MAP.put(SHOW_TRAINS_COMMAND, new ShowTrainsCommand());
         COMMANDS_MAP.put(GET_TICKETS_COUNT_COMMAND, new GetTicketsCountCommand());
         COMMANDS_MAP.put(GET_STATIONS_BY_TRIP_COMMAND, new GetIntermediateStationsByTripCommand());
+        COMMANDS_MAP.put(BUY_TICKETS_COMMAND, new BuyTicketsCommand());
 
     }
 

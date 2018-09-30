@@ -1,6 +1,7 @@
 var vocabulary;
 var language;
 var login = new Object();
+var user = new Object();
 $(window).ready(function () {
 
     vocabulary = getVocabulary();
@@ -21,6 +22,14 @@ $(window).ready(function () {
             ? alert(vocabulary[language]['fillUp'])
             : validateUser(data);
 
+
+    });
+
+    $("#guest").click(function () {
+
+        window.localStorage.setItem('status', JSON.stringify(''));
+
+        $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
 
     });
 
@@ -49,6 +58,7 @@ function getVocabulary() {
             'title': 'Украинские ЖД',
             'email': 'Эл.почта',
             'pass': 'Пароль',
+            'guest': 'Войти как гость',
             'log': 'Войти',
             'reg': 'Зарегистрироваться',
             'exists': 'Пароль или почта не верны.',
@@ -58,6 +68,7 @@ function getVocabulary() {
             'title': 'Ukrainian railways',
             'email': 'Email',
             'pass': 'Password',
+            'guest': 'Enter as guest',
             'log': 'Log in',
             'reg': 'Register',
             'exists': 'Password or email is wrong.',
@@ -67,18 +78,30 @@ function getVocabulary() {
     };
 }
 
-function validateUser(data) {
+function validateUser(login) {
     $.ajax({
         type: 'post',
         url: 'http://localhost:9999/railways/user/validate',
         dataType: 'JSON',
         data: {
-            jsonLogin: data
+            jsonLogin: login
         },
         success: function (data) {
+
             if (data.administrator === true) {
+
+                window.localStorage.setItem('status', JSON.stringify('admin'));
+
                 $(location).attr('href', 'http://localhost:9999/html/admin/AdminStartPage.html');
             }else {
+
+                user.firstName = data.firstName;
+                user.lastName = data.lastName;
+                user.email = data.email;
+
+                window.localStorage.setItem('user', JSON.stringify(user));
+                window.localStorage.setItem('status', JSON.stringify('registered'));
+
                 $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
             }
         },

@@ -37,6 +37,15 @@ public class UtilConstants {
     public static final String INTERMEDIATE_STATION_DELETED = "Intermediate station deleted";
     public static final String INTERMEDIATE_STATION_ADDED = "Intermediate station added";
 
+    //Mail
+    public static final String MAIL_HOST = "smtp.gmail.com";
+    public static final String MAIL_USER_NAME = "sergii.udaltsov@gmail.com";
+    public static final int SMTP_PORT = 465;
+    public static final String MAIL_PASSWORD = "t883774t";
+    public static final String MAIL_FROM = "sergii.udaltsov@gmail.com";
+
+
+
 
     //command url patterns:
     public static final String FRONT_CONTROLLER_SERVLET = "/railways";
@@ -71,9 +80,10 @@ public class UtilConstants {
     static final String GET_TRAIN_BY_ID_COMMAND = "/train/get/by/id";
     static final String SHOW_TRAINS_COMMAND = "/train/show";
 
-    //command Ticket urls:
+    //command TicketOrder urls:
     static final String GET_TICKETS_COUNT_COMMAND = "/ticket/get/by/route";
     static final String GET_STATIONS_BY_TRIP_COMMAND = "/ticket/get/stations/by/trip";
+    static final String BUY_TICKETS_COMMAND = "/ticket/buy";
 
 
     //db constants:
@@ -84,6 +94,9 @@ public class UtilConstants {
     public static final int BUSINESS_PLACES_COUNT = 100;
     public static final int COMFORT_PLACES_COUNT = 50;
     public static final int ECONOMY_PLACES_COUNT = 150;
+    public static final int DEFAULT_TRAIN_ID = 1;
+    public static final double TRIP_PRICE = 0.5;
+
 
     public static final String CONTENT_TYPE = "application/json";
     public static final String ENCODING = "UTF-8";
@@ -100,6 +113,10 @@ public class UtilConstants {
     public static final String SQL_GET_STATION_BY_ID = "SELECT * FROM station WHERE station_id=(?);";
     public static final String SQL_UPDATE_STATION = "UPDATE station SET name=(?) WHERE station_id=(?);";
     public static final String SQL_DELETE_STATION = "DELETE FROM station WHERE station_id=(?);";
+    public static final String SQL_GET_STATIONS_TIME = "SELECT arrival_date_time, stopping " +
+            "FROM intermediate_station " +
+            "WHERE route_id_fk = (?);";
+
 
     //SQL route
     public static final String SQL_ADD_NEW_ROUTE = "INSERT INTO route(code, st_start, departure_time, departure_date, " +
@@ -113,15 +130,16 @@ public class UtilConstants {
             "INNER JOIN station AS st1 ON st1.station_id = st_finish;";
 
     public static final String SQL_ADD_INTERMEDIATE_STATION = "INSERT INTO intermediate_station(route_id_fk, " +
-            "station_id_fk, arrival_time, departure_time, st_date) VALUES\n" +
+            "station_id_fk, arrival_date_time, stopping, departure_time) VALUES\n" +
             "(?, ?, ?, ?, ?);";
 
     public static final String SQL_GET_INTERMEDIATE_STATIONS_BY_ROUTE = "SELECT i.intermediate_id, st.name, " +
-            "i.arrival_time, i.departure_time " +
+            "i.arrival_date_time, i.stopping, i.departure_time " +
             "FROM intermediate_station AS i " +
             "INNER JOIN station AS st " +
             "ON station_id_fk = st.station_id " +
-            "WHERE i.route_id_fk=(?);";
+            "WHERE i.route_id_fk=(?) " +
+            "ORDER BY arrival_date_time;";
 
     public static final String SQL_DELETE_INTERMEDIATE_STATION_BY_ID = "DELETE FROM intermediate_station " +
             "WHERE intermediate_id = (?);";
@@ -139,13 +157,12 @@ public class UtilConstants {
             "INNER JOIN station AS st1 ON st1.station_id = st_finish " +
             "WHERE route_id = (?);";
 
-    public static final String SQL_GET_STATIONS_IN_TRIP = "SELECT st.name, arrival_time, departure_time, st_date " +
-            "FROM intermediate_station " +
+    public static final String SQL_GET_STATIONS_IN_TRIP = "SELECT st.name, i.arrival_date_time, i.departure_time " +
+            "FROM intermediate_station AS i " +
             "INNER JOIN station AS st ON st.station_id = station_id_fk " +
-            "AND st_date BETWEEN (?) AND (?) " +
-            "AND route_id_fk = (?);";
-
-
+            "WHERE i.arrival_date_time BETWEEN (?) AND (?) " +
+            "AND route_id_fk = (?) " +
+            "ORDER BY i.arrival_date_time;";
 
 
     //SQL train
@@ -157,9 +174,11 @@ public class UtilConstants {
             " WHERE train_id=(?);";
     public static final String SQL_DELETE_TRAIN_BY_ID = "DELETE FROM train WHERE train_id=(?);";
     public static final String SQL_GET_SEATS_COUNT_BY_TRAIN_ID = "SELECT economy, business, comfort FROM train WHERE train_id = (?);";
-    public static final String SQL_SHOW_TRAINS_BY_STATIONS = "SELECT r.route_id, t.name AS train, i1.st_date AS dep_date, " +
-            "i1.departure_time, st.station_id AS dep_st_id, st.name AS dep_st, i2.st_date AS arr_date, " +
-            "i2.arrival_time, st1.station_id AS arr_st_id, st1.name AS arr_st " +
+
+    public static final String SQL_SHOW_TRAINS_BY_STATIONS = "SELECT r.route_id, t.name AS train, " +
+            "i1.arrival_date_time AS arr_date_from, i1.departure_time AS dep_time, " +
+            "st.station_id AS dep_st_id, st.name AS dep_st, " +
+            "i2.arrival_date_time AS arr_date_to, st1.station_id AS arr_st_id, st1.name AS arr_st " +
             "FROM intermediate_station AS i " +
             "INNER JOIN station AS st ON st.station_id = (?) " +
             "INNER JOIN station AS st1 ON st1.station_id = (?) " +
@@ -168,18 +187,29 @@ public class UtilConstants {
             "INNER JOIN route AS r ON r.route_id = i.route_id_fk " +
             "INNER JOIN train AS t ON t.train_id = r.train_fk_id " +
             "WHERE i.station_id_fk = (?) OR i.station_id_fk = (?) " +
-            "GROUP BY r.code " +
-            "HAVING(count(r.code) = 2);";
+            "AND i1.arrival_date_time < i2.arrival_date_time " +
+            "GROUP BY i.route_id_fk " +
+            "HAVING(count(i.route_id_fk) = 2);";
+
 
     //SQL ticket
-    public static final String SQL_GET_TIME_AND_DATE_OF_STATIONS_ID = "SELECT arrival_time, st_date " +
-            "FROM intermediate_station WHERE route_id_fk=(?) AND station_id_fk=(?) OR station_id_fk=(?) AND route_id_fk=(?);";
+    public static final String SQL_GET_TIME_AND_DATE_OF_STATIONS_ID = "SELECT arrival_date_time " +
+            "FROM intermediate_station " +
+            "WHERE route_id_fk=(?) AND station_id_fk=(?) " +
+            "OR route_id_fk=(?) AND station_id_fk=(?) " +
+            "ORDER BY arrival_date_time;";
 
     public static final String SQL_COUNT_OF_AVAILABLE_SEATS = "SELECT min(economy) AS eco, min(business) AS bus, min(comfort) AS com " +
             "FROM intermediate_station " +
-            "AND st_date BETWEEN (?) AND (?) " +
+            "WHERE arrival_date_time BETWEEN (?) AND (?) " +
             "AND route_id_fk = (?);";
 
+    public static final String SQL_BUY_TICKETS = "UPDATE intermediate_station " +
+            "SET economy = economy - (?), " +
+            "business = business - (?), " +
+            "comfort = comfort - (?) " +
+            "WHERE route_id_fk = (?) AND " +
+            "arrival_date_time BETWEEN (?) AND (?);";
 
 
 

@@ -3,11 +3,9 @@ package com.controller.impl.route;
 import com.controller.Command;
 import com.dao.DAOFactory;
 import com.entity.Route;
-import com.google.gson.Gson;
 import com.service.RouteService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import static com.utils.UtilConstants.*;
 import static com.utils.UtilData.*;
 
 import javax.servlet.http.HttpServletRequest;

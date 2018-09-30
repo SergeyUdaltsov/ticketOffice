@@ -79,13 +79,13 @@ function getVocabulary() {
     };
 }
 
-function registerUser(data) {
+function registerUser(user) {
     $.ajax({
         type: 'post',
         url: 'http://localhost:9999/railways/user/register',
         dataType: 'JSON',
         data: {
-            jsonUser: data
+            jsonUser: user
         },
         success: function (data) {
 
@@ -97,6 +97,8 @@ function registerUser(data) {
         },
         complete: function (data) {
             if (data.status === 200) {
+
+                window.localStorage.setItem('user', user);
                 $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
             }
         }

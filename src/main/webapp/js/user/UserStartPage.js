@@ -3,6 +3,7 @@ var vocabulary;
 var language;
 $(window).ready(function () {
 
+
     vocabulary = getVocabulary();
 
     language = JSON.parse(window.localStorage.getItem('lang'));
@@ -10,6 +11,8 @@ $(window).ready(function () {
     if (language !== null && language !== undefined) {
         translatePage(language);
     }
+
+    console.log(JSON.parse(window.localStorage.getItem('user')));
 
     var select = $("#depSelect");
     url = 'http://localhost:9999/railways/station/get/all';
@@ -19,6 +22,8 @@ $(window).ready(function () {
     loadItems(select, url);
 
     $("#cancelButton").click(function () {
+
+        window.localStorage.setItem('status', JSON.stringify(''));
 
         $(location).attr('href', 'http://localhost:9999/index.jsp');
 
@@ -59,7 +64,9 @@ function getVocabulary() {
         ru: {
             'title': 'Маршруты',
             'show' : 'Показать поезда',
-            'cancel' :'Отмена',
+            'cancel' :'Выход',
+            'stFrom': 'Станция отправления',
+            'stTo': 'Станция прибытия',
             'code' : 'Код',
             'st_start' : 'Ст. отпр.',
             'depart_time': 'Время отпр',
@@ -70,7 +77,9 @@ function getVocabulary() {
         en: {
             'title': 'Routes',
             'show' : 'Show trains',
-            'cancel' :'Cancel',
+            'stFrom': 'Departure station',
+            'stTo': 'Arrival station',
+            'cancel' :'Exit',
             'code' : 'Code',
             'st_start' : 'Dep st.',
             'depart_time': 'Dep. time',

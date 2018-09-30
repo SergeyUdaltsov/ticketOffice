@@ -3,6 +3,7 @@ package com.controller.impl.route;
 import com.controller.Command;
 import com.dao.DAOFactory;
 import com.entity.AbstractEntity;
+import com.entity.Station;
 import com.google.gson.Gson;
 import com.service.RouteService;
 import org.apache.log4j.LogManager;
@@ -38,7 +39,7 @@ public class GetIntermediateStationsByRouteCommand implements Command {
 
         int stationId = Integer.parseInt(objStr);
 
-        List<AbstractEntity> stations = SERVICE.getIntermediateStationsByRouteId(stationId);
+        List<Station> stations = SERVICE.getIntermediateStationsByRouteId(stationId);
 
         response.setContentType(CONTENT_TYPE);
         response.setCharacterEncoding(ENCODING);

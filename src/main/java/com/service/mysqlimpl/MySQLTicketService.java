@@ -1,18 +1,20 @@
 package com.service.mysqlimpl;
 
+import com.dao.DAOFactory;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.AbstractEntity;
+import com.entity.Letter;
+import com.entity.TicketOrder;
 import com.entity.builder.AbstractBuilder;
+import com.entity.builder.LetterBuilder;
+import com.service.MailService;
+import com.service.StationService;
 import com.service.TicketService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static com.utils.UtilConstants.*;
@@ -23,13 +25,15 @@ import static com.utils.UtilConstants.*;
 public class MySQLTicketService implements TicketService {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserService.class);
+    private static final MailService MAIL_SERVICE = DAOFactory.getDAOFactory().getMailService();
+    private static final StationService STATION_SERVICE = DAOFactory.getDAOFactory().getStationService();
 
     @Override
     public List<Integer> getTicketCount(int routeId, int stationFrom, int stationTo) throws SQLException {
 
-        List<String> dateTimes = getDateTimeOfTrip(routeId, stationFrom, stationTo);
+        List<String> points = STATION_SERVICE.getDateTimeOfTrip(routeId, stationFrom, stationTo);
 
-        List<Integer> availabeSeats = new ArrayList<>();
+        List<Integer> availableSeats = new ArrayList<>();
 
         Connection connection = MySQLConnectorManager.getConnection();
 
@@ -37,38 +41,25 @@ public class MySQLTicketService implements TicketService {
 
         try {
 
-            String query = "INSERT INTO dates (date_time, name) VALUES (?, ?);";
+            PreparedStatement statement = connection.prepareStatement(SQL_COUNT_OF_AVAILABLE_SEATS);
 
-            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, points.get(0));
+            statement.setString(2, points.get(1));
+            statement.setInt(3, routeId);
 
-            LocalDateTime point = LocalDateTime.of(LocalDate.parse("2018-09-21"), LocalTime.parse("15:35"));
+            ResultSet resultSet = statement.executeQuery();
 
-            statement.setString(1, point.toString());
-            statement.setString(2, "from java");
+            while (resultSet.next()) {
 
-            statement.executeUpdate();
+                int eco = resultSet.getInt("eco");
+                int bus = resultSet.getInt("bus");
+                int com = resultSet.getInt("com");
 
-//            PreparedStatement statement = connection.prepareStatement(SQL_COUNT_OF_AVAILABLE_SEATS);
-//
-//            statement.setString(1, dateTimes.get(0));
-//            statement.setString(2, dateTimes.get(2));
-//            statement.setString(3, dateTimes.get(1));
-//            statement.setString(4, dateTimes.get(3));
-//            statement.setInt(5, routeId);
-//
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            while (resultSet.next()) {
-//
-//                int eco = resultSet.getInt("eco");
-//                int bus = resultSet.getInt("bus");
-//                int com = resultSet.getInt("com");
-//
-//                availabeSeats.add(eco);
-//                availabeSeats.add(bus);
-//                availabeSeats.add(com);
-//
-//            }
+                availableSeats.add(eco);
+                availableSeats.add(bus);
+                availableSeats.add(com);
+
+            }
 
             MySQLConnectorManager.commitTransaction(connection);
 
@@ -82,54 +73,13 @@ public class MySQLTicketService implements TicketService {
             MySQLConnectorManager.closeConnection(connection);
         }
 
-        return availabeSeats;
-    }
-
-
-    List<String> getDateTimeOfTrip(int routeId, int stationFrom, int stationTo) throws SQLException {
-        List<String> dateTimes = new ArrayList<>();
-
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
-
-        PreparedStatement statement = connection.prepareStatement(SQL_GET_TIME_AND_DATE_OF_STATIONS_ID);
-
-        statement.setInt(1, routeId);
-        statement.setInt(2, stationFrom);
-        statement.setInt(3, stationTo);
-        statement.setInt(4, routeId);
-
-
-        ResultSet resultSet = statement.executeQuery();
-
-        String time = "";
-        String date = "";
-
-        while (resultSet.next()) {
-
-            time = resultSet.getString("arrival_time");
-            date = resultSet.getString("st_date");
-
-            dateTimes.add(time);
-            dateTimes.add(date);
-        }
-
-        MySQLConnectorManager.commitTransaction(connection);
-        MySQLConnectorManager.closeConnection(connection);
-
-        return dateTimes;
-
+        return availableSeats;
     }
 
     @Override
     public List<AbstractEntity> getIntermediateStationsByTrip(int routeId, int depStId, int arrStId) throws SQLException {
 
-        List<String> dateTimes = getDateTimeOfTrip(routeId, depStId, arrStId);
-
-        LocalDateTime departureDate = LocalDateTime.of(LocalDate.parse(dateTimes.get(1)), LocalTime.parse(dateTimes.get(0)));
-        LocalDateTime arrivalDate = LocalDateTime.of(LocalDate.parse(dateTimes.get(3)), LocalTime.parse(dateTimes.get(2)));
-
+        List<String> dateTimes = STATION_SERVICE.getDateTimeOfTrip(routeId, depStId, arrStId);
 
         Connection connection = MySQLConnectorManager.getConnection();
 
@@ -141,25 +91,22 @@ public class MySQLTicketService implements TicketService {
 
             PreparedStatement statement = connection.prepareStatement(SQL_GET_STATIONS_IN_TRIP);
 
-            statement.setString(1, dateTimes.get(1));
-            statement.setString(2, dateTimes.get(3));
+            statement.setString(1, dateTimes.get(0));
+            statement.setString(2, dateTimes.get(1));
             statement.setInt(3, routeId);
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
 
-              AbstractEntity station = new AbstractBuilder()
-                      .buildArrStation(resultSet.getString("name"))
-                      .buildArrTime(LocalTime.parse(resultSet.getString("arrival_time")))
-                      .buildDepTime(LocalTime.parse(resultSet.getString("departure_time")))
-                      .buildArrDate(LocalDate.parse(resultSet.getString("st_date")))
-                      .build();
+                AbstractEntity station = new AbstractBuilder()
+                        .buildArrStation(resultSet.getString("name"))
+                        .buildArrTimeDateString(resultSet.getString("arrival_date_time"))
+                        .buildDepTimeString(resultSet.getString("departure_time"))
+                        .build();
 
-              stations.add(station);
+                stations.add(station);
             }
-
-            stations = selectIntermediateStations(stations, departureDate, arrivalDate);
 
             MySQLConnectorManager.commitTransaction(connection);
 
@@ -176,43 +123,67 @@ public class MySQLTicketService implements TicketService {
     }
 
 
-    private List<AbstractEntity> selectIntermediateStations(List<AbstractEntity> stations,
-                                                    LocalDateTime departure, LocalDateTime arrival) {
-
-        Iterator<AbstractEntity> iterator = stations.iterator();
-
-        while (iterator.hasNext()){
-
-            AbstractEntity station = iterator.next();
-
-            LocalDateTime stDate = LocalDateTime.of(station.getArrivalDate(), station.getArrivalTime());
-
-            if (stDate.isBefore(departure) || stDate.isAfter(arrival)){
-
-                iterator.remove();
-            }
-        }
-
-        return stations;
-    }
+    @Override
+    public void buyTickets(TicketOrder order) throws SQLException {
 
 
-    public static void main(String[] args) throws SQLException {
+        List<String> dateTimes = STATION_SERVICE.getDateTimeOfTrip(order.getRouteId(),
+                order.getStationFrom().getId(), order.getStationTo().getId());
+
         Connection connection = MySQLConnectorManager.getConnection();
 
         MySQLConnectorManager.startTransaction(connection);
 
-        String query = "INSERT INTO dates (date_time, name) VALUES (?, ?);";
+        try {
 
-       PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = connection.prepareStatement(SQL_BUY_TICKETS);
 
-       LocalDateTime point = LocalDateTime.of(LocalDate.parse("2018-09-21"), LocalTime.parse("15:35"));
+            statement.setInt(1, order.getCountOfEconomy());
+            statement.setInt(2, order.getCountOfBusiness());
+            statement.setInt(3, order.getCountOfComfort());
+            statement.setInt(4, order.getRouteId());
+            statement.setString(5, dateTimes.get(0));
+            statement.setString(6, dateTimes.get(1));
 
-       statement.setString(1, point.toString());
-       statement.setString(2, "from java");
+            statement.executeUpdate();
 
-       statement.executeUpdate();
+            MySQLConnectorManager.commitTransaction(connection);
+
+            sendMail(order);
+
+        } catch (SQLException e) {
+
+            LOGGER.error(e.getMessage());
+
+            MySQLConnectorManager.rollbackTransaction(connection);
+
+        } finally {
+            MySQLConnectorManager.closeConnection(connection);
+        }
 
 
     }
+
+    private void sendMail(TicketOrder order) {
+
+        StringBuilder text = new StringBuilder();
+
+        text.append("Dear ").append(order.getUser().getFirstName()).append(" ").append(order.getUser().getLastName()).append("!")
+                .append(System.lineSeparator()).append("You have bought ticket(s) on our site. Now you can travel ")
+                .append(System.lineSeparator()).append("with comfort by our trains").append(System.lineSeparator())
+                .append("Economy - ").append(order.getCountOfEconomy()).append(System.lineSeparator())
+                .append("Business - ").append(order.getCountOfBusiness()).append(System.lineSeparator())
+                .append("Comfort - ").append(order.getCountOfComfort());
+
+
+        Letter letter = new LetterBuilder()
+                .buildAddress(order.getUser().getEmail())
+                .buildSubject("Mail from ticket office")
+                .buildText(text.toString())
+                .build();
+
+        MAIL_SERVICE.sendMail(letter);
+    }
+
+
 }

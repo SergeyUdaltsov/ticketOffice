@@ -32,10 +32,15 @@
                         <input type="password" id="password" class="form-control">
                     </div>
                     <div class="form-group">
-                        <button class="lang" key="log" id="enter">Log in</button>
+                        <button class="lang" key="guest" id="guest">As guest</button>
                     </div>
-                    <div id="register">
-                        <a href="http://localhost:9999/html/user/RegisterUser.html" class="lang" key="reg" id="reg">Register</a>
+                    <div class="row">
+                        <div id="register">
+                            <a href="http://localhost:9999/html/user/RegisterUser.html" class="lang" key="reg" id="reg">Register</a>
+                        </div>
+                        <div class="guestButton">
+                            <button class="lang" key="log" id="enter" style="width: 100px">Log in</button>
+                        </div>
                     </div>
                 </div>
             </div>

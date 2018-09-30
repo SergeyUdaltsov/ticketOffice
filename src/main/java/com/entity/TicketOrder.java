@@ -2,18 +2,19 @@ package com.entity;
 
 import java.time.LocalTime;
 
-public class Ticket {
+public class TicketOrder {
 
     private int id;
-    private String passengerFirstName;
-    private String passengerLastName;
+    private User user;
     private String trainNumber;
-    private TicketClass ticketClass;
-    private int seatNumber;
+    private int countOfEconomy;
+    private int countOfBusiness;
+    private int countOfComfort;
     private Station stationFrom;
     private Station stationTo;
     private LocalTime departureTime;
     private LocalTime arrivalTime;
+    private int routeId;
 
     public int getId() {
         return id;
@@ -23,20 +24,12 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getPassengerFirstName() {
-        return passengerFirstName;
+    public User getUser() {
+        return user;
     }
 
-    public void setPassengerFirstName(String passengerFirstName) {
-        this.passengerFirstName = passengerFirstName;
-    }
-
-    public String getPassengerLastName() {
-        return passengerLastName;
-    }
-
-    public void setPassengerLastName(String passengerLastName) {
-        this.passengerLastName = passengerLastName;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTrainNumber() {
@@ -47,20 +40,28 @@ public class Ticket {
         this.trainNumber = trainNumber;
     }
 
-    public TicketClass getTicketClass() {
-        return ticketClass;
+    public int getCountOfEconomy() {
+        return countOfEconomy;
     }
 
-    public void setTicketClass(TicketClass ticketClass) {
-        this.ticketClass = ticketClass;
+    public void setCountOfEconomy(int countOfEconomy) {
+        this.countOfEconomy = countOfEconomy;
     }
 
-    public int getSeatNumber() {
-        return seatNumber;
+    public int getCountOfBusiness() {
+        return countOfBusiness;
     }
 
-    public void setSeatNumber(int seatNumber) {
-        this.seatNumber = seatNumber;
+    public void setCountOfBusiness(int countOfBusiness) {
+        this.countOfBusiness = countOfBusiness;
+    }
+
+    public int getCountOfComfort() {
+        return countOfComfort;
+    }
+
+    public void setCountOfComfort(int countOfComfort) {
+        this.countOfComfort = countOfComfort;
     }
 
     public Station getStationFrom() {
@@ -93,5 +94,13 @@ public class Ticket {
 
     public void setArrivalTime(LocalTime arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public int getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(int routeId) {
+        this.routeId = routeId;
     }
 }

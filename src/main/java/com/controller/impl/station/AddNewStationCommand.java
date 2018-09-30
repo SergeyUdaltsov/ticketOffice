@@ -5,10 +5,6 @@ import com.dao.DAOFactory;
 import com.entity.Station;
 import com.entity.builder.StationBuilder;
 import com.service.StationService;
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -27,7 +23,7 @@ public class AddNewStationCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(AddNewStationCommand.class);
 
-    StationService service = DAOFactory.getDAOFactory().getStationService();
+    private static final StationService SERVICE = DAOFactory.getDAOFactory().getStationService();
 
 
     /**
@@ -41,22 +37,6 @@ public class AddNewStationCommand implements Command {
      */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
-//
-//        try {
-//            Email email = new SimpleEmail();
-//            email.setHostName("smtp.gmail.com");
-//            email.setSmtpPort(465);
-//            email.setAuthenticator(new DefaultAuthenticator("sergii.udaltsov@gmail.com", "t883774t"));
-//            email.setSSLOnConnect(true);
-//            email.setFrom("sergii.udaltsov@gmail.com");
-//            email.setSubject("TestMail");
-//            email.setMsg("This is a test mail ... :-)\n I sent it to you from my Java app... ");
-//            email.addTo("Gudalcova@ukr.net");
-//            email.send();
-//        } catch (EmailException e) {
-//            e.printStackTrace();
-//        }
-
 
         String jsStr = request.getParameter("jsonStation");
 
@@ -69,7 +49,7 @@ public class AddNewStationCommand implements Command {
                     .build();
 
             try {
-                service.addNewStation(station);
+                SERVICE.addNewStation(station);
 
             } catch (SQLException e) {
 

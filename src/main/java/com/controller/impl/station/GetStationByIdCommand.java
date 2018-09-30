@@ -2,8 +2,8 @@ package com.controller.impl.station;
 
 import com.controller.Command;
 import com.dao.DAOFactory;
+import com.entity.Sendable;
 import com.entity.Station;
-import com.google.gson.Gson;
 import com.service.StationService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -21,7 +21,7 @@ public class GetStationByIdCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetStationByIdCommand.class);
 
-    StationService service = DAOFactory.getDAOFactory().getStationService();
+    private static final StationService SERVICE = DAOFactory.getDAOFactory().getStationService();
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -30,7 +30,7 @@ public class GetStationByIdCommand implements Command {
 
         int stationId = Integer.parseInt(objStr);
 
-        Station station = service.getStationById(stationId);
+        Station station = SERVICE.getStationById(stationId);
 
         try {
 

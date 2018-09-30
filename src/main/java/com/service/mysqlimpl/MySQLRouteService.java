@@ -30,7 +30,7 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
     @Override
     public void addNewRoute(Route route) throws SQLException {
 
-        AbstractEntity entity = new AbstractBuilder()
+        AbstractEntity abstractRoute = new AbstractBuilder()
                 .buildStartStationId(route.getStartStationId())
                 .buildDepTime(route.getDepartureTime())
                 .buildFinishStationId(route.getFinishStationId())
@@ -41,28 +41,29 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
                 .buildDepDate(route.getDepartureDate())
                 .build();
 
-        addNewItem(entity, SQL_ADD_NEW_ROUTE);
+        int routeId = addNewItem(abstractRoute, SQL_ADD_NEW_ROUTE);
 
-        int routeId = getRouteIdByCode(entity.getCode());
-
-        entity = populateAbstractEntityStation(routeId, route.getArrivalTime(), route.getDepartureTime(),
+        AbstractEntity abstractStation = populateAbstractEntityStation(routeId, route.getDepartureTime(),
                 route.getStartStationId(), route.getDepartureDate());
 
-        addIntermediateStation(entity);
+        addIntermediateStation(abstractStation);
 
-        entity = populateAbstractEntityStation(routeId, route.getArrivalTime(), route.getDepartureTime(),
+        abstractStation = populateAbstractEntityStation(routeId, route.getArrivalTime(),
                 route.getFinishStationId(), route.getArrivalDate());
 
-        addIntermediateStation(entity);
+        addIntermediateStation(abstractStation);
+
+        setTrain(DEFAULT_TRAIN_ID, routeId);
+
     }
 
-    private AbstractEntity populateAbstractEntityStation(int routeId, LocalTime arrival, LocalTime departure,
+    private AbstractEntity populateAbstractEntityStation(int routeId, LocalTime stationTime,
                                                          int interStationId, LocalDate arrDate) {
 
         AbstractEntity interStation = new AbstractBuilder()
                 .buildRouteId(routeId)
-                .buildArrTime(arrival)
-                .buildDepTime(departure)
+                .buildArrTime(stationTime)
+                .buildDepTime(stationTime)
                 .buildStartStationId(interStationId)
                 .buildClass(INTER_STATION)
                 .buildArrDate(arrDate)
@@ -124,16 +125,62 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
         addNewItem(interStation, SQL_ADD_INTERMEDIATE_STATION);
     }
 
-    Boolean validateIntermediateStation(AbstractEntity interStation) {
+    boolean validateIntermediateStation(AbstractEntity interStation) {
 
         Route route = getRouteById(interStation.getRouteId());
-
         LocalDateTime departure = LocalDateTime.of(route.getDepartureDate(), route.getDepartureTime());
         LocalDateTime arrival = LocalDateTime.of(route.getArrivalDate(), route.getArrivalTime());
 
         LocalDateTime stationDateTime = LocalDateTime.of(interStation.getArrivalDate(), interStation.getArrivalTime());
 
-        return (departure.isBefore(stationDateTime) && stationDateTime.isBefore(arrival));
+        return departure.isBefore(stationDateTime)
+                && stationDateTime.isBefore(arrival)
+                && validateIntermediateStationTime(interStation);
+
+    }
+
+    private boolean validateIntermediateStationTime(AbstractEntity interStation) {
+
+        Connection connection = MySQLConnectorManager.getConnection();
+
+        MySQLConnectorManager.startTransaction(connection);
+
+        LocalDateTime interArrival = LocalDateTime.of(interStation.getArrivalDate(), interStation.getArrivalTime());
+        LocalDateTime interDeparture = LocalDateTime.of(interStation.getArrivalDate(), interStation.getDepartureTime());
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_GET_STATIONS_TIME);
+
+            statement.setInt(1, interStation.getRouteId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                LocalDateTime arrival = LocalDateTime.parse(resultSet.getString("arrival_date_time")
+                        .replace(" ", "T"));
+
+                int stopping = resultSet.getInt("stopping");
+                LocalDateTime departure = arrival.plusMinutes(stopping);
+
+                if((interArrival.isAfter(arrival) && interArrival.isBefore(departure))
+                        || (interDeparture.isAfter(arrival) && interDeparture.isBefore(departure))){
+                    return false;
+                }
+
+                if ((interArrival.isBefore(arrival) && interDeparture.isAfter(departure))
+                        ||(arrival.isBefore(interArrival) && departure.isAfter(interDeparture))){
+                    return false;
+                }
+            }
+
+
+        } catch (SQLException e) {
+
+            LOGGER.error(e.getMessage());
+        }
+
+        return true;
     }
 
     @Override
@@ -143,13 +190,13 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
     }
 
     @Override
-    public List<AbstractEntity> getIntermediateStationsByRouteId(int routeId) {
+    public List<Station> getIntermediateStationsByRouteId(int routeId) {
 
         Connection connection = MySQLConnectorManager.getConnection();
 
         MySQLConnectorManager.startTransaction(connection);
 
-        List<AbstractEntity> intermediateStations = new ArrayList<>();
+        List<Station> intermediateStations = new ArrayList<>();
 
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_GET_INTERMEDIATE_STATIONS_BY_ROUTE);
@@ -160,11 +207,12 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
 
             while (resultSet.next()) {
 
-                AbstractEntity station = new AbstractBuilder()
-                        .buildId(resultSet.getInt("intermediate_id"))
-                        .buildStationName(resultSet.getString("name"))
-                        .buildArrTime(LocalTime.parse(resultSet.getString("arrival_time")))
-                        .buildDepTime(LocalTime.parse(resultSet.getString("departure_time")))
+                Station station = new StationBuilder()
+                        .buildIntermediateId(resultSet.getInt("intermediate_id"))
+                        .buildName(resultSet.getString("name"))
+                        .buildArrDateTimeString(resultSet.getString("arrival_date_time"))
+                        .buildDepTimeString(resultSet.getString("departure_time"))
+                        .buildStopping(resultSet.getInt("stopping"))
                         .build();
 
                 intermediateStations.add(station);
@@ -183,6 +231,7 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
         }
         return intermediateStations;
     }
+
 
     @Override
     public void deleteRouteById(int routeId) throws SQLException {
@@ -266,45 +315,6 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
         return seats;
     }
 
-
-    @Override
-    public int getRouteIdByCode(String code) {
-
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
-
-        int routeId = 0;
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_GET_ROUTE_ID_BY_CODE);
-
-            statement.setString(1, code);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                routeId = resultSet.getInt(1);
-
-            }
-
-
-            MySQLConnectorManager.commitTransaction(connection);
-
-        } catch (SQLException e) {
-
-            LOGGER.error(e.getMessage());
-
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
-        }
-
-        return routeId;
-    }
-
     @Override
     public Route getRouteById(int routeId) {
 
@@ -328,11 +338,15 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
                         .buildId(resultSet.getInt(1))
                         .buildCode(resultSet.getString("code"))
                         .buildDepStationString(resultSet.getString("dep_st"))
-                        .buildDepartureTime(LocalTime.parse(resultSet.getString("dep_time")))
-                        .buildDepartureDate(LocalDate.parse(resultSet.getString("dep_date")))
+                        .buildDepTimeString(resultSet.getString("dep_time"))
+                        .buildDepDateString(resultSet.getString("dep_date"))
                         .buildArrStationString(resultSet.getString("arr_st"))
-                        .buildArrivalTime(LocalTime.parse(resultSet.getString("arr_time")))
+                        .buildArrTimeString(resultSet.getString("arr_time"))
+                        .buildArrDateString(resultSet.getString("arr_date"))
+                        .buildDepartureDate(LocalDate.parse(resultSet.getString("dep_date")))
                         .buildArrivalDate(LocalDate.parse(resultSet.getString("arr_date")))
+                        .buildArrivalTime(LocalTime.parse(resultSet.getString("arr_time")))
+                        .buildDepartureTime(LocalTime.parse(resultSet.getString("dep_time")))
                         .build();
             }
 

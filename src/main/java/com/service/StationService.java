@@ -10,10 +10,19 @@ import java.util.List;
  */
 public interface StationService {
 
-    public abstract void addNewStation(Station station) throws SQLException;
-    public abstract List<Station> getAllStations();
-    public abstract Station getStationById(int stationId);
-    public abstract void updateStation(Station station) throws SQLException;
-    public abstract void deleteStationById(int stationId) throws SQLException;
+    void addNewStation(Station station) throws SQLException;
+
+    List<Station> getAllStations();
+
+    Station getStationById(int stationId);
+
+    void updateStation(Station station) throws SQLException;
+
+    void deleteStationById(int stationId) throws SQLException;
+
+    List<Station> getIntermediateStationsByTrip(int routeId, int depStId, int arrStId) throws SQLException;
+
+    List<String> getDateTimeOfTrip(int routeId, int stationFrom, int stationTo) throws SQLException;
+
 
 }

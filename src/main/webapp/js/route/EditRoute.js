@@ -7,6 +7,9 @@ var arrDate;
 var arrTime;
 $(window).ready(function () {
 
+    if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+    }
     var routeId = window.location.href.split("?")[1].split("=")[1];
 
     vocabulary = getVocabulary();
@@ -20,12 +23,12 @@ $(window).ready(function () {
     var select = $("#startStSelect");
     var url = 'http://localhost:9999/railways/station/get/all';
 
-    loadItems(select, url);
+    loadStations(select, url);
 
     select = $("#trainSelect");
     url = 'http://localhost:9999/railways/train/get/all';
 
-    loadItems(select, url);
+    loadStations(select, url);
 
     loadRouteInfo(routeId);
 
@@ -97,15 +100,19 @@ function getVocabulary() {
             'depTime': 'Отправление',
             'chStationArr': 'Конечная станция :',
             'arrTime': 'Прибытие',
+            'arrDate': 'Дата прибытия',
             'timeError': 'Время отправления больше времени прибытия',
             'dateError': 'Неверная дата',
             'add': 'Добавить станцию',
+            'id': '№',
+            'name': 'Станция',
             'cancel': 'Отмена',
-            'stFrom': 'Ст. отпр: ',
-            'stTo': 'Ст. приб: ',
+            'stFrom': 'Станция отпр: ',
+            'stTo': 'Станция приб: ',
+            'stopping': 'Стоянка',
             'train': 'Поезд: ',
-            'timeFrom': 'Время: ',
-            'dateFrom': 'Дата: ',
+            'time': 'Время: ',
+            'date': 'Дата: ',
             'create': 'Создать',
             'delete': 'Удалить маршрут',
             'fillUp': 'Заполните все поля.',
@@ -122,11 +129,15 @@ function getVocabulary() {
             'timeError': 'Arrival time is more than departure time',
             'dateError': 'Wrong date',
             'add': 'Add station',
-            'stFrom': 'St. from: ',
-            'timeFrom': 'Time: ',
-            'dateFrom': 'Date: ',
+            'stFrom': 'Station from: ',
+            'time': 'Time: ',
+            'arrDate': 'Arrival date',
+            'stopping': 'Stopping',
+            'date': 'Date: ',
+            'id': 'Id',
+            'name': 'Station',
             'train': 'Train: ',
-            'stTo': 'St. to',
+            'stTo': 'Station to',
             'cancel': 'Cancel',
             'setTrain': 'Set train',
             'delete': 'Delete route',
@@ -159,19 +170,20 @@ function loadRouteInfo(routeId) {
         success: function (data) {
 
             var stFrom = document.createTextNode(" " + data.departureStation + " ");
-            var startTime = document.createTextNode(prepareTime(data.departureTime) + " ");
-            var startDate = document.createTextNode(prepareDate(data.departureDate));
-
-            var stTo = document.createTextNode(data.arrivalStation);
-            var finishTime = document.createTextNode(prepareTime(data.arrivalTime));
-            var finishDate = document.createTextNode(prepareDate(data.arrivalDate));
+            var startTime = document.createTextNode(data.depTimeString);
+            var startDate = document.createTextNode(data.depDateString);
 
             // var train = document.createTextNode(data.train);
-            // document.getElementById("train").appendChild(train);
+
+            var stTo = document.createTextNode(data.arrivalStation);
+            var finishTime = document.createTextNode(data.arrTimeString);
+            var finishDate = document.createTextNode(data.arrDateString);
 
             document.getElementById("depSt").appendChild(stFrom);
             document.getElementById("startTime").appendChild(startTime);
             document.getElementById("startDate").appendChild(startDate);
+
+            // document.getElementById("train").appendChild(train);
 
             document.getElementById("arrSt").appendChild(stTo);
             document.getElementById("finTime").appendChild(finishTime);
@@ -185,7 +197,7 @@ function loadRouteInfo(routeId) {
 
 
 
-function loadItems(select, url) {
+function loadStations(select, url) {
     $.ajax({
         url: url,
         type: 'get',
@@ -264,7 +276,8 @@ function loadIntermediateStations(routeId) {
 
             if (data.length === 0) {
 
-                document.getElementsByTagName("tbody").item(0).parentNode.replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
+                document.getElementsByTagName("tbody").item(0).parentNode
+                    .replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
 
                 return;
             }
@@ -276,24 +289,28 @@ function loadIntermediateStations(routeId) {
                 cell2 = document.createElement("td");
                 cell3 = document.createElement("td");
                 cell4 = document.createElement("td");
+                cell5 = document.createElement("td");
 
 
-                textNode1 = document.createTextNode(this.id);
-                textNode2 = document.createTextNode(this.stationName);
-                textNode3 = document.createTextNode(prepareTime(this.departureTime));
-                textNode4 = document.createTextNode(prepareTime(this.arrivalTime));
+                textNode1 = document.createTextNode(this.intermediateId);
+                textNode2 = document.createTextNode(this.name);
+                textNode3 = document.createTextNode(this.arrDateTimeString);
+                textNode4 = document.createTextNode(this.stopping);
+                textNode5 = document.createTextNode(this.depTimeString);
 
                 var url = 'http://localhost:9999/railways/route/intermediate/delete';
 
-                cell1.innerHTML = '<input type="button" value="del" onclick="deleteItem(' + this.id + ')">';
+                cell1.innerHTML = '<input type="button" value="del" onclick="deleteItem(' + this.intermediateId + ')">';
                 cell2.appendChild(textNode2);
                 cell3.appendChild(textNode3);
                 cell4.appendChild(textNode4);
+                cell5.appendChild(textNode5);
 
                 row.appendChild(cell1);
                 row.appendChild(cell2);
                 row.appendChild(cell3);
                 row.appendChild(cell4);
+                row.appendChild(cell5);
 
                 new_tbody.appendChild(row);
 
@@ -305,22 +322,6 @@ function loadIntermediateStations(routeId) {
     });
 }
 
-function prepareTime(time) {
-
-    var hours = (Object.values(time)[0] < 10) ? ("0" + Object.values(time)[0]) : (Object.values(time)[0]);
-    var minutes = (Object.values(time)[1] < 10) ? ("0" + Object.values(time)[1]) : (Object.values(time)[1]);
-    var res = hours + ":" + minutes;
-    return res;
-}
-
-function prepareDate(date) {
-    var month = (Object.values(date)[1] < 10) ? ("-0" + Object.values(date)[1]) : ("-" + Object.values(date)[1]);
-
-    var day = (Object.values(date)[2] < 10) ? ("-0" + Object.values(date)[2]) : ("-" + Object.values(date)[2]);
-
-    var date = Object.values(date)[0] + month + day;
-    return date;
-}
 
 function deleteItem(data, url) {
     $.ajax({

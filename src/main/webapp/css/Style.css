@@ -1,8 +1,4 @@
-/*body{*/
-/*background-image: url("../img/back5.png");*/
-/*margin: 0;*/
-/*height: 100%;*/
-/*}*/
+
 body {
     background-image: url("../img/back5.png");
     margin: 0;
@@ -65,6 +61,19 @@ footer{
 }
 /* Footer finish*/
 /*login start*/
+
+.guestButton{
+    position: relative;
+    left: 400px;
+    bottom: 30px;
+
+}
+
+#register{
+    position: relative;
+    left: 20px;
+
+}
 .col-md-12{
     padding-top: 20px;
 }

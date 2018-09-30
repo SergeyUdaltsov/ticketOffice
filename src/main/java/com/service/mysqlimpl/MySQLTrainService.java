@@ -125,25 +125,24 @@ public class MySQLTrainService extends MySQLAbstractService implements TrainServ
                 AbstractEntity tour = new AbstractBuilder()
                         .buildCode(resultSet.getString("train"))
                         .buildRouteId(resultSet.getInt("route_id"))
-                        .buildDepDate(LocalDate.parse(resultSet.getString("dep_date")))
-                        .buildDepTime(LocalTime.parse(resultSet.getString("departure_time")))
-                        .buildStartStationId(resultSet.getInt("dep_st_id"))
-                        .buildFinishStationId(resultSet.getInt("arr_st_id"))
+                        .buildArrTimeDateString(resultSet.getString("arr_date_from"))
+                        .buildDepTimeString(resultSet.getString("dep_time"))
                         .buildDepStation(resultSet.getString("dep_st"))
-                        .buildArrDate(LocalDate.parse(resultSet.getString("arr_date")))
-                        .buildArrTime(LocalTime.parse(resultSet.getString("arrival_time")))
+                        .buildStartStationId(resultSet.getInt("dep_st_id"))
+                        .buildArrTimeDateFinString(resultSet.getString("arr_date_to"))
                         .buildArrStation(resultSet.getString("arr_st"))
+                        .buildFinishStationId(resultSet.getInt("arr_st_id"))
                         .build();
 
-                LocalDateTime departure = LocalDateTime.of(tour.getDepartureDate(), tour.getDepartureTime());
-                LocalDateTime arrival = LocalDateTime.of(tour.getArrivalDate(), tour.getArrivalTime());
+                LocalDateTime departure = LocalDateTime.parse(tour.getArrTimeDateString().replace(" ", "T"));
+                LocalDateTime arrival = LocalDateTime.parse(tour.getArrTimeDateFinString().replace(" ", "T"));
 
                 long timeInTour = departure.until(arrival, ChronoUnit.MINUTES);
 
                 String time = timeInTour / 60 + " hrs, " + timeInTour % 60 + " min.";
 
                 tour.setTourTime(time);
-                tour.setTourPrice((int)(timeInTour / 2));
+                tour.setTourPrice((int)(timeInTour * TRIP_PRICE));
 
                 tours.add(tour);
             }

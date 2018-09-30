@@ -9,17 +9,29 @@
 </head>
 <body>
     <div class="col-md-10">
+        <div class="col-md-12">
+            <div class="row" style="float: right;">
+                <div>
+                    <button class="translate" id="ru"><img src="../../img/Ru.jpg" alt="Русский"></button>
+                </div>
+                <div>
+                    <button class="translate" id="en"><img src="../../img/eng.png" alt="English"></button>
+                </div>
+            </div>
+        </div>
         <table class="table table-striped" id="ordersTable">
             <thead class="thead-dark">
             <tr>
                 <th class="lang" key="train" scope="col" style="background-color: #B8948C; width: 140px; text-align: center;">Code</th>
-                <th class="lang" key="depDate" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Dep. date</th>
-                <th class="lang" key="depTime" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Dep. time</th>
-                <th class="lang" key="depSt" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Dep. st.</th>
-                <th class="lang" key="arrDate" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Arr. date</th>
-                <th class="lang" key="arrTime" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Arr. time</th>
-                <th class="lang" key="arrSt" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Arr. st.</th>
+                <th class="lang" key="arrival" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Arrival</th>
+                <th class="lang" key="departure" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Departure</th>
+                <th class="lang" key="station" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Station</th>
+                <th class="lang" key="arrival" scope="col" style="background-color: #B8948C; width: 230px; text-align: center;">Arrival</th>
+                <th class="lang" key="station" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Station</th>
                 <th class="lang" key="tourTime" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Tour time</th>
+                <!--<th class="lang" key="eco" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Econ</th>-->
+                <!--<th class="lang" key="bus" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Bsn</th>-->
+                <!--<th class="lang" key="com" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Comf</th>-->
                 <th class="lang" key="tourPrice" scope="col" style="background-color: #B8948C; width: 150px; text-align: center;">Tour price</th>
 
             </tr>
@@ -27,6 +39,9 @@
             <tbody>
             </tbody>
         </table>
+    </div>
+    <div class="cancelButton" style="margin-top: 5px;">
+        <button id="cancelButton" class="lang" key="cancel">Cancel</button>
     </div>
 
 </body>

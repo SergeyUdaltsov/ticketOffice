@@ -3,6 +3,10 @@ var vocabulary;
 var language;
 $(window).ready(function () {
 
+    if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+    }
+
     vocabulary = getVocabulary();
 
     language = JSON.parse(window.localStorage.getItem('lang'));
@@ -54,6 +58,8 @@ function getVocabulary() {
             'create' : 'Создать маршрут',
             'cancel' :'Отмена',
             'code' : 'Код',
+            'depDate' : 'Дата отпр.',
+            'arrDate' : 'Дата приб.',
             'st_start' : 'Ст. отпр.',
             'depart_time': 'Время отпр',
             'st_finish': 'Ст приб.',
@@ -65,6 +71,8 @@ function getVocabulary() {
             'create' : 'Create route',
             'cancel' :'Cancel',
             'code' : 'Code',
+            'depDate' : 'Dep. date',
+            'arrDate' : 'Arr. date',
             'st_start' : 'Dep st.',
             'depart_time': 'Dep. time',
             'st_finish': 'Arr. st.',

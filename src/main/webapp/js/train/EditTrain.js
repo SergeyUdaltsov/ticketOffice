@@ -4,6 +4,10 @@ var language;
 
 $(window).ready(function () {
 
+    if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+    }
+
     var trainId = window.location.href.split("?")[1].split("=")[1];
 
     vocabulary = getVocabulary();

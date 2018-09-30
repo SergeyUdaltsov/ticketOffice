@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -21,6 +22,7 @@ public class AbstractEntity {
     private int finishStationId;
     private LocalTime departureTime;
     private LocalTime arrivalTime;
+    private LocalDateTime arrivalDateTime;
     private String code;
     private int intField1;
     private int intField2;
@@ -34,6 +36,54 @@ public class AbstractEntity {
     private String arrStation;
     private String tourTime;
     private int tourPrice;
+    private String arrTimeDateString;
+    private String depTimeDateString;
+    private String depTimeString;
+    private String arrTimeDateFinString;
+    private int countOfEconomy;
+    private int countOfBusiness;
+    private int countOfComfort;
+
+
+    public String getArrTimeDateFinString() {
+        return arrTimeDateFinString;
+    }
+
+    public void setArrTimeDateFinString(String arrTimeDateFinString) {
+        this.arrTimeDateFinString = arrTimeDateFinString;
+    }
+
+    public String getDepTimeDateString() {
+        return depTimeDateString;
+    }
+
+    public void setDepTimeDateString(String depTimeDateString) {
+        this.depTimeDateString = depTimeDateString;
+    }
+
+    public String getArrTimeDateString() {
+        return arrTimeDateString;
+    }
+
+    public void setArrTimeDateString(String arrTimeDateString) {
+        this.arrTimeDateString = arrTimeDateString;
+    }
+
+    public String getDepTimeString() {
+        return depTimeString;
+    }
+
+    public void setDepTimeString(String depTimeString) {
+        this.depTimeString = depTimeString;
+    }
+
+    public LocalDateTime getArrivalDateTime() {
+        return arrivalDateTime;
+    }
+
+    public void setArrivalDateTime(LocalDateTime arrivalDateTime) {
+        this.arrivalDateTime = arrivalDateTime;
+    }
 
     public boolean isEndStation() {
         return endStation;

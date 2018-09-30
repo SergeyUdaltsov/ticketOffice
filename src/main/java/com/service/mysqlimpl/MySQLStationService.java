@@ -139,4 +139,85 @@ public class MySQLStationService extends MySQLAbstractService implements Station
 
         LOGGER.info(STATION + station.getName() + UPDATED);
     }
+
+    @Override
+    public List<Station> getIntermediateStationsByTrip(int routeId, int depStId, int arrStId) throws SQLException {
+
+        List<String> dateTimes = getDateTimeOfTrip(routeId, depStId, arrStId);
+
+        Connection connection = MySQLConnectorManager.getConnection();
+
+        MySQLConnectorManager.startTransaction(connection);
+
+        List<Station> stations = new ArrayList<>();
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement(SQL_GET_STATIONS_IN_TRIP);
+
+            statement.setString(1, dateTimes.get(0));
+            statement.setString(2, dateTimes.get(1));
+            statement.setInt(3, routeId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                Station station = new StationBuilder()
+                        .buildName(resultSet.getString("name"))
+                        .buildArrDateTimeString(resultSet.getString("arrival_date_time"))
+                        .buildDepTimeString(resultSet.getString("departure_time"))
+                        .build();
+
+                stations.add(station);
+            }
+
+            MySQLConnectorManager.commitTransaction(connection);
+
+        } catch (SQLException e) {
+
+            LOGGER.error(e.getMessage());
+
+            MySQLConnectorManager.rollbackTransaction(connection);
+
+        } finally {
+            MySQLConnectorManager.closeConnection(connection);
+        }
+        return stations;
+    }
+
+
+    @Override
+    public List<String> getDateTimeOfTrip(int routeId, int stationFrom, int stationTo) throws SQLException {
+
+        List<String> dateTimes = new ArrayList<>();
+
+        Connection connection = MySQLConnectorManager.getConnection();
+
+        MySQLConnectorManager.startTransaction(connection);
+
+        PreparedStatement statement = connection.prepareStatement(SQL_GET_TIME_AND_DATE_OF_STATIONS_ID);
+
+        statement.setInt(1, routeId);
+        statement.setInt(2, stationFrom);
+        statement.setInt(3, routeId);
+        statement.setInt(4, stationTo);
+
+
+        ResultSet resultSet = statement.executeQuery();
+
+        String point = "";
+
+        while (resultSet.next()) {
+
+            point = resultSet.getString("arrival_date_time");
+
+            dateTimes.add(point);
+        }
+
+        MySQLConnectorManager.commitTransaction(connection);
+        MySQLConnectorManager.closeConnection(connection);
+
+        return dateTimes;
+    }
 }
