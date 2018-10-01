@@ -36,38 +36,33 @@ abstract class MySQLAbstractService {
                     statement.setInt(2, entity.getId());
                     statement.executeUpdate();
 
-                    MySQLConnectorManager.commitTransaction(connection);
-
                     break;
                 }
                 case USER: {
                     break;
                 }
                 case TRAIN: {
-                    statement.setString(1, entity.getStringField1());
-                    statement.setInt(2, entity.getIntField2());
-                    statement.setInt(3, entity.getIntField3());
-                    statement.setInt(4, entity.getIntField4());
-                    statement.setInt(5, entity.getIntField1());
 
+                    fillUpTrain(entity, statement);
                     statement.executeUpdate();
                     break;
                 }
 
                 default: {
-                    MySQLConnectorManager.rollbackTransaction(connection);
 
+                    MySQLConnectorManager.rollbackTransaction(connection);
                     throw new SQLException(UNKNOWN_ENTITY);
                 }
-
             }
 
             MySQLConnectorManager.commitTransaction(connection);
+
         } catch (SQLException e) {
-            throw new SQLException(STATION_EXISTS);
+            throw new SQLException(COULD_NOT_UPDATE_ITEM);
 
         } finally {
             MySQLConnectorManager.closeConnection(connection);
+            statement.close();
         }
     }
 
@@ -81,11 +76,10 @@ abstract class MySQLAbstractService {
         PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
         int id = 0;
+        try {
+            switch (entity.getClassName()) {
+                case USER: {
 
-        switch (entity.getClassName()) {
-
-            case USER: {
-                try {
                     statement.setString(1, entity.getFirstName());
                     statement.setString(2, entity.getLastName());
                     statement.setString(3, entity.getEmail());
@@ -93,20 +87,9 @@ abstract class MySQLAbstractService {
                     statement.setBoolean(5, false);
                     statement.executeUpdate();
 
-                    MySQLConnectorManager.commitTransaction(connection);
-
-                } catch (SQLException e) {
-
-                    throw new SQLException(USER_EXISTS);
-
-                } finally {
-                    MySQLConnectorManager.closeConnection(connection);
+                    break;
                 }
-
-                break;
-            }
-            case ROUTE: {
-                try {
+                case ROUTE: {
                     statement.setString(1, entity.getCode());
                     statement.setInt(2, entity.getStartStationId());
                     statement.setString(3, entity.getDepartureTime().toString());
@@ -123,40 +106,24 @@ abstract class MySQLAbstractService {
                         id = rs.getInt(1);
                     }
 
-                    MySQLConnectorManager.commitTransaction(connection);
-
-                } catch (SQLException e) {
-                    throw new SQLException(ROUTE_EXISTS);
-
-                } finally {
-                    MySQLConnectorManager.closeConnection(connection);
+                    break;
                 }
-                break;
-            }
-            case STATION: {
-                try {
+                case STATION: {
+
                     statement.setString(1, entity.getStationName());
 
                     statement.executeUpdate();
 
-                    MySQLConnectorManager.commitTransaction(connection);
+                    LOGGER.info(STATION + " " + entity.getStationName() + CREATED);
 
-                } catch (SQLException e) {
-
-                    throw new SQLException(STATION_EXISTS);
-
-                } finally {
-                    MySQLConnectorManager.closeConnection(connection);
+                    break;
                 }
-                break;
-            }
-            case INTER_STATION: {
-                try {
+                case INTER_STATION: {
 
                     LocalDateTime arrDateTime = LocalDateTime.of(entity.getArrivalDate(), entity.getArrivalTime());
                     LocalDateTime depDateTime = entity.getDepartureTime().atDate(entity.getArrivalDate());
 
-                    int stopping = (int)arrDateTime.until(depDateTime, ChronoUnit.MINUTES);
+                    int stopping = (int) arrDateTime.until(depDateTime, ChronoUnit.MINUTES);
 
                     statement.setInt(1, entity.getRouteId());
                     statement.setInt(2, entity.getStartStationId());
@@ -166,20 +133,10 @@ abstract class MySQLAbstractService {
 
                     statement.executeUpdate();
 
-                    MySQLConnectorManager.commitTransaction(connection);
-
-                } catch (SQLException e) {
-
-                    throw new SQLException(INTERMEDIATE_STATION_ERROR);
-
-                } finally {
-                    MySQLConnectorManager.closeConnection(connection);
+                    break;
                 }
+                case TRAIN: {
 
-                break;
-            }
-            case TRAIN: {
-                try {
                     statement.setString(1, entity.getStringField1());
                     statement.setInt(2, entity.getIntField1());
                     statement.setInt(3, entity.getIntField2());
@@ -187,29 +144,32 @@ abstract class MySQLAbstractService {
 
                     statement.executeUpdate();
 
-                    MySQLConnectorManager.commitTransaction(connection);
-
-                } catch (SQLException e) {
-
-                    throw new SQLException(TRAIN_EXISTS);
-                } finally {
-                    MySQLConnectorManager.closeConnection(connection);
+                    break;
                 }
+                default: {
+                    MySQLConnectorManager.rollbackTransaction(connection);
+                    MySQLConnectorManager.closeConnection(connection);
 
-                break;
+                    throw new SQLException(UNKNOWN_ENTITY);
+                }
             }
-            default: {
-                MySQLConnectorManager.rollbackTransaction(connection);
-                MySQLConnectorManager.closeConnection(connection);
 
-                throw new SQLException(UNKNOWN_ENTITY);
-            }
+            MySQLConnectorManager.commitTransaction(connection);
+
+        } catch (SQLException e) {
+
+            throw new SQLException(COULD_NOT_ADD_NEW_ITEM);
+
+        }finally {
+
+            MySQLConnectorManager.closeConnection(connection);
+            statement.close();
         }
         return id;
     }
 
 
-    void deleteItem(int itemId, String query) throws SQLException {
+    void deleteItemById(int itemId, String query) throws SQLException {
 
         Connection connection = MySQLConnectorManager.getConnection();
 
@@ -223,7 +183,17 @@ abstract class MySQLAbstractService {
 
         MySQLConnectorManager.commitTransaction(connection);
 
+        MySQLConnectorManager.closeConnection(connection);
+        statement.close();
+    }
 
+    private void fillUpTrain(AbstractEntity entity, PreparedStatement statement) throws SQLException {
+
+        statement.setString(1, entity.getName());
+        statement.setInt(2, entity.getCountOfEconomy());
+        statement.setInt(3, entity.getCountOfBusiness());
+        statement.setInt(4, entity.getCountOfComfort());
+        statement.setInt(5, entity.getId());
     }
 
 }

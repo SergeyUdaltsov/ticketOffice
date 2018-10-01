@@ -15,6 +15,7 @@ public class AbstractEntity {
     private boolean administrator;
     private boolean endStation = false;
     private String email;
+    private String name;
     private String password;
     private String stationName;
     private String className;
@@ -44,6 +45,37 @@ public class AbstractEntity {
     private int countOfBusiness;
     private int countOfComfort;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCountOfEconomy() {
+        return countOfEconomy;
+    }
+
+    public void setCountOfEconomy(int countOfEconomy) {
+        this.countOfEconomy = countOfEconomy;
+    }
+
+    public int getCountOfBusiness() {
+        return countOfBusiness;
+    }
+
+    public void setCountOfBusiness(int countOfBusiness) {
+        this.countOfBusiness = countOfBusiness;
+    }
+
+    public int getCountOfComfort() {
+        return countOfComfort;
+    }
+
+    public void setCountOfComfort(int countOfComfort) {
+        this.countOfComfort = countOfComfort;
+    }
 
     public String getArrTimeDateFinString() {
         return arrTimeDateFinString;

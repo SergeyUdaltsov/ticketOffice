@@ -5,25 +5,36 @@ public class UtilConstants {
     //Errors
 
     public static final String UNKNOWN_ENTITY = "Trying to persist unknown entity to data base.";
+    public static final String COULD_NOT_ADD_NEW_ITEM = "Could not add new item.";
+    public static final String COULD_NOT_UPDATE_ITEM = "Could not update item.";
+
+    //JSON error
+
+
 
     //user errors
     public static final String USER_EXISTS = "User already exists.";
     public static final String USER_CREATED = "User created.";
 
     //station errors
-    public static final String STATION_EXISTS = "Station already exists.";
+    public static final String COULD_NOT_PERSIST_STATION = "Could not persist station.";
     public static final String COULD_NOT_DELETE_STATION = "Could not delete station";
-    public static final String WRONG_DATA_FROM_CLIENT = "Wrong data received from client.";
+    public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATION_TIMES = "Could not receive intermediate station times from db";
+    public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATIONS = "Could not receive intermediate stations from db";
     public static final String INTERMEDIATE_STATION_ERROR = "Intermediate station already exists or equals to start or finish station";
+    public static final String WRONG_DATA_FROM_CLIENT_STATION = "Wrong station data received from client side.";
+    public static final String WRONG_DATA_FROM_CLIENT_ROUTE = "Wrong route data received from client side.";
 
     //route errors
     public static final String ROUTE_EXISTS = "Route already exists.";
-    public static final String COULD_NOT_LOAD_ROUTES = "Could not load routes";
+    public static final String COULD_NOT_LOAD_ROUTES = "Could not load routes from db";
+    public static final String COULD_NOT_PERSIST_ROUTE = "Could not persist route";
     public static final String WRONG_DATE_OR_TIME_INTER_STATION = "Wrong date or time of intermediate station";
 
     //train errors
     public static final String TRAIN_EXISTS = "Train already exists.";
     public static final String TRAIN_ERROR_UPDATE = "Could not update train.";
+    public static final String WRONG_DATA_FROM_CLIENT_TRAIN = "Wrong train data received from client side.";
 
 
     //strings
@@ -31,11 +42,15 @@ public class UtilConstants {
     public static final String TRAIN = "Train";
     public static final String CREATED = " created";
     public static final String UPDATED = " updated";
+    public static final String DELETED = " deleted";
     public static final String ROUTE = "Route";
+    public static final String FROM = " from ";
+    public static final String TO = " to ";
     public static final String USER = "User";
     public static final String INTER_STATION = "InterStation";
     public static final String INTERMEDIATE_STATION_DELETED = "Intermediate station deleted";
     public static final String INTERMEDIATE_STATION_ADDED = "Intermediate station added";
+
 
     //Mail
     public static final String MAIL_HOST = "smtp.gmail.com";

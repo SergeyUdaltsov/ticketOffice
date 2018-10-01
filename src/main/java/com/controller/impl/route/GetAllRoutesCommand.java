@@ -1,7 +1,8 @@
 package com.controller.impl.route;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
+import com.dao.impl.JDBCRouteDAO;
 import com.entity.Route;
 import com.google.gson.Gson;
 import com.service.RouteService;
@@ -23,15 +24,19 @@ public class GetAllRoutesCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetAllRoutesCommand.class);
 
-    RouteService service = DAOFactory.getDAOFactory().getRouteService();//final
+    private final RouteService ROUTE_SERVICE;
+
+    public GetAllRoutesCommand(RouteService ROUTE_SERVICE) {
+        this.ROUTE_SERVICE = ROUTE_SERVICE;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
-        List<Route> routes = service.getAllRoutes();
+        List<Route> routes = ROUTE_SERVICE.getAllRoutes();
 
-        response.setContentType("application/json");//move to constants
-        response.setCharacterEncoding("UTF-8");
+        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(ENCODING);
 
         try {
 

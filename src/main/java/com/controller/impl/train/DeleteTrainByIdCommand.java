@@ -1,7 +1,7 @@
 package com.controller.impl.train;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.service.TrainService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

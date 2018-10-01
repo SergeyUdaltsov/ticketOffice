@@ -1,7 +1,7 @@
 package com.controller.impl.user;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.entity.User;
 import com.entity.builder.UserBuilder;
 import com.service.UserService;
@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
-import static com.utils.UtilConstants.*;
 
 /**
  * The {@code RegisterNewUserCommand} class is an implementation of

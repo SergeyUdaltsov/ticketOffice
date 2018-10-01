@@ -2,12 +2,42 @@ package com.entity.builder;
 
 import com.entity.Station;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class StationBuilder {
 
     private Station station;
 
     public StationBuilder() {
         this.station = new Station();
+    }
+
+
+
+    public StationBuilder buildEndStation(boolean isEnd){
+        this.station.setEndStation(isEnd);
+        return this;
+    }
+
+    public StationBuilder buildArrDate(LocalDate arrivalDate){
+        this.station.setArrivalDate(arrivalDate);
+        return this;
+    }
+
+    public StationBuilder buildArrTime(LocalTime arrTime) {
+        this.station.setArrivalTime(arrTime);
+        return this;
+    }
+
+    public StationBuilder buildDepTime(LocalTime depTime) {
+        this.station.setDepartureTime(depTime);
+        return this;
+    }
+
+    public StationBuilder buildRouteId(int routeId){
+        this.station.setRouteId(routeId);
+        return this;
     }
 
     public StationBuilder buildIntermediateId(int intermediateId){

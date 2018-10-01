@@ -1,7 +1,7 @@
 package com.controller.impl.route;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.service.RouteService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
-import static com.utils.UtilConstants.COULD_NOT_DELETE_STATION;
-import static com.utils.UtilConstants.INTERMEDIATE_STATION_DELETED;
+import static com.utils.UtilConstants.*;
 
 /**
  * The {@code DeleteRouteByIdCommand} class is an implementation of
@@ -19,9 +18,15 @@ import static com.utils.UtilConstants.INTERMEDIATE_STATION_DELETED;
  */
 public class DeleteRouteByIdCommand implements Command {
 
+
+    private final RouteService SERVICE;
+
     private static final Logger LOGGER = LogManager.getLogger(DeleteRouteByIdCommand.class);
 
-    RouteService service = DAOFactory.getDAOFactory().getRouteService();
+    public DeleteRouteByIdCommand(RouteService SERVICE) {
+        this.SERVICE = SERVICE;
+    }
+
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -30,13 +35,13 @@ public class DeleteRouteByIdCommand implements Command {
         int stationId = Integer.parseInt(jsStr);
 
         try {
-            service.deleteRouteById(stationId);
+            SERVICE.deleteRouteById(stationId);
             response.setStatus(200);
-            LOGGER.info(INTERMEDIATE_STATION_DELETED);
+            LOGGER.info(ROUTE + DELETED);
 
         } catch (SQLException e) {
 
-            LOGGER.error(COULD_NOT_DELETE_STATION);
+            LOGGER.error("Route delete error");
             response.setStatus(406);
         }
     }

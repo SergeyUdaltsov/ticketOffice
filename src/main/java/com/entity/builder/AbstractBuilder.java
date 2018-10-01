@@ -17,6 +17,27 @@ public class AbstractBuilder {
         this.entity = new AbstractEntity();
     }
 
+
+    public AbstractBuilder buildEconomy(int economy){
+        this.entity.setCountOfEconomy(economy);
+        return this;
+    }
+
+    public AbstractBuilder buildBusiness(int business){
+        this.entity.setCountOfBusiness(business);
+        return this;
+    }
+
+    public AbstractBuilder buildComfort(int comfort){
+        this.entity.setCountOfComfort(comfort);
+        return this;
+    }
+
+    public AbstractBuilder buildName(String name){
+        this.entity.setName(name);
+        return this;
+    }
+
     public AbstractBuilder buildDepStation(String station) {
         this.entity.setDepStation(station);
         return this;

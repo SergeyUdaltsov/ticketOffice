@@ -1,7 +1,7 @@
 package com.controller.impl.user;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.entity.User;
 import com.google.gson.Gson;
 import com.service.UserService;

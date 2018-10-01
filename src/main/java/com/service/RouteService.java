@@ -16,9 +16,7 @@ public interface RouteService {
 
     List<Route> getAllRoutes();
 
-    void addIntermediateStation(AbstractEntity interStation) throws SQLException;
-
-    void deleteIntermediateStationById(int stationId) throws SQLException;
+    void addIntermediateStation(Station interStation) throws SQLException;
 
     List<Station> getIntermediateStationsByRouteId(int routeId);
 

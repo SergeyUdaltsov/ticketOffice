@@ -2,7 +2,7 @@ package com.controller.impl.ticket;
 
 import com.controller.Command;
 import com.controller.impl.station.AddNewStationCommand;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.entity.Station;
 import com.entity.TicketOrder;
 import com.entity.User;

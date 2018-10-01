@@ -1,5 +1,6 @@
 package com.service.mysqlimpl;
 
+import com.dao.StationDAO;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.AbstractEntity;
 import com.entity.Station;
@@ -10,8 +11,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.utils.UtilConstants.*;
 
@@ -21,6 +26,12 @@ import static com.utils.UtilConstants.*;
 public class MySQLStationService extends MySQLAbstractService implements StationService {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserService.class);
+
+    private StationDAO stationDAO;
+
+    public MySQLStationService(StationDAO stationDAO) {
+        this.stationDAO = stationDAO;
+    }
 
     /**
      * Adds new Station to the data base.
@@ -36,15 +47,9 @@ public class MySQLStationService extends MySQLAbstractService implements Station
                 .build();
 
         addNewItem(newStation, SQL_ADD_NEW_STATION);
-
-        LOGGER.info(STATION + station.getName() + CREATED);
-
     }
 
-    public void deleteStationById(int stationId) throws SQLException {
 
-        deleteItem(stationId, SQL_DELETE_STATION);
-    }
 
     /**
      * Gets all the Station from data base.
@@ -127,6 +132,48 @@ public class MySQLStationService extends MySQLAbstractService implements Station
     }
 
     @Override
+    public boolean validateIntermediateStationTime(Station station) {
+
+        LocalDateTime interArrival = LocalDateTime.of(station.getArrivalDate(), station.getArrivalTime());
+        LocalDateTime interDeparture = LocalDateTime.of(station.getArrivalDate(), station.getDepartureTime());
+
+        try (Connection connection = MySQLConnectorManager.getConnection()){
+
+            ResultSet resultSet = stationDAO.getResultSetStationTimes(station, connection);
+
+            if (Objects.nonNull(resultSet)){
+
+                while (resultSet.next()) {
+
+                    LocalDateTime arrival = LocalDateTime.parse(resultSet.getString("arrival_date_time")
+                            .replace(" ", "T"));
+
+                    int stopping = resultSet.getInt("stopping");
+                    LocalDateTime departure = arrival.plusMinutes(stopping);
+
+                    if ((interArrival.isAfter(arrival) && interArrival.isBefore(departure))
+                            || (interDeparture.isAfter(arrival) && interDeparture.isBefore(departure))) {
+                        return false;
+                    }
+
+                    if ((interArrival.isBefore(arrival) && interDeparture.isAfter(departure))
+                            || (arrival.isBefore(interArrival) && departure.isAfter(interDeparture))) {
+                        return false;
+                    }
+                }
+            }
+
+        }catch (SQLException e) {
+            LOGGER.error(COULD_NOT_RECEIVE_INTERMEDIATE_STATION_TIMES);
+        }
+
+        return true;
+    }
+
+
+
+
+    @Override
     public void updateStation(Station station) throws SQLException {
 
         AbstractEntity stationUpdate = new AbstractBuilder()
@@ -138,6 +185,12 @@ public class MySQLStationService extends MySQLAbstractService implements Station
         updateItem(stationUpdate, SQL_UPDATE_STATION);
 
         LOGGER.info(STATION + station.getName() + UPDATED);
+    }
+
+    @Override
+    public void deleteStationById(int stationId, boolean isIntermediate) throws SQLException {
+
+        stationDAO.deleteStationById(stationId, isIntermediate);
     }
 
     @Override
@@ -219,5 +272,23 @@ public class MySQLStationService extends MySQLAbstractService implements Station
         MySQLConnectorManager.closeConnection(connection);
 
         return dateTimes;
+    }
+
+    @Override
+    public Station buildIntermediateStation(int routeId, int stationId, LocalTime arrTime, LocalTime depTime,
+                                            LocalDate arrDate, boolean endStation) {
+
+        Station intermediateStation = new StationBuilder()
+                .buildRouteId(routeId)
+                .buildArrTime(arrTime)
+                .buildDepTime(depTime)
+                .buildId(stationId)
+                .buildArrDate(arrDate)
+                .buildEndStation(endStation)
+                .build();
+
+        return intermediateStation;
+
+
     }
 }

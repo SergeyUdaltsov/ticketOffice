@@ -1,12 +1,9 @@
 package com.controller.impl.train;
 
 import com.controller.Command;
-import com.controller.impl.station.AddNewStationCommand;
-import com.dao.DAOFactory;
-import com.entity.Station;
+import com.dao.factory.DAOFactory;
 import com.entity.Train;
 import com.google.gson.Gson;
-import com.service.StationService;
 import com.service.TrainService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

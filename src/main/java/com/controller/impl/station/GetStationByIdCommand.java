@@ -1,8 +1,7 @@
 package com.controller.impl.station;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
-import com.entity.Sendable;
+import com.dao.factory.DAOFactory;
 import com.entity.Station;
 import com.service.StationService;
 import org.apache.log4j.LogManager;
@@ -21,7 +20,11 @@ public class GetStationByIdCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetStationByIdCommand.class);
 
-    private static final StationService SERVICE = DAOFactory.getDAOFactory().getStationService();
+    private final StationService STATION_SERVICE;
+
+    public GetStationByIdCommand(StationService STATION_SERVICE) {
+        this.STATION_SERVICE = STATION_SERVICE;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -30,7 +33,7 @@ public class GetStationByIdCommand implements Command {
 
         int stationId = Integer.parseInt(objStr);
 
-        Station station = SERVICE.getStationById(stationId);
+        Station station = STATION_SERVICE.getStationById(stationId);
 
         try {
 

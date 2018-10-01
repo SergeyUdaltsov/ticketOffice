@@ -1,10 +1,8 @@
 package com.controller.impl.train;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
-import com.entity.Station;
+import com.dao.factory.DAOFactory;
 import com.entity.Train;
-import com.entity.builder.StationBuilder;
 import com.entity.builder.TrainBuilder;
 import com.service.TrainService;
 import org.apache.log4j.LogManager;
@@ -16,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
-import static com.utils.UtilConstants.WRONG_DATA_FROM_CLIENT;
+import static com.utils.UtilConstants.*;
 
 /**
  * Created by Serg on 25.09.2018.
@@ -25,7 +23,7 @@ public class UpdateTrainCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetAllTrainsCommand.class);
 
-    TrainService service = DAOFactory.getDAOFactory().getTrainService();
+    private static final TrainService SERVICE = DAOFactory.getDAOFactory().getTrainService();
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -52,7 +50,7 @@ public class UpdateTrainCommand implements Command {
 
             try {
 
-                service.updateTrain(train);
+                SERVICE.updateTrain(train);
 
             } catch (SQLException e) {
 
@@ -62,7 +60,7 @@ public class UpdateTrainCommand implements Command {
             }
 
         } catch (JSONException e) {
-            LOGGER.error(WRONG_DATA_FROM_CLIENT);
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_TRAIN);
             response.setStatus(406);
             return;
         }

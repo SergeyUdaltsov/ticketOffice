@@ -10,9 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,11 +81,11 @@ public class MySQLTrainService extends MySQLAbstractService implements TrainServ
     public void updateTrain(Train train) throws SQLException {
 
         AbstractEntity trainToUpdate = new AbstractBuilder()
-                .buildIntField1(train.getId())
-                .buildStringField1(train.getName())
-                .buildIntField2(train.getEconomyPlacesCount())
-                .buildIntField3(train.getBusinessPlacesCount())
-                .buildIntField4(train.getComfortPlacesCount())
+                .buildId(train.getId())
+                .buildName(train.getName())
+                .buildEconomy(train.getEconomyPlacesCount())
+                .buildBusiness(train.getBusinessPlacesCount())
+                .buildComfort(train.getComfortPlacesCount())
                 .buildClass(train.getClass().getSimpleName())
                 .build();
 
@@ -96,7 +94,7 @@ public class MySQLTrainService extends MySQLAbstractService implements TrainServ
 
     @Override
     public void deleteTrainById(int trainId) throws SQLException {
-        deleteItem(trainId, SQL_DELETE_TRAIN_BY_ID);
+        deleteItemById(trainId, SQL_DELETE_TRAIN_BY_ID);
     }
 
     @Override

@@ -1,6 +1,8 @@
-package com.dao;
+package com.dao.factory;
 
 
+import com.dao.RouteDAO;
+import com.dao.StationDAO;
 import com.service.*;
 import com.service.mysqlimpl.*;
 
@@ -18,13 +20,13 @@ public class MySQLDAOFactory extends DAOFactory{
     }
 
     @Override
-    public StationService getStationService() {
-        return new MySQLStationService();
+    public StationService getStationService(StationDAO stationDAO) {
+        return new MySQLStationService(stationDAO);
     }
 
     @Override
-    public RouteService getRouteService() {
-        return new MySQLRouteService();
+    public RouteService getRouteService(RouteDAO routeDAO, StationService stationService) {
+        return new MySQLRouteService(routeDAO, stationService);
     }
 
     @Override

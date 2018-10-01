@@ -1,7 +1,7 @@
 package com.controller.impl.station;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.entity.Station;
 import com.google.gson.Gson;
 import com.service.StationService;
@@ -23,12 +23,16 @@ public class GetAllStationsCommand implements Command{
 
     private static final Logger LOGGER = LogManager.getLogger(GetAllStationsCommand.class);
 
-    private static final StationService SERVICE = DAOFactory.getDAOFactory().getStationService();
+    private final StationService STATION_SERVICE;
+
+    public GetAllStationsCommand(StationService STATION_SERVICE) {
+        this.STATION_SERVICE = STATION_SERVICE;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
-        List<Station> stations = SERVICE.getAllStations();
+        List<Station> stations = STATION_SERVICE.getAllStations();
 
         response.setContentType(CONTENT_TYPE);
         response.setCharacterEncoding(ENCODING);

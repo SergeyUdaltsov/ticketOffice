@@ -1,6 +1,7 @@
 package com.service.mysqlimpl;
 
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
+import com.dao.impl.JDBCStationDAO;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.AbstractEntity;
 import com.entity.Letter;
@@ -26,7 +27,7 @@ public class MySQLTicketService implements TicketService {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserService.class);
     private static final MailService MAIL_SERVICE = DAOFactory.getDAOFactory().getMailService();
-    private static final StationService STATION_SERVICE = DAOFactory.getDAOFactory().getStationService();
+    private static final StationService STATION_SERVICE = DAOFactory.getDAOFactory().getStationService(new JDBCStationDAO());
 
     @Override
     public List<Integer> getTicketCount(int routeId, int stationFrom, int stationTo) throws SQLException {

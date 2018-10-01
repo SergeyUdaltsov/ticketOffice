@@ -98,6 +98,7 @@ function registerUser(user) {
         complete: function (data) {
             if (data.status === 200) {
 
+                window.localStorage.setItem('status', JSON.stringify('registered'));
                 window.localStorage.setItem('user', user);
                 $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
             }

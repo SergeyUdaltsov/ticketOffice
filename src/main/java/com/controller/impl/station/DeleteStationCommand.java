@@ -1,12 +1,10 @@
 package com.controller.impl.station;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.service.StationService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +20,11 @@ public class DeleteStationCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(DeleteStationCommand.class);
 
-    StationService service = DAOFactory.getDAOFactory().getStationService();
+    private final StationService STATION_SERVICE;
+
+    public DeleteStationCommand(StationService STATION_SERVICE) {
+        this.STATION_SERVICE = STATION_SERVICE;
+    }
 
     /**
      * Receives request and response, gets station id from request,
@@ -42,7 +44,7 @@ public class DeleteStationCommand implements Command {
 
         try {
 
-            service.deleteStationById(stationId);
+            STATION_SERVICE.deleteStationById(stationId, false);
             response.setStatus(200);
 
         } catch (SQLException e) {

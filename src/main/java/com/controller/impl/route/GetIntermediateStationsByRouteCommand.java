@@ -1,15 +1,13 @@
 package com.controller.impl.route;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
-import com.entity.AbstractEntity;
+import com.dao.factory.DAOFactory;
+import com.dao.impl.JDBCRouteDAO;
 import com.entity.Station;
 import com.google.gson.Gson;
 import com.service.RouteService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,8 +27,11 @@ public class GetIntermediateStationsByRouteCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetIntermediateStationsByRouteCommand.class);
 
-    private static final RouteService SERVICE = DAOFactory.getDAOFactory().getRouteService();
+    private final RouteService ROUTE_SERVICE;
 
+    public GetIntermediateStationsByRouteCommand(RouteService ROUTE_SERVICE) {
+        this.ROUTE_SERVICE = ROUTE_SERVICE;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -39,7 +40,7 @@ public class GetIntermediateStationsByRouteCommand implements Command {
 
         int stationId = Integer.parseInt(objStr);
 
-        List<Station> stations = SERVICE.getIntermediateStationsByRouteId(stationId);
+        List<Station> stations = ROUTE_SERVICE.getIntermediateStationsByRouteId(stationId);
 
         response.setContentType(CONTENT_TYPE);
         response.setCharacterEncoding(ENCODING);

@@ -3,6 +3,8 @@ package com.service;
 import com.entity.Station;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -16,13 +18,18 @@ public interface StationService {
 
     Station getStationById(int stationId);
 
+    boolean validateIntermediateStationTime(Station station);
+
     void updateStation(Station station) throws SQLException;
 
-    void deleteStationById(int stationId) throws SQLException;
+    void deleteStationById(int stationId, boolean isIntermediate) throws SQLException;
 
     List<Station> getIntermediateStationsByTrip(int routeId, int depStId, int arrStId) throws SQLException;
 
     List<String> getDateTimeOfTrip(int routeId, int stationFrom, int stationTo) throws SQLException;
+
+    Station buildIntermediateStation(int routeId, int stationId, LocalTime arrTime, LocalTime depTime,
+                                      LocalDate arrDate, boolean endStation);
 
 
 }

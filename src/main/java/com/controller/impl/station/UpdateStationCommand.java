@@ -1,7 +1,7 @@
 package com.controller.impl.station;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.entity.Station;
 import com.entity.builder.StationBuilder;
 import com.service.StationService;
@@ -22,7 +22,11 @@ public class UpdateStationCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(UpdateStationCommand.class);
 
-    StationService service = DAOFactory.getDAOFactory().getStationService();
+    private final StationService STATION_SERVICE;
+
+    public UpdateStationCommand(StationService STATION_SERVICE) {
+        this.STATION_SERVICE = STATION_SERVICE;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -43,7 +47,7 @@ public class UpdateStationCommand implements Command {
 
             try {
 
-                service.updateStation(station);
+                STATION_SERVICE.updateStation(station);
 
             } catch (SQLException e) {
 
@@ -53,7 +57,7 @@ public class UpdateStationCommand implements Command {
             }
 
         } catch (JSONException e) {
-            LOGGER.error(WRONG_DATA_FROM_CLIENT);
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_STATION);
             response.setStatus(406);
             return;
         }

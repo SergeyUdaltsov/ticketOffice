@@ -1,7 +1,7 @@
 package com.controller.impl.route;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.service.RouteService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -14,9 +14,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SetTrainToRouteCommand implements Command {
 
+    private final RouteService SERVICE;
+
     private static final Logger LOGGER = LogManager.getLogger(SetTrainToRouteCommand.class);
 
-    RouteService service = DAOFactory.getDAOFactory().getRouteService();
+
+    public SetTrainToRouteCommand(RouteService SERVICE) {
+        this.SERVICE = SERVICE;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -27,6 +32,6 @@ public class SetTrainToRouteCommand implements Command {
         int trainId = Integer.parseInt(trainIdStr);
         int routeId = Integer.parseInt(routeIdStr);
 
-        service.setTrain(trainId, routeId);
+        SERVICE.setTrain(trainId, routeId);
     }
 }

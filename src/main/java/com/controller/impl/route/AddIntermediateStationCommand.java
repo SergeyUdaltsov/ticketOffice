@@ -1,10 +1,13 @@
 package com.controller.impl.route;
 
 import com.controller.Command;
-import com.dao.DAOFactory;
+import com.dao.factory.DAOFactory;
 import com.entity.AbstractEntity;
+import com.entity.Station;
 import com.entity.builder.AbstractBuilder;
+import com.entity.builder.StationBuilder;
 import com.service.RouteService;
+import com.service.StationService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -22,17 +25,24 @@ import static com.utils.UtilConstants.*;
  * The {@code AddIntermediateStationCommand} class is an implementation of
  * {@code Command} interface, that is responsible for creating new route.
  */
-public class AddIntermediateStationCommand implements Command{
+public class AddIntermediateStationCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(AddIntermediateStationCommand.class);
 
-    private static final RouteService SERVICE = DAOFactory.getDAOFactory().getRouteService();
+    private final RouteService ROUTE_SERVICE;
+    private final StationService STATION_SERVICE;
 
+    //    private static final RouteService SERVICE = DAOFactory.getDAOFactory().getRouteService();
+
+    public AddIntermediateStationCommand(RouteService ROUTE_SERVICE, StationService STATION_SERVICE) {
+        this.ROUTE_SERVICE = ROUTE_SERVICE;
+        this.STATION_SERVICE = STATION_SERVICE;
+    }
 
     /**
      * Receives request and response gets route from request,
      * add new intermediate station to the specified route.
-     *
+     * <p>
      * if station exists, sets response status 406.
      *
      * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
@@ -41,9 +51,29 @@ public class AddIntermediateStationCommand implements Command{
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
+        int status = 200;
+
+        try {
+
+            Station station = getStationFromRequest(request);
+
+            ROUTE_SERVICE.addIntermediateStation(station);
+
+        } catch (SQLException e) {
+
+            LOGGER.error(e.getMessage());
+            status = 406;
+        }
+
+        response.setStatus(status);
+    }
+
+
+    private Station getStationFromRequest(HttpServletRequest request) {
+
         String jsStr = request.getParameter("jsonStation");
 
-        int status = 200;
+        Station station = null;
 
         try {
             JSONObject jsonObject = new JSONObject(jsStr);
@@ -54,30 +84,14 @@ public class AddIntermediateStationCommand implements Command{
             LocalTime arrival = LocalTime.parse(jsonObject.getString("arrTime"));
             LocalDate arrDate = LocalDate.parse(jsonObject.getString("arrDate"));
 
-            AbstractEntity interStation = new AbstractBuilder()
-                    .buildRouteId(routeId)
-                    .buildArrTime(arrival)
-                    .buildDepTime(departure)
-                    .buildStartStationId(interStationId)
-                    .buildClass(INTER_STATION)
-                    .buildArrDate(arrDate)
-                    .build();
-
-            try {
-
-                SERVICE.addIntermediateStation(interStation);
-
-            } catch (SQLException e) {
-
-                LOGGER.error(e.getMessage());
-                status = 406;
-            }
+            station = STATION_SERVICE.buildIntermediateStation(routeId, interStationId,
+                    arrival, departure, arrDate, false);
 
         } catch (JSONException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_STATION);
         }
 
-        response.setStatus(status);
-
+        return station;
     }
+
 }
