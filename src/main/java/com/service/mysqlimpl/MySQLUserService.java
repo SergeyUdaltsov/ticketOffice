@@ -1,9 +1,8 @@
 package com.service.mysqlimpl;
 
+import com.dao.UserDAO;
 import com.dbConnector.MySQLConnectorManager;
-import com.entity.AbstractEntity;
 import com.entity.User;
-import com.entity.builder.AbstractBuilder;
 import com.entity.builder.UserBuilder;
 import com.service.UserService;
 import org.apache.log4j.LogManager;
@@ -19,31 +18,24 @@ import static com.utils.UtilConstants.*;
 /**
  * This is the MySQL implementation of {@code UserService interface}
  */
-public class MySQLUserService extends MySQLAbstractService implements UserService {
+public class MySQLUserService implements UserService {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserService.class);
+
+    private final UserDAO USER_DAO;
+
+    public MySQLUserService(UserDAO userDAO) {
+        this.USER_DAO = userDAO;
+    }
 
     @Override
     public void createNewUser(User user) throws SQLException {
 
-        AbstractEntity newUser = new AbstractBuilder()
-                .buildFirstName(user.getFirstName())
-                .buildLastName(user.getLastName())
-                .buildAdmin(user.isAdministrator())
-                .buildEmail(user.getEmail())
-                .buildPassword(user.getPassword())
-                .buildClass(user.getClass().getSimpleName())
-                .build();
-
-        addNewItem(newUser, SQL_ADD_NEW_USER);
+        USER_DAO.createNewUser(user);
 
         LOGGER.info(USER_CREATED);
     }
 
-    public void deleteUserById(int stationId) {
-
-
-    }
 
     /**
      * Gets from {@code ValidateUserPasswordCommand} email and password.
@@ -57,45 +49,42 @@ public class MySQLUserService extends MySQLAbstractService implements UserServic
     @Override
     public User validateUser(String email, String password) {
 
-        Connection connection = MySQLConnectorManager.getConnection();
+        User user = new User();
 
-        MySQLConnectorManager.startTransaction(connection);
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_VALIDATE_PASSWORD_USER)) {
 
-        User user = null;
+            MySQLConnectorManager.startTransaction(connection);
 
-        try {
+            ResultSet resultSet = USER_DAO.validateUser(statement, email, password);
 
-            PreparedStatement statement = connection.prepareStatement(SQL_VALIDATE_PASSWORD_USER);
-
-            statement.setString(1, email);
-            statement.setString(2, password);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                user = new UserBuilder()
-                        .buildId(resultSet.getInt("user_id"))
-                        .buildFirstName(resultSet.getString("first_name"))
-                        .buildLastName(resultSet.getString("last_name"))
-                        .buildEmail(resultSet.getString("email"))
-                        .buildAdmin(resultSet.getBoolean("admin"))
-                        .build();
-
-            }
+            user = getUserFromResultSet(resultSet);
 
             MySQLConnectorManager.commitTransaction(connection);
 
         } catch (SQLException e) {
 
-            LOGGER.error(e.getMessage());
+            LOGGER.error(USER_NOT_VALIDATED);
 
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
         }
 
+        return user;
+    }
+
+    private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
+
+        User user = new User();
+
+        while (resultSet.next()) {
+
+            user = new UserBuilder()
+                    .buildId(resultSet.getInt("user_id"))
+                    .buildFirstName(resultSet.getString("first_name"))
+                    .buildLastName(resultSet.getString("last_name"))
+                    .buildEmail(resultSet.getString("email"))
+                    .buildAdmin(resultSet.getBoolean("admin"))
+                    .build();
+        }
         return user;
     }
 }

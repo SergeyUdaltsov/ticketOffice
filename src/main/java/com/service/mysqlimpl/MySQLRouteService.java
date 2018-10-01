@@ -25,7 +25,7 @@ import static com.utils.UtilConstants.*;
 /**
  * This is the MySQL implementation of {@code RouteService interface}
  */
-public class MySQLRouteService extends MySQLAbstractService implements RouteService {
+public class MySQLRouteService implements RouteService {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLRouteService.class);
 

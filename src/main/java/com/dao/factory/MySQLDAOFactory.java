@@ -1,10 +1,7 @@
 package com.dao.factory;
 
 
-import com.dao.RouteDAO;
-import com.dao.StationDAO;
-import com.dao.TicketDAO;
-import com.dao.TrainDAO;
+import com.dao.*;
 import com.service.*;
 import com.service.mysqlimpl.*;
 
@@ -17,8 +14,8 @@ public class MySQLDAOFactory extends DAOFactory{
     }
 
     @Override
-    public UserService getUserService() {
-        return new MySQLUserService();
+    public UserService getUserService(UserDAO userDAO) {
+        return new MySQLUserService(userDAO);
     }
 
     @Override
@@ -32,8 +29,8 @@ public class MySQLDAOFactory extends DAOFactory{
     }
 
     @Override
-    public TrainService getTrainService() {
-        return  new MySQLTrainService();
+    public TrainService getTrainService(TrainDAO trainDAO) {
+        return  new MySQLTrainService(trainDAO);
     }
 
     @Override

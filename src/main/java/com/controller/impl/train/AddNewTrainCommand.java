@@ -64,14 +64,12 @@ public class AddNewTrainCommand implements Command {
             int businessNumber = jsonObject.getInt("business");
             int comfortNumber = jsonObject.getInt("comfort");
 
-
             train = new TrainBuilder()
                     .buildName(name)
                     .buildEconomy(economyNumber)
                     .buildBusiness(businessNumber)
                     .buildComfort(comfortNumber)
                     .build();
-
 
         } catch (JSONException e) {
 

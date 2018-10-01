@@ -15,6 +15,9 @@ public class UtilConstants {
     //user errors
     public static final String USER_EXISTS = "User already exists.";
     public static final String USER_CREATED = "User created.";
+    public static final String USER_NOT_VALIDATED = "User not validated.";
+    public static final String WRONG_DATA_FROM_CLIENT_USER = "Wrong user data received from client side.";
+
 
     //station errors
     public static final String STATION_EXISTS = "Station already exists.";
@@ -38,7 +41,9 @@ public class UtilConstants {
     public static final String TRAIN_EXISTS = "Train already exists.";
     public static final String TRAIN_ERROR_UPDATE = "Could not update train.";
     public static final String COULD_NOT_SET_TRAIN_TO_ROUTE = "Could not set train to route.";
+    public static final String COULD_NOT_DELETE_TRAIN = "Could not delete train.";
     public static final String COULD_NOT_LOAD_SEATS = "Could not set count of seats by train.";
+    public static final String COULD_NOT_LOAD_TRAINS = "Could not load trains from db.";
     public static final String COULD_NOT_SET_SEATS = "Could not set count of seats to intermediate stations.";
     public static final String WRONG_DATA_FROM_CLIENT_TRAIN = "Wrong train data received from client side.";
 

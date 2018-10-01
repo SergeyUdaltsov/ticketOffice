@@ -1,15 +1,9 @@
 package com.service.mysqlimpl;
 
 import com.dao.TicketDAO;
-import com.dao.factory.DAOFactory;
-import com.dao.impl.JDBCRouteDAO;
-import com.dao.impl.JDBCStationDAO;
 import com.dbConnector.MySQLConnectorManager;
-import com.entity.AbstractEntity;
 import com.entity.Letter;
-import com.entity.Station;
 import com.entity.TicketOrder;
-import com.entity.builder.AbstractBuilder;
 import com.entity.builder.LetterBuilder;
 import com.service.MailService;
 import com.service.StationService;
@@ -86,53 +80,6 @@ public class MySQLTicketService implements TicketService {
 
         return availableSeats;
     }
-
-    @Override
-    public List<AbstractEntity> getIntermediateStationsByTrip(int routeId, int depStId, int arrStId) throws SQLException {
-
-        List<String> dateTimes = STATION_SERVICE.getDateTimeOfTrip(routeId, depStId, arrStId);
-
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
-
-        List<AbstractEntity> stations = new ArrayList<>();
-
-        try {
-
-            PreparedStatement statement = connection.prepareStatement(SQL_GET_STATIONS_IN_TRIP);
-
-            statement.setString(1, dateTimes.get(0));
-            statement.setString(2, dateTimes.get(1));
-            statement.setInt(3, routeId);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                AbstractEntity station = new AbstractBuilder()
-                        .buildArrStation(resultSet.getString("name"))
-                        .buildArrTimeDateString(resultSet.getString("arrival_date_time"))
-                        .buildDepTimeString(resultSet.getString("departure_time"))
-                        .build();
-
-                stations.add(station);
-            }
-
-            MySQLConnectorManager.commitTransaction(connection);
-
-        } catch (SQLException e) {
-
-            LOGGER.error(e.getMessage());
-
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
-        }
-        return stations;
-    }
-
 
     @Override
     public void buyTickets(TicketOrder order) throws SQLException {

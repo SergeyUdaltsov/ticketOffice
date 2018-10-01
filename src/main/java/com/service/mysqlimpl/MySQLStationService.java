@@ -25,7 +25,7 @@ import static com.utils.UtilConstants.*;
 /**
  * This is the MySQL implementation of {@code StationService interface}
  */
-public class MySQLStationService extends MySQLAbstractService implements StationService {
+public class MySQLStationService implements StationService {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserService.class);
 
@@ -153,7 +153,7 @@ public class MySQLStationService extends MySQLAbstractService implements Station
                     LocalDateTime departure = arrival.plusMinutes(stopping);
 
                     if ((interArrival.isAfter(arrival) && interArrival.isBefore(departure)) ||
-                             (interDeparture.isAfter(arrival) && interDeparture.isBefore(departure))) {
+                            (interDeparture.isAfter(arrival) && interDeparture.isBefore(departure))) {
                         return false;
                     }
 
@@ -259,7 +259,7 @@ public class MySQLStationService extends MySQLAbstractService implements Station
     public Station buildIntermediateStation(int routeId, int stationId, LocalTime arrTime, LocalTime depTime,
                                             LocalDate arrDate, boolean endStation) {
 
-        Station intermediateStation = new StationBuilder()
+        return new StationBuilder()
                 .buildRouteId(routeId)
                 .buildArrTime(arrTime)
                 .buildDepTime(depTime)
@@ -267,8 +267,6 @@ public class MySQLStationService extends MySQLAbstractService implements Station
                 .buildArrDate(arrDate)
                 .buildEndStation(endStation)
                 .build();
-
-        return intermediateStation;
 
 
     }

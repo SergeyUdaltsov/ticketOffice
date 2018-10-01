@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
-import static com.utils.UtilConstants.COULD_NOT_DELETE_STATION;
+import static com.utils.UtilConstants.*;
 
 /**
  * Created by Serg on 25.09.2018.
@@ -19,7 +19,11 @@ public class DeleteTrainByIdCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(DeleteTrainByIdCommand.class);
 
-    TrainService service = DAOFactory.getDAOFactory().getTrainService();
+    private final TrainService SERVICE;
+
+    public DeleteTrainByIdCommand(TrainService service) {
+        this.SERVICE = service;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -30,12 +34,15 @@ public class DeleteTrainByIdCommand implements Command {
 
         try {
 
-            service.deleteTrainById(trainId);
+            SERVICE.deleteTrainById(trainId);
+
+            LOGGER.info(TRAIN + trainId + DELETED);
+
             response.setStatus(200);
 
         } catch (SQLException e) {
 
-            LOGGER.error(COULD_NOT_DELETE_STATION);
+            LOGGER.error(COULD_NOT_DELETE_TRAIN);
             response.setStatus(406);
         }
     }

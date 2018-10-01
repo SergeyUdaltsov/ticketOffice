@@ -1,7 +1,6 @@
 package com.controller.impl.user;
 
 import com.controller.Command;
-import com.dao.factory.DAOFactory;
 import com.entity.User;
 import com.entity.builder.UserBuilder;
 import com.service.UserService;
@@ -14,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
+import static com.utils.UtilConstants.*;
+
 /**
  * The {@code RegisterNewUserCommand} class is an implementation of
  * {@code Command} interface, that is responsible for registering new users.
@@ -21,7 +22,12 @@ import java.sql.SQLException;
 public class RegisterNewUserCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(RegisterNewUserCommand.class);
-    UserService service = DAOFactory.getDAOFactory().getUserService();
+
+    private final UserService SERVICE;
+
+    public RegisterNewUserCommand(UserService service) {
+        this.SERVICE = service;
+    }
 
     /**
      * Receives request and response gets user from request,
@@ -35,6 +41,25 @@ public class RegisterNewUserCommand implements Command {
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
+        try {
+            User user = getUserFromRequest(request);
+
+            SERVICE.createNewUser(user);
+
+        } catch (SQLException e) {
+
+            LOGGER.error(USER_EXISTS);
+            response.setStatus(406);
+            return;
+        }
+
+        response.setStatus(200);
+    }
+
+    private User getUserFromRequest(HttpServletRequest request) {
+
+        User user = new User();
+
         String jsStr = request.getParameter("jsonUser");
 
         try {
@@ -45,28 +70,17 @@ public class RegisterNewUserCommand implements Command {
             String lastName = jsonObject.getString("lastName");
             String password = jsonObject.getString("password");
 
-            User user = new UserBuilder()
+            user = new UserBuilder()
                     .buildFirstName(firstName)
                     .buildLastName(lastName)
                     .buildEmail(email)
                     .buildPassword(password)
                     .build();
 
-            try {
-
-                service.createNewUser(user);
-
-            } catch (SQLException e) {
-
-                LOGGER.error(e.getMessage());
-                response.setStatus(406);
-                return;
-            }
 
         } catch (JSONException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_USER);
         }
-
-        response.setStatus(200);
+        return user;
     }
 }

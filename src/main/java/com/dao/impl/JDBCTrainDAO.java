@@ -3,6 +3,7 @@ package com.dao.impl;
 import com.dao.CommonsOperable;
 import com.dao.TrainDAO;
 import com.dbConnector.MySQLConnectorManager;
+import com.entity.Train;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -49,5 +50,83 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
         }
 
         return seats;
+    }
+
+    @Override
+    public void addNewTrain(Train train) throws SQLException {
+
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_ADD_NEW_TRAIN)) {
+
+            MySQLConnectorManager.startTransaction(connection);
+
+            statement.setString(1, train.getName());
+            statement.setInt(2, train.getEconomyPlacesCount());
+            statement.setInt(3, train.getBusinessPlacesCount());
+            statement.setInt(4, train.getComfortPlacesCount());
+
+            statement.executeUpdate();
+
+            MySQLConnectorManager.commitTransaction(connection);
+
+        } catch (SQLException e) {
+
+            throw new SQLException(TRAIN_EXISTS);
+        }
+    }
+
+    @Override
+    public void deleteTrainById(int trainId) throws SQLException {
+
+        deleteItemById(trainId, SQL_DELETE_TRAIN_BY_ID);
+    }
+
+    @Override
+    public ResultSet getAllTrains(Connection connection) throws SQLException {
+
+        return getAllItems(connection, SQL_GET_ALL_TRAINS);
+    }
+
+    @Override
+    public ResultSet getTrainById(PreparedStatement statement, int trainId) throws SQLException {
+
+        statement.setInt(1, trainId);
+
+        return statement.executeQuery();
+    }
+
+    @Override
+    public void updateTrain(Train train) throws SQLException {
+
+        try(Connection connection = MySQLConnectorManager.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_TRAIN)){
+
+            MySQLConnectorManager.startTransaction(connection);
+
+            statement.setString(1, train.getName());
+            statement.setInt(2, train.getEconomyPlacesCount());
+            statement.setInt(3, train.getBusinessPlacesCount());
+            statement.setInt(4, train.getComfortPlacesCount());
+            statement.setInt(5, train.getId());
+
+            statement.executeUpdate();
+
+            MySQLConnectorManager.commitTransaction(connection);
+
+        }
+    }
+
+    @Override
+    public ResultSet getTrainsByStations(PreparedStatement statement, int departureStationId,
+                                         int arrivalStationId) throws SQLException {
+
+        statement.setInt(1, departureStationId);
+        statement.setInt(2, arrivalStationId);
+        statement.setInt(3, departureStationId);
+        statement.setInt(4, arrivalStationId);
+        statement.setInt(5, departureStationId);
+        statement.setInt(6, arrivalStationId);
+
+        return statement.executeQuery();
     }
 }

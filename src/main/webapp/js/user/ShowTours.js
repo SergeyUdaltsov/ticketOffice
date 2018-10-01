@@ -117,11 +117,11 @@ function loadTrains(data) {
                 cell7 = document.createElement("td");
                 cell8 = document.createElement("td");
 
-                textNode2 = document.createTextNode(this.arrTimeDateString);
-                textNode3 = document.createTextNode(this.depTimeString);
-                textNode4 = document.createTextNode(this.depStation);
-                textNode5 = document.createTextNode(this.arrTimeDateFinString);
-                textNode6 = document.createTextNode(this.arrStation);
+                textNode2 = document.createTextNode(this.arrivalTimeDateStart);
+                textNode3 = document.createTextNode(this.departureTime);
+                textNode4 = document.createTextNode(this.departureStation);
+                textNode5 = document.createTextNode(this.arrivalTimeDateFinish);
+                textNode6 = document.createTextNode(this.arrivalStation);
                 textNode7 = document.createTextNode(this.tourTime);
                 textNode8 = document.createTextNode(this.tourPrice);
 
@@ -130,7 +130,7 @@ function loadTrains(data) {
                 var nodText = document.createTextNode(vocabulary[language]['buy']);
 
                 nod.setAttribute('href', 'http://localhost:9999/html/ticket/BuyTicket.html?id=' +
-                    this.routeId + "&dep_st_id=" + this.startStationId + "&arr_st_id=" + this.finishStationId);
+                    this.routeId + "&dep_st_id=" + this.departureStationId + "&arr_st_id=" + this.arrivalStationId);
                 nod.appendChild(nodText);
 
                 cell1.appendChild(nod);

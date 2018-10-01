@@ -1,9 +1,6 @@
 package com.dao.factory;
 
-import com.dao.RouteDAO;
-import com.dao.StationDAO;
-import com.dao.TicketDAO;
-import com.dao.TrainDAO;
+import com.dao.*;
 import com.service.*;
 
 import static com.utils.UtilConstants.*;
@@ -25,14 +22,14 @@ public abstract class DAOFactory {
 
     public abstract TicketService getTicketService(TicketDAO ticketDAO, StationService stationService, MailService mailService);
 
-    public abstract UserService getUserService();
+    public abstract UserService getUserService(UserDAO userDAO);
 
     public abstract StationService getStationService(StationDAO stationDAO, RouteDAO routeDAO);
 
     public abstract RouteService getRouteService(RouteDAO routeDAO, StationService stationService,
                                                  TrainDAO trainDAO, StationDAO stationDAO);
 
-    public abstract TrainService getTrainService();
+    public abstract TrainService getTrainService(TrainDAO trainDAO);
 
     public abstract MailService getMailService();
 

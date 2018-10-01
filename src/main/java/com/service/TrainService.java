@@ -1,6 +1,6 @@
 package com.service;
 
-import com.entity.AbstractEntity;
+import com.entity.Tour;
 import com.entity.Train;
 
 import java.sql.SQLException;
@@ -16,6 +16,6 @@ public interface TrainService {
     Train getTrainById(int trainId);
     void updateTrain(Train train) throws SQLException;
     void deleteTrainById(int trainId) throws SQLException;
-    List<AbstractEntity> getTrainsByStations(int departureStationId, int arrivalStationId);
+    List<Tour> getTrainsByStations(int departureStationId, int arrivalStationId);
 
 }

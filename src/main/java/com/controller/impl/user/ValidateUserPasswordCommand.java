@@ -24,7 +24,11 @@ public class ValidateUserPasswordCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(ValidateUserPasswordCommand.class);
 
-    private static final UserService SERVICE = DAOFactory.getDAOFactory().getUserService();
+    private final UserService SERVICE;
+
+    public ValidateUserPasswordCommand(UserService service) {
+        this.SERVICE = service;
+    }
 
     /**
      * Receives request and response, gets user email and password from request,
@@ -58,11 +62,11 @@ public class ValidateUserPasswordCommand implements Command {
                 response.getWriter().write(new Gson().toJson(user));
 
             } catch (IOException e) {
-               LOGGER.error(e.getMessage());
+               LOGGER.error(USER_NOT_VALIDATED);
             }
 
         } catch (JSONException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_USER);
         }
 
     }

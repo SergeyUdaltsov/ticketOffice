@@ -151,3 +151,52 @@
 2018-10-01 19:26:51 INFO  JDBCStationDAO:70 - Station31 deleted
 2018-10-01 20:18:50 INFO  MySQLUserService:150 - User—Â„ÂÈ ”‰‡Î¸ˆÓ‚ bought tickets.
 2018-10-01 20:18:53 INFO  MySQLUserService:181 - Mail sent.
+2018-10-01 21:19:42 INFO  AddNewTrainCommand:41 - TrainNew Train arch created
+2018-10-01 21:26:23 INFO  DeleteTrainByIdCommand:39 - Train26 deleted
+2018-10-01 23:06:03 ERROR MySQLTrainService:133 - Could not load routes from db
+2018-10-01 23:06:58 INFO  JDBCRouteDAO:53 - Route created from 24 to 16
+2018-10-01 23:06:58 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:06:58 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:07:14 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:07:33 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:19:32 ERROR MySQLTrainService:133 - Could not load routes from db
+2018-10-01 23:20:36 ERROR MySQLTrainService:133 - Could not load routes from db
+2018-10-01 23:21:06 ERROR MySQLTrainService:133 - Could not load routes from db
+2018-10-01 23:23:56 ERROR MySQLTrainService:133 - Could not load routes from db
+2018-10-01 23:24:36 ERROR MySQLTrainService:134 - Could not load routes from db
+2018-10-01 23:25:58 INFO  MySQLUserService:148 - Useruser username bought tickets.
+2018-10-01 23:25:58 INFO  MySQLUserService:179 - Mail sent.
+2018-10-01 23:52:02 INFO  GetAllTrainsCommand:40 - Trainupdated train updated
+2018-10-01 23:52:10 INFO  GetAllTrainsCommand:40 - Trainupdated train updated
+2018-10-01 23:52:23 INFO  GetAllTrainsCommand:40 - Trainupdated train updated
+2018-10-01 23:52:28 INFO  GetAllTrainsCommand:40 - Trainupdated train updated
+2018-10-01 23:52:33 INFO  JDBCStationDAO:70 - Station81 deleted
+2018-10-01 23:52:48 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:53:24 INFO  JDBCRouteDAO:53 - Route created from 30 to 16
+2018-10-01 23:53:24 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:53:24 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:53:26 INFO  JDBCRouteDAO:100 - Route127 deleted
+2018-10-01 23:53:26 INFO  DeleteRouteByIdCommand:40 - Route deleted
+2018-10-01 23:54:21 INFO  JDBCRouteDAO:53 - Route created from 16 to 11
+2018-10-01 23:54:21 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:54:21 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-01 23:54:23 INFO  JDBCRouteDAO:100 - Route128 deleted
+2018-10-01 23:54:23 INFO  DeleteRouteByIdCommand:40 - Route deleted
+2018-10-01 23:54:25 INFO  JDBCRouteDAO:100 - Route128 deleted
+2018-10-01 23:54:25 INFO  DeleteRouteByIdCommand:40 - Route deleted
+2018-10-01 23:55:55 INFO  JDBCStationDAO:70 - Station32 deleted
+2018-10-01 23:56:05 INFO  JDBCStationDAO:70 - Station33 deleted
+2018-10-01 23:56:33 INFO  AddNewTrainCommand:41 - Traindrgrg created
+2018-10-01 23:56:38 INFO  DeleteTrainByIdCommand:39 - Train27 deleted
+2018-10-02 00:40:19 INFO  JDBCRouteDAO:100 - Route125 deleted
+2018-10-02 00:40:19 INFO  DeleteRouteByIdCommand:40 - Route deleted
+2018-10-02 00:40:27 INFO  DeleteTrainByIdCommand:39 - Train25 deleted
+2018-10-02 00:41:23 ERROR RegisterNewUserCommand:51 - User already exists.
+2018-10-02 00:41:30 ERROR RegisterNewUserCommand:51 - User already exists.
+2018-10-02 00:42:36 ERROR RegisterNewUserCommand:51 - User already exists.
+2018-10-02 00:44:50 ERROR RegisterNewUserCommand:51 - User already exists.
+2018-10-02 00:45:42 INFO  MySQLUserService:38 - User created.
+2018-10-02 00:53:46 INFO  JDBCRouteDAO:53 - Route created from 30 to 16
+2018-10-02 00:53:46 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-02 00:53:47 INFO  JDBCRouteDAO:86 - Intermediate station added
+2018-10-02 00:54:09 INFO  JDBCRouteDAO:86 - Intermediate station added

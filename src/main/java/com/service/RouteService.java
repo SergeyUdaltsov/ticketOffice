@@ -1,6 +1,5 @@
 package com.service;
 
-import com.entity.AbstractEntity;
 import com.entity.Route;
 import com.entity.Station;
 

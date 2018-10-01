@@ -21,7 +21,11 @@ public class GetTrainByIdCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetAllTrainsCommand.class);
 
-    TrainService service = DAOFactory.getDAOFactory().getTrainService();
+    private final TrainService SERVICE;
+
+    public GetTrainByIdCommand(TrainService service) {
+        this.SERVICE = service;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -30,7 +34,7 @@ public class GetTrainByIdCommand implements Command {
 
         int trainId = Integer.parseInt(objStr);
 
-        Train train = service.getTrainById(trainId);
+        Train train = SERVICE.getTrainById(trainId);
 
         try {
 
@@ -39,7 +43,7 @@ public class GetTrainByIdCommand implements Command {
             response.getWriter().write(new Gson().toJson(train));
 
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(COULD_NOT_LOAD_TRAINS);
         }
     }
 }

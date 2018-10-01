@@ -27,7 +27,7 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
     public void addNewStation(Station station) throws SQLException {
 
         try (Connection connection = MySQLConnectorManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_ADD_NEW_STATION)) {
+               PreparedStatement statement = connection.prepareStatement(SQL_ADD_NEW_STATION)) {
 
             MySQLConnectorManager.startTransaction(connection);
 
@@ -95,9 +95,7 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
     @Override
     public ResultSet getAllStations(Connection connection) throws SQLException {
 
-        String query = SQL_GET_ALL_STATIONS;
-
-        return getAllItems(connection, query);
+        return getAllItems(connection, SQL_GET_ALL_STATIONS);
 
     }
 

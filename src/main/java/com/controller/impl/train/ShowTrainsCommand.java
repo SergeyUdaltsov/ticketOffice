@@ -1,8 +1,7 @@
 package com.controller.impl.train;
 
 import com.controller.Command;
-import com.dao.factory.DAOFactory;
-import com.entity.AbstractEntity;
+import com.entity.Tour;
 import com.google.gson.Gson;
 import com.service.TrainService;
 import org.apache.log4j.LogManager;
@@ -24,7 +23,11 @@ public class ShowTrainsCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(ShowTrainsCommand.class);
 
-    private static final TrainService SERVICE = DAOFactory.getDAOFactory().getTrainService();
+    private final TrainService SERVICE;
+
+    public ShowTrainsCommand(TrainService service) {
+        this.SERVICE = service;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -37,7 +40,7 @@ public class ShowTrainsCommand implements Command {
             int departureStationId = jsonObject.getInt("depSt");
             int arrivalStationId = jsonObject.getInt("arrSt");
 
-           List<AbstractEntity> tours = SERVICE.getTrainsByStations(departureStationId, arrivalStationId);
+           List<Tour> tours = SERVICE.getTrainsByStations(departureStationId, arrivalStationId);
 
             response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding(ENCODING);
@@ -45,7 +48,7 @@ public class ShowTrainsCommand implements Command {
             response.getWriter().write(new Gson().toJson(tours));
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_ROUTE);
         } catch (IOException e) {
             e.printStackTrace();
         }

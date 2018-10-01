@@ -23,11 +23,35 @@ public class UpdateTrainCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetAllTrainsCommand.class);
 
-    private static final TrainService SERVICE = DAOFactory.getDAOFactory().getTrainService();
+    private final TrainService SERVICE;
+
+    public UpdateTrainCommand(TrainService service) {
+        this.SERVICE = service;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
+        try {
+            Train train = getTrainFromRequest(request, response);
+
+            SERVICE.updateTrain(train);
+
+            LOGGER.info(TRAIN + train.getName() + UPDATED);
+
+        } catch (SQLException e) {
+
+            LOGGER.error(TRAIN_ERROR_UPDATE);
+            response.setStatus(406);
+            return;
+        }
+
+        response.setStatus(200);
+    }
+
+    private Train getTrainFromRequest(HttpServletRequest request, HttpServletResponse response) {
+
+        Train train = new Train();
         String jsStr = request.getParameter("jsonTrain");
 
         try {
@@ -40,7 +64,7 @@ public class UpdateTrainCommand implements Command {
             int busCount = jsonObject.getInt("busCount");
             int comfCount = jsonObject.getInt("comfCount");
 
-            Train train = new TrainBuilder()
+            train = new TrainBuilder()
                     .buildId(trainId)
                     .buildName(trainName)
                     .buildEconomy(econCount)
@@ -48,23 +72,12 @@ public class UpdateTrainCommand implements Command {
                     .buildComfort(comfCount)
                     .build();
 
-            try {
-
-                SERVICE.updateTrain(train);
-
-            } catch (SQLException e) {
-
-                LOGGER.error(e.getMessage());
-                response.setStatus(406);
-                return;
-            }
 
         } catch (JSONException e) {
-            LOGGER.error(WRONG_DATA_FROM_CLIENT_TRAIN);
-            response.setStatus(406);
-            return;
-        }
 
-        response.setStatus(200);
+            response.setStatus(406);
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_TRAIN);
+        }
+        return train;
     }
 }
