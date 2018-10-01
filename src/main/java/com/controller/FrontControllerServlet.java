@@ -19,8 +19,6 @@ import static com.utils.UtilData.*;
 @WebServlet(urlPatterns = FRONT_CONTROLLER_SERVLET_ALL_VARIATION)
 public class FrontControllerServlet extends HttpServlet {
 
-    private final Logger LOGGER = LogManager.getLogger(FrontControllerServlet.class);
-
     /**
      * Processes get-request
      *

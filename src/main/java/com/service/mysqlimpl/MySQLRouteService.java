@@ -1,6 +1,8 @@
 package com.service.mysqlimpl;
 
 import com.dao.RouteDAO;
+import com.dao.StationDAO;
+import com.dao.TrainDAO;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.Route;
 import com.entity.Station;
@@ -27,12 +29,17 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLRouteService.class);
 
-    private final RouteDAO routeDAO;
+    private final RouteDAO routeDAO;//to uppercase
+    private final TrainDAO trainDAO;
+    private final StationDAO stationDAO;
     private final StationService STATION_SERVICE;
 
-    public MySQLRouteService(RouteDAO routeDAO, StationService stationService) {
+    public MySQLRouteService(RouteDAO routeDAO, TrainDAO trainDAO,
+                             StationDAO stationDAO, StationService STATION_SERVICE) {
         this.routeDAO = routeDAO;
-        this.STATION_SERVICE = stationService;
+        this.trainDAO = trainDAO;
+        this.stationDAO = stationDAO;
+        this.STATION_SERVICE = STATION_SERVICE;
     }
 
     @Override
@@ -58,7 +65,7 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
     @Override
     public List<Route> getAllRoutes() {
 
-        List<Route> routes = null;
+        List<Route> routes = new ArrayList<>();
 
         try (Connection connection = MySQLConnectorManager.getConnection()) {
 
@@ -120,9 +127,9 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
 
         LocalDateTime stationDateTime = LocalDateTime.of(interStation.getArrivalDate(), interStation.getArrivalTime());
 
-        return departure.isBefore(stationDateTime)
-                && stationDateTime.isBefore(arrival)
-                && STATION_SERVICE.validateIntermediateStationTime(interStation);
+        return departure.isBefore(stationDateTime) &&
+                 stationDateTime.isBefore(arrival) &&
+                 STATION_SERVICE.validateIntermediateStationTime(interStation);
     }
 
 
@@ -179,84 +186,26 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
 
     @Override
     public void setTrain(int trainId, int routeId) {
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
 
         try {
-            PreparedStatement statement = connection.prepareStatement(SQL_SET_TRAIN_TO_ROUTE);
 
-            statement.setInt(1, trainId);
+            routeDAO.setTrainToRoute(routeId, trainId);
 
-            statement.setInt(2, routeId);
+            List<Integer> seatsCount = trainDAO.getSeatsCountByTrainId(trainId);
 
-            statement.executeUpdate();
-
-            statement = connection.prepareStatement(SQL_SET_SEATS_TO_INTERMEDIATE);
-
-            List<Integer> seatsCount = getSeatsCountByTrainId(trainId);
-
-            statement.setInt(1, seatsCount.get(0));
-            statement.setInt(2, seatsCount.get(1));
-            statement.setInt(3, seatsCount.get(2));
-            statement.setInt(4, routeId);
-
-            statement.executeUpdate();
-
-            MySQLConnectorManager.commitTransaction(connection);
+            stationDAO.setSeatsToIntermediateStations(seatsCount, routeId);
 
         } catch (SQLException e) {
 
             LOGGER.error(e.getMessage());
-
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
         }
     }
 
-    private List<Integer> getSeatsCountByTrainId(int trainId) {
-
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
-
-        List<Integer> seats = new ArrayList<>();
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_GET_SEATS_COUNT_BY_TRAIN_ID);
-
-            statement.setInt(1, trainId);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                seats.add(resultSet.getInt("economy"));
-                seats.add(resultSet.getInt("business"));
-                seats.add(resultSet.getInt("comfort"));
-
-            }
-
-            MySQLConnectorManager.commitTransaction(connection);
-
-        } catch (SQLException e) {
-
-            LOGGER.error(e.getMessage());
-
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
-        }
-        return seats;
-    }
 
     @Override
     public Route getRouteById(int routeId) {
 
-        Route route = null;
+        Route route = new Route();
 
         try (Connection connection = MySQLConnectorManager.getConnection()) {
 
@@ -273,12 +222,13 @@ public class MySQLRouteService extends MySQLAbstractService implements RouteServ
             LOGGER.error(e.getMessage());
 
         }
+
         return route;
     }
 
     private Route getRouteFromResultSet(ResultSet resultSet) throws SQLException {
 
-        Route route = null;
+        Route route = new Route();
 
         while (resultSet.next()) {
 

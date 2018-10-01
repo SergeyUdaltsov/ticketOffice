@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+
 import static com.utils.UtilConstants.*;
 
 /**
@@ -24,44 +25,54 @@ public class UpdateStationCommand implements Command {
 
     private final StationService STATION_SERVICE;
 
-    public UpdateStationCommand(StationService STATION_SERVICE) {
-        this.STATION_SERVICE = STATION_SERVICE;
+    public UpdateStationCommand(StationService service) {
+        this.STATION_SERVICE = service;
     }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
-        String jsStr = request.getParameter("jsonStation");
+
+        Station station = buildStationFromRequest(request, response);
 
         try {
-            JSONObject jsonObject = new JSONObject(jsStr);
 
-            String stationName = jsonObject.getString("name");
+            STATION_SERVICE.updateStation(station);
 
-            int stationId = jsonObject.getInt("id");
+        } catch (SQLException e) {
 
-            Station station = new StationBuilder()
-                    .buildId(stationId)
-                    .buildName(stationName)
-                    .build();
-
-            try {
-
-                STATION_SERVICE.updateStation(station);
-
-            } catch (SQLException e) {
-
-                LOGGER.error(e.getMessage());
-                response.setStatus(406);
-                return;
-            }
-
-        } catch (JSONException e) {
             LOGGER.error(WRONG_DATA_FROM_CLIENT_STATION);
             response.setStatus(406);
             return;
         }
 
         response.setStatus(200);
+    }
+
+    private Station buildStationFromRequest(HttpServletRequest request, HttpServletResponse response) {
+
+        Station station = null;
+        String jsStr = request.getParameter("jsonStation");
+
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = new JSONObject(jsStr);
+
+            String stationName = jsonObject.getString("name");
+
+            int stationId = jsonObject.getInt("id");
+
+            station = new StationBuilder()
+                    .buildId(stationId)
+                    .buildName(stationName)
+                    .build();
+        } catch (JSONException e) {
+
+            response.setStatus(406);
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_STATION);
+        }
+
+        return station;
     }
 }

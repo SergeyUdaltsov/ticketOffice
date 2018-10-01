@@ -22,7 +22,11 @@ public class GetTicketsCountCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetTicketsCountCommand.class);
 
-    private static final TicketService SERVICE = DAOFactory.getDAOFactory().getTicketService();
+    private final TicketService SERVICE;
+
+    public GetTicketsCountCommand(TicketService service) {
+        this.SERVICE = service;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -44,10 +48,8 @@ public class GetTicketsCountCommand implements Command {
 
             response.getWriter().write(new Gson().toJson(seats));
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SQLException | IOException e) {
+            LOGGER.error(COULD_NOT_LOAD_TICKETS);
         }
 
         response.setStatus(200);

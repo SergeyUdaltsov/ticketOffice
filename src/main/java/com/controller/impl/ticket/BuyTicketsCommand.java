@@ -2,7 +2,6 @@ package com.controller.impl.ticket;
 
 import com.controller.Command;
 import com.controller.impl.station.AddNewStationCommand;
-import com.dao.factory.DAOFactory;
 import com.entity.Station;
 import com.entity.TicketOrder;
 import com.entity.User;
@@ -19,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
+import static com.utils.UtilConstants.*;
+
 /**
  * Created by Serg on 29.09.2018.
  */
@@ -26,7 +27,11 @@ public class BuyTicketsCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(AddNewStationCommand.class);
 
-    private static final TicketService SERVICE = DAOFactory.getDAOFactory().getTicketService();
+    TicketService SERVICE;
+
+    public BuyTicketsCommand(TicketService service) {
+        this.SERVICE = service;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
@@ -36,46 +41,46 @@ public class BuyTicketsCommand implements Command {
         try {
             JSONObject jsonObject = new JSONObject(jsStr);
 
-            int ecoCount = jsonObject.getInt("ecoCountToBuy");
-            int busCount = jsonObject.getInt("busCountToBuy");
-            int comCount = jsonObject.getInt("comCountToBuy");
-            int routeId = jsonObject.getInt("routeId");
             int depStId = jsonObject.getInt("depStId");
             int arrStId = jsonObject.getInt("arrStId");
-            String userFirstName = jsonObject.getString("userFirstName");
-            String userLastName = jsonObject.getString("userLastName");
-            String userEmail = jsonObject.getString("userEmail");
 
-            User user = fillUpUser(userFirstName, userLastName, userEmail);
+            User user = fillUpUser(request);
 
             Station stationFrom = fillUpStation(depStId);
 
             Station stationTo = fillUpStation(arrStId);
 
-            TicketOrder order = fillUpTicketOrder(user, stationFrom, stationTo, routeId, ecoCount, busCount, comCount);
+            TicketOrder order = fillUpTicketOrder(request, user, stationFrom, stationTo);
 
             try {
 
                 SERVICE.buyTickets(order);
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage());
             }
 
-
         } catch (JSONException e) {
-            e.printStackTrace();
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_TICKET);
         }
-
 
     }
 
-    private User fillUpUser(String firstName, String lastName, String email){
+
+    private User fillUpUser(HttpServletRequest request) throws JSONException {
+
+        String jsStr = request.getParameter("jsRequest");
+
+        JSONObject jsonObject = new JSONObject(jsStr);
+
+        String userFirstName = jsonObject.getString("userFirstName");
+        String userLastName = jsonObject.getString("userLastName");
+        String userEmail = jsonObject.getString("userEmail");
 
         User user = new UserBuilder()
-                .buildFirstName(firstName)
-                .buildLastName(lastName)
-                .buildEmail(email)
+                .buildFirstName(userFirstName)
+                .buildLastName(userLastName)
+                .buildEmail(userEmail)
                 .build();
 
         return user;
@@ -90,8 +95,17 @@ public class BuyTicketsCommand implements Command {
         return station;
     }
 
-    private TicketOrder fillUpTicketOrder(User user, Station stationFrom, Station stationTo, int routeId,
-                                          int ecoCount, int busCount, int comCount) {
+    private TicketOrder fillUpTicketOrder(HttpServletRequest request, User user,
+                                          Station stationFrom, Station stationTo) throws JSONException {
+
+        String jsStr = request.getParameter("jsRequest");
+
+        JSONObject jsonObject = new JSONObject(jsStr);
+
+        int ecoCount = jsonObject.getInt("ecoCountToBuy");
+        int busCount = jsonObject.getInt("busCountToBuy");
+        int comCount = jsonObject.getInt("comCountToBuy");
+        int routeId = jsonObject.getInt("routeId");
 
         TicketOrder order = new TicketOrderBuilder()
                 .buildUser(user)

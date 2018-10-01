@@ -5,6 +5,8 @@ import com.dao.RouteDAO;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.Route;
 import com.entity.Station;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -17,8 +19,7 @@ import static com.utils.UtilConstants.*;
  */
 public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
 
-    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.LogManager.getLogger(JDBCRouteDAO.class);
-
+    private static final Logger LOGGER = LogManager.getLogger(JDBCRouteDAO.class);
 
     @Override
     public int addNewRoute(Route route) throws SQLException {
@@ -26,7 +27,10 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
         int routeId = 0;
 
         try (Connection connection = MySQLConnectorManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_ADD_NEW_ROUTE, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement =
+                     connection.prepareStatement(SQL_ADD_NEW_ROUTE, Statement.RETURN_GENERATED_KEYS)) {
+
+            MySQLConnectorManager.startTransaction(connection);
 
             statement.setString(1, route.getCode());
             statement.setInt(2, route.getStartStationId());
@@ -38,10 +42,12 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
 
             statement.executeUpdate();
 
+            MySQLConnectorManager.commitTransaction(connection);
+
             ResultSet rs = statement.getGeneratedKeys();
 
             if (rs.next()) {
-                routeId = rs.getInt(1);
+               routeId = rs.getInt(1);
             }
 
             LOGGER.info(ROUTE + CREATED + FROM + route.getStartStationId() + TO + route.getFinishStationId());
@@ -60,18 +66,22 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
         try (Connection connection = MySQLConnectorManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_INTERMEDIATE_STATION)) {
 
+            MySQLConnectorManager.startTransaction(connection);
+
             LocalDateTime arrDateTime = LocalDateTime.of(station.getArrivalDate(), station.getArrivalTime());
             LocalDateTime depDateTime = station.getDepartureTime().atDate(station.getArrivalDate());
 
-            int stopping = (int) arrDateTime.until(depDateTime, ChronoUnit.MINUTES);
+            long stopping = arrDateTime.until(depDateTime, ChronoUnit.MINUTES);
 
             statement.setInt(1, station.getRouteId());
             statement.setInt(2, station.getId());
-            statement.setString(3, arrDateTime.toString());
-            statement.setInt(4, stopping);
+            statement.setLong(4, stopping);
             statement.setString(5, station.getDepartureTime().toString());
+            statement.setString(3, arrDateTime.toString());
 
             statement.executeUpdate();
+
+            MySQLConnectorManager.commitTransaction(connection);
 
             LOGGER.info(INTERMEDIATE_STATION_ADDED);
 
@@ -93,15 +103,13 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
     @Override
     public ResultSet getAllRoutes(Connection connection) throws SQLException {
 
-        String query = SQL_GET_ALL_ROUTES;
-
-        return getAllItems(connection, query);
+        return getAllItems(connection, SQL_GET_ALL_ROUTES);
     }
 
     @Override
     public ResultSet getIntermediateStationsByRouteId(Connection connection, int routeId) throws SQLException {
 
-        PreparedStatement statement =connection.prepareStatement(SQL_GET_INTERMEDIATE_STATIONS_BY_ROUTE);
+        PreparedStatement statement = connection.prepareStatement(SQL_GET_INTERMEDIATE_STATIONS_BY_ROUTE);
 
         statement.setInt(1, routeId);
 
@@ -111,9 +119,41 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
     @Override
     public ResultSet getRouteById(int routeId, Connection connection) throws SQLException {
 
-        String query = SQL_GET_ROUTE_BY_ID;
+        return getItemById(connection, SQL_GET_ROUTE_BY_ID, routeId);
 
-        return getItemById(connection, query, routeId);
+    }
 
+    @Override
+    public void setTrainToRoute(int routeId, int trainId) throws SQLException {
+
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_SET_TRAIN_TO_ROUTE)) {
+
+            MySQLConnectorManager.startTransaction(connection);
+
+            statement.setInt(1, trainId);
+
+            statement.setInt(2, routeId);
+
+            statement.executeUpdate();
+
+            MySQLConnectorManager.commitTransaction(connection);
+
+        } catch (SQLException e) {
+
+            throw new SQLException(COULD_NOT_SET_TRAIN_TO_ROUTE);
+        }
+    }
+
+    @Override
+    public ResultSet getDateTimeOfTrip(PreparedStatement statement, int routeId,
+                                       int stationFrom, int stationTo) throws SQLException {
+
+        statement.setInt(1, routeId);
+        statement.setInt(2, stationFrom);
+        statement.setInt(3, routeId);
+        statement.setInt(4, stationTo);
+
+        return statement.executeQuery();
     }
 }

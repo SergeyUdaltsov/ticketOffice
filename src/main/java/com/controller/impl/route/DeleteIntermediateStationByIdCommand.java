@@ -19,6 +19,7 @@ import static com.utils.UtilConstants.*;
  */
 public class DeleteIntermediateStationByIdCommand implements Command {
 
+    private static final String STATION_ID = "stationId";
     private final StationService SERVICE;
 
     private static final Logger LOGGER = LogManager.getLogger(DeleteIntermediateStationByIdCommand.class);
@@ -30,7 +31,7 @@ public class DeleteIntermediateStationByIdCommand implements Command {
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
-        String jsStr = request.getParameter("stationId");
+        String jsStr = request.getParameter(STATION_ID);
 
         int stationId = Integer.parseInt(jsStr);
 

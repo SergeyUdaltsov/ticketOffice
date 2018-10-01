@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import static com.utils.UtilConstants.*;
 
@@ -22,10 +23,23 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
 
     private static final Logger LOGGER = LogManager.getLogger(JDBCStationDAO.class);
 
-
     @Override
-    public void addNewStation(Station station) {
+    public void addNewStation(Station station) throws SQLException {
 
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_ADD_NEW_STATION)) {
+
+            MySQLConnectorManager.startTransaction(connection);
+
+            statement.setString(1, station.getName());
+
+            statement.executeUpdate();
+            MySQLConnectorManager.commitTransaction(connection);
+
+        } catch (SQLException e) {
+
+            throw new SQLException(STATION_EXISTS);
+        }
     }
 
     @Override
@@ -38,7 +52,6 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
         statement.setInt(1, station.getRouteId());
 
         resultSet = statement.executeQuery();
-
 
         return resultSet;
     }
@@ -55,6 +68,75 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
         deleteItemById(stationId, query);
 
         LOGGER.info(STATION + stationId + DELETED);
+    }
+
+    @Override
+    public void setSeatsToIntermediateStations(List<Integer> seats, int routeId) throws SQLException {
+
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_SET_SEATS_TO_INTERMEDIATE)) {
+
+            MySQLConnectorManager.startTransaction(connection);
+
+            statement.setInt(1, seats.get(0));
+            statement.setInt(2, seats.get(1));
+            statement.setInt(3, seats.get(2));
+            statement.setInt(4, routeId);
+
+            statement.executeUpdate();
+
+            MySQLConnectorManager.commitTransaction(connection);
+
+        } catch (SQLException e) {
+            throw new SQLException(COULD_NOT_SET_SEATS);
+        }
+    }
+
+    @Override
+    public ResultSet getAllStations(Connection connection) throws SQLException {
+
+        String query = SQL_GET_ALL_STATIONS;
+
+        return getAllItems(connection, query);
+
+    }
+
+    @Override
+    public ResultSet getIntermediateStationsByTrip(PreparedStatement statement, List<String> dateTimes,
+                                                   int routeId) throws SQLException {
+
+        statement.setString(1, dateTimes.get(0));
+        statement.setString(2, dateTimes.get(1));
+        statement.setInt(3, routeId);
+
+        return statement.executeQuery();
+    }
+
+    @Override
+    public ResultSet getStationById(PreparedStatement statement, int stationId) throws SQLException {
+
+        statement.setInt(1, stationId);
+
+        return statement.executeQuery();
+    }
+
+    @Override
+    public void updateStation(Station station) throws SQLException {
+
+        try(Connection connection = MySQLConnectorManager.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_STATION)){
+
+            MySQLConnectorManager.startTransaction(connection);
+
+            statement.setString(1, station.getName());
+            statement.setInt(2, station.getId());
+
+            statement.executeUpdate();
+
+            MySQLConnectorManager.commitTransaction(connection);
+
+        }
+
     }
 
 }

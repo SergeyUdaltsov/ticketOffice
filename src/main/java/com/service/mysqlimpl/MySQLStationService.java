@@ -1,16 +1,18 @@
 package com.service.mysqlimpl;
 
+import com.dao.RouteDAO;
 import com.dao.StationDAO;
 import com.dbConnector.MySQLConnectorManager;
-import com.entity.AbstractEntity;
 import com.entity.Station;
-import com.entity.builder.AbstractBuilder;
 import com.entity.builder.StationBuilder;
 import com.service.StationService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,9 +30,11 @@ public class MySQLStationService extends MySQLAbstractService implements Station
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserService.class);
 
     private StationDAO stationDAO;
+    private RouteDAO routeDAO;
 
-    public MySQLStationService(StationDAO stationDAO) {
+    public MySQLStationService(StationDAO stationDAO, RouteDAO routeDAO) {
         this.stationDAO = stationDAO;
+        this.routeDAO = routeDAO;
     }
 
     /**
@@ -41,15 +45,9 @@ public class MySQLStationService extends MySQLAbstractService implements Station
     @Override
     public void addNewStation(Station station) throws SQLException {
 
-        AbstractEntity newStation = new AbstractBuilder()
-                .buildStationName(station.getName())
-                .buildClass(station.getClass().getSimpleName())
-                .build();
+        stationDAO.addNewStation(station);
 
-        addNewItem(newStation, SQL_ADD_NEW_STATION);
     }
-
-
 
     /**
      * Gets all the Station from data base.
@@ -58,76 +56,78 @@ public class MySQLStationService extends MySQLAbstractService implements Station
      */
     @Override
     public List<Station> getAllStations() {
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
 
         List<Station> stations = new ArrayList<>();
 
-        try (Statement statement = connection.createStatement();
+        try (Connection connection = MySQLConnectorManager.getConnection()) {
 
-             ResultSet resultSet = statement.executeQuery(SQL_GET_ALL_STATIONS)) {
+            MySQLConnectorManager.startTransaction(connection);
 
-            while (resultSet.next()) {
+            ResultSet resultSet = stationDAO.getAllStations(connection);
 
-                Station station = new StationBuilder()
-                        .buildName(resultSet.getString("name"))
-                        .buildId(resultSet.getInt("station_id"))
-                        .build();
-
-                stations.add(station);
-            }
+            stations = getStationsFromResultSet(resultSet);
 
             MySQLConnectorManager.commitTransaction(connection);
 
         } catch (SQLException e) {
 
-            LOGGER.error(e.getMessage());
+            LOGGER.error(COULD_NOT_LOAD_STATIONS);
 
-            MySQLConnectorManager.rollbackTransaction(connection);
+        }
+        return stations;
+    }
 
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
+    private List<Station> getStationsFromResultSet(ResultSet resultSet) throws SQLException {
+
+        List<Station> stations = new ArrayList<>();
+
+        while (resultSet.next()) {
+
+            Station station = new StationBuilder()
+                    .buildName(resultSet.getString("name"))
+                    .buildId(resultSet.getInt("station_id"))
+                    .build();
+
+            stations.add(station);
         }
         return stations;
     }
 
     @Override
     public Station getStationById(int stationId) {
-        Connection connection = MySQLConnectorManager.getConnection();
 
-        MySQLConnectorManager.startTransaction(connection);
+        Station station = new Station();
 
-        Station station = null;
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_GET_STATION_BY_ID)) {
 
-        try {
+            MySQLConnectorManager.startTransaction(connection);
 
-            PreparedStatement statement = connection.prepareStatement(SQL_GET_STATION_BY_ID);
+            ResultSet resultSet = stationDAO.getStationById(statement, stationId);
 
-            statement.setInt(1, stationId);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                station = new StationBuilder()
-                        .buildId(resultSet.getInt("station_id"))
-                        .buildName(resultSet.getString("name"))
-                        .build();
-            }
+            station = getStationFromResultSet(resultSet);
 
             MySQLConnectorManager.commitTransaction(connection);
 
         } catch (SQLException e) {
 
-            LOGGER.error(e.getMessage());
-
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
+            LOGGER.error(COULD_NOT_LOAD_STATION);
         }
 
+        return station;
+    }
+
+    private Station getStationFromResultSet(ResultSet resultSet) throws SQLException {
+
+        Station station = new Station();
+
+        while (resultSet.next()) {
+
+            station = new StationBuilder()
+                    .buildId(resultSet.getInt("station_id"))
+                    .buildName(resultSet.getString("name"))
+                    .build();
+        }
         return station;
     }
 
@@ -135,13 +135,14 @@ public class MySQLStationService extends MySQLAbstractService implements Station
     public boolean validateIntermediateStationTime(Station station) {
 
         LocalDateTime interArrival = LocalDateTime.of(station.getArrivalDate(), station.getArrivalTime());
+
         LocalDateTime interDeparture = LocalDateTime.of(station.getArrivalDate(), station.getDepartureTime());
 
-        try (Connection connection = MySQLConnectorManager.getConnection()){
+        try (Connection connection = MySQLConnectorManager.getConnection()) {
 
             ResultSet resultSet = stationDAO.getResultSetStationTimes(station, connection);
 
-            if (Objects.nonNull(resultSet)){
+            if (Objects.nonNull(resultSet)) {
 
                 while (resultSet.next()) {
 
@@ -151,19 +152,19 @@ public class MySQLStationService extends MySQLAbstractService implements Station
                     int stopping = resultSet.getInt("stopping");
                     LocalDateTime departure = arrival.plusMinutes(stopping);
 
-                    if ((interArrival.isAfter(arrival) && interArrival.isBefore(departure))
-                            || (interDeparture.isAfter(arrival) && interDeparture.isBefore(departure))) {
+                    if ((interArrival.isAfter(arrival) && interArrival.isBefore(departure)) ||
+                             (interDeparture.isAfter(arrival) && interDeparture.isBefore(departure))) {
                         return false;
                     }
 
-                    if ((interArrival.isBefore(arrival) && interDeparture.isAfter(departure))
-                            || (arrival.isBefore(interArrival) && departure.isAfter(interDeparture))) {
+                    if ((interArrival.isBefore(arrival) && interDeparture.isAfter(departure)) ||
+                            (arrival.isBefore(interArrival) && departure.isAfter(interDeparture))) {
                         return false;
                     }
                 }
             }
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             LOGGER.error(COULD_NOT_RECEIVE_INTERMEDIATE_STATION_TIMES);
         }
 
@@ -171,21 +172,14 @@ public class MySQLStationService extends MySQLAbstractService implements Station
     }
 
 
-
-
     @Override
     public void updateStation(Station station) throws SQLException {
 
-        AbstractEntity stationUpdate = new AbstractBuilder()
-                .buildStationName(station.getName())
-                .buildId(station.getId())
-                .buildClass(station.getClass().getSimpleName())
-                .build();
-
-        updateItem(stationUpdate, SQL_UPDATE_STATION);
+        stationDAO.updateStation(station);
 
         LOGGER.info(STATION + station.getName() + UPDATED);
     }
+
 
     @Override
     public void deleteStationById(int stationId, boolean isIntermediate) throws SQLException {
@@ -198,43 +192,37 @@ public class MySQLStationService extends MySQLAbstractService implements Station
 
         List<String> dateTimes = getDateTimeOfTrip(routeId, depStId, arrStId);
 
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
-
         List<Station> stations = new ArrayList<>();
 
-        try {
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_GET_STATIONS_IN_TRIP)) {
 
-            PreparedStatement statement = connection.prepareStatement(SQL_GET_STATIONS_IN_TRIP);
+            MySQLConnectorManager.startTransaction(connection);
 
-            statement.setString(1, dateTimes.get(0));
-            statement.setString(2, dateTimes.get(1));
-            statement.setInt(3, routeId);
+            ResultSet resultSet = stationDAO.getIntermediateStationsByTrip(statement, dateTimes, routeId);
 
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                Station station = new StationBuilder()
-                        .buildName(resultSet.getString("name"))
-                        .buildArrDateTimeString(resultSet.getString("arrival_date_time"))
-                        .buildDepTimeString(resultSet.getString("departure_time"))
-                        .build();
-
-                stations.add(station);
-            }
+            stations = getInterStationsFromResultSet(resultSet);
 
             MySQLConnectorManager.commitTransaction(connection);
 
-        } catch (SQLException e) {
+        }
 
-            LOGGER.error(e.getMessage());
+        return stations;
+    }
 
-            MySQLConnectorManager.rollbackTransaction(connection);
+    private List<Station> getInterStationsFromResultSet(ResultSet resultSet) throws SQLException {
 
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
+        List<Station> stations = new ArrayList<>();
+
+        while (resultSet.next()) {
+
+            Station station = new StationBuilder()
+                    .buildName(resultSet.getString("name"))
+                    .buildArrDateTimeString(resultSet.getString("arrival_date_time"))
+                    .buildDepTimeString(resultSet.getString("departure_time"))
+                    .build();
+
+            stations.add(station);
         }
         return stations;
     }
@@ -245,31 +233,24 @@ public class MySQLStationService extends MySQLAbstractService implements Station
 
         List<String> dateTimes = new ArrayList<>();
 
-        Connection connection = MySQLConnectorManager.getConnection();
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_GET_TIME_AND_DATE_OF_STATIONS_ID)) {
 
-        MySQLConnectorManager.startTransaction(connection);
+            MySQLConnectorManager.startTransaction(connection);
 
-        PreparedStatement statement = connection.prepareStatement(SQL_GET_TIME_AND_DATE_OF_STATIONS_ID);
+            ResultSet resultSet = routeDAO.getDateTimeOfTrip(statement, routeId, stationFrom, stationTo);
 
-        statement.setInt(1, routeId);
-        statement.setInt(2, stationFrom);
-        statement.setInt(3, routeId);
-        statement.setInt(4, stationTo);
+            String point = "";
 
+            while (resultSet.next()) {
 
-        ResultSet resultSet = statement.executeQuery();
+                point = resultSet.getString("arrival_date_time");
 
-        String point = "";
+                dateTimes.add(point);
+            }
+            MySQLConnectorManager.commitTransaction(connection);
 
-        while (resultSet.next()) {
-
-            point = resultSet.getString("arrival_date_time");
-
-            dateTimes.add(point);
         }
-
-        MySQLConnectorManager.commitTransaction(connection);
-        MySQLConnectorManager.closeConnection(connection);
 
         return dateTimes;
     }

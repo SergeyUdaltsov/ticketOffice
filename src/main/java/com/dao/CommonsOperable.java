@@ -19,7 +19,6 @@ public interface CommonsOperable {
 
             MySQLConnectorManager.startTransaction(connection);
 
-
             statement.setInt(1, itemId);
 
             statement.executeUpdate();

@@ -17,8 +17,11 @@ public class UtilConstants {
     public static final String USER_CREATED = "User created.";
 
     //station errors
+    public static final String STATION_EXISTS = "Station already exists.";
     public static final String COULD_NOT_PERSIST_STATION = "Could not persist station.";
     public static final String COULD_NOT_DELETE_STATION = "Could not delete station";
+    public static final String COULD_NOT_LOAD_STATIONS = "Could not load stations from db.";
+    public static final String COULD_NOT_LOAD_STATION = "Could not load station from db.";
     public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATION_TIMES = "Could not receive intermediate station times from db";
     public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATIONS = "Could not receive intermediate stations from db";
     public static final String INTERMEDIATE_STATION_ERROR = "Intermediate station already exists or equals to start or finish station";
@@ -34,7 +37,14 @@ public class UtilConstants {
     //train errors
     public static final String TRAIN_EXISTS = "Train already exists.";
     public static final String TRAIN_ERROR_UPDATE = "Could not update train.";
+    public static final String COULD_NOT_SET_TRAIN_TO_ROUTE = "Could not set train to route.";
+    public static final String COULD_NOT_LOAD_SEATS = "Could not set count of seats by train.";
+    public static final String COULD_NOT_SET_SEATS = "Could not set count of seats to intermediate stations.";
     public static final String WRONG_DATA_FROM_CLIENT_TRAIN = "Wrong train data received from client side.";
+
+    //ticket
+    public static final String WRONG_DATA_FROM_CLIENT_TICKET = "Wrong ticket data received from client side.";
+    public static final String COULD_NOT_LOAD_TICKETS = "Could not load count of seats from db.";
 
 
     //strings
@@ -47,6 +57,9 @@ public class UtilConstants {
     public static final String FROM = " from ";
     public static final String TO = " to ";
     public static final String USER = "User";
+    public static final String BOUGHT_TICKETS = " bought tickets.";
+    public static final String NOT_ENOUGH_TICKETS = "Not enough tickets.";
+    public static final String MAIL_SENT = "Mail sent.";
     public static final String INTER_STATION = "InterStation";
     public static final String INTERMEDIATE_STATION_DELETED = "Intermediate station deleted";
     public static final String INTERMEDIATE_STATION_ADDED = "Intermediate station added";

@@ -43,31 +43,46 @@ public class AddNewStationCommand implements Command {
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
-        String jsStr = request.getParameter("jsonStation");
-
         try {
-            JSONObject jsonObject = new JSONObject(jsStr);
-            String name = jsonObject.getString("name");
 
-            Station station = new StationBuilder()
-                    .buildName(name)
-                    .build();
+            Station station = buildStationFromRequest(request);
 
-            try {
-                STATION_SERVICE.addNewStation(station);
+            STATION_SERVICE.addNewStation(station);
 
-            } catch (SQLException e) {
+        } catch (SQLException e) {
 
-                LOGGER.error(e.getMessage());
-                response.setStatus(406);
-                return;
-            }
+            LOGGER.error(STATION_EXISTS);
 
-        } catch (JSONException e) {
-            LOGGER.error(WRONG_DATA_FROM_CLIENT_STATION);
+            response.setStatus(406);
+            return;
         }
 
         response.setStatus(200);
 
+    }
+
+    private Station buildStationFromRequest(HttpServletRequest request) {
+
+        String jsStr = request.getParameter("jsonStation");
+
+        Station station = null;
+
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = new JSONObject(jsStr);
+
+            String name = jsonObject.getString("name");
+
+            station = new StationBuilder()
+                    .buildName(name)
+                    .build();
+
+        } catch (JSONException e) {
+
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_STATION);
+        }
+
+        return station;
     }
 }

@@ -1,10 +1,13 @@
 package com.service.mysqlimpl;
 
+import com.dao.TicketDAO;
 import com.dao.factory.DAOFactory;
+import com.dao.impl.JDBCRouteDAO;
 import com.dao.impl.JDBCStationDAO;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.AbstractEntity;
 import com.entity.Letter;
+import com.entity.Station;
 import com.entity.TicketOrder;
 import com.entity.builder.AbstractBuilder;
 import com.entity.builder.LetterBuilder;
@@ -25,9 +28,18 @@ import static com.utils.UtilConstants.*;
  */
 public class MySQLTicketService implements TicketService {
 
+    private final TicketDAO TICKET_DAO;
+    private final StationService STATION_SERVICE;
+    private final MailService MAIL_SERVICE;
     private static final Logger LOGGER = LogManager.getLogger(MySQLUserService.class);
-    private static final MailService MAIL_SERVICE = DAOFactory.getDAOFactory().getMailService();
-    private static final StationService STATION_SERVICE = DAOFactory.getDAOFactory().getStationService(new JDBCStationDAO());
+
+
+    public MySQLTicketService(TicketDAO ticketDAO, StationService stationService, MailService mailService) {
+        this.TICKET_DAO = ticketDAO;
+        this.STATION_SERVICE = stationService;
+        this.MAIL_SERVICE = mailService;
+    }
+
 
     @Override
     public List<Integer> getTicketCount(int routeId, int stationFrom, int stationTo) throws SQLException {
@@ -36,42 +48,40 @@ public class MySQLTicketService implements TicketService {
 
         List<Integer> availableSeats = new ArrayList<>();
 
-        Connection connection = MySQLConnectorManager.getConnection();
+        try (Connection connection = MySQLConnectorManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_COUNT_OF_AVAILABLE_SEATS)) {
 
-        MySQLConnectorManager.startTransaction(connection);
+            MySQLConnectorManager.startTransaction(connection);
 
-        try {
+            ResultSet resultSet = TICKET_DAO.getCountOfAvailableSeats(statement, points, routeId);
 
-            PreparedStatement statement = connection.prepareStatement(SQL_COUNT_OF_AVAILABLE_SEATS);
-
-            statement.setString(1, points.get(0));
-            statement.setString(2, points.get(1));
-            statement.setInt(3, routeId);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                int eco = resultSet.getInt("eco");
-                int bus = resultSet.getInt("bus");
-                int com = resultSet.getInt("com");
-
-                availableSeats.add(eco);
-                availableSeats.add(bus);
-                availableSeats.add(com);
-
-            }
+            availableSeats = getCountOfSeatsFromResultSet(resultSet);
 
             MySQLConnectorManager.commitTransaction(connection);
 
         } catch (SQLException e) {
 
-            LOGGER.error(e.getMessage());
+            LOGGER.error(COULD_NOT_LOAD_TICKETS);
 
-            MySQLConnectorManager.rollbackTransaction(connection);
+        }
 
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
+        return availableSeats;
+    }
+
+    private List<Integer> getCountOfSeatsFromResultSet(ResultSet resultSet) throws SQLException {
+
+        List<Integer> availableSeats = new ArrayList<>();
+
+        while (resultSet.next()) {
+
+            int eco = resultSet.getInt("eco");
+            int bus = resultSet.getInt("bus");
+            int com = resultSet.getInt("com");
+
+            availableSeats.add(eco);
+            availableSeats.add(bus);
+            availableSeats.add(com);
+
         }
 
         return availableSeats;
@@ -131,38 +141,19 @@ public class MySQLTicketService implements TicketService {
         List<String> dateTimes = STATION_SERVICE.getDateTimeOfTrip(order.getRouteId(),
                 order.getStationFrom().getId(), order.getStationTo().getId());
 
-        Connection connection = MySQLConnectorManager.getConnection();
-
-        MySQLConnectorManager.startTransaction(connection);
-
         try {
 
-            PreparedStatement statement = connection.prepareStatement(SQL_BUY_TICKETS);
+            TICKET_DAO.buyTickets(order, dateTimes);
 
-            statement.setInt(1, order.getCountOfEconomy());
-            statement.setInt(2, order.getCountOfBusiness());
-            statement.setInt(3, order.getCountOfComfort());
-            statement.setInt(4, order.getRouteId());
-            statement.setString(5, dateTimes.get(0));
-            statement.setString(6, dateTimes.get(1));
-
-            statement.executeUpdate();
-
-            MySQLConnectorManager.commitTransaction(connection);
+            LOGGER.info(USER + order.getUser().getFirstName() + " " + order.getUser().getLastName() + BOUGHT_TICKETS);
 
             sendMail(order);
 
         } catch (SQLException e) {
 
-            LOGGER.error(e.getMessage());
+            throw new SQLException(NOT_ENOUGH_TICKETS);
 
-            MySQLConnectorManager.rollbackTransaction(connection);
-
-        } finally {
-            MySQLConnectorManager.closeConnection(connection);
         }
-
-
     }
 
     private void sendMail(TicketOrder order) {
@@ -184,6 +175,8 @@ public class MySQLTicketService implements TicketService {
                 .build();
 
         MAIL_SERVICE.sendMail(letter);
+
+        LOGGER.info(MAIL_SENT);
     }
 
 

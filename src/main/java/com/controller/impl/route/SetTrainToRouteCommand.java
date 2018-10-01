@@ -18,7 +18,6 @@ public class SetTrainToRouteCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(SetTrainToRouteCommand.class);
 
-
     public SetTrainToRouteCommand(RouteService SERVICE) {
         this.SERVICE = SERVICE;
     }

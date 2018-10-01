@@ -1,7 +1,6 @@
 package com.controller.impl.station;
 
 import com.controller.Command;
-import com.dao.factory.DAOFactory;
 import com.entity.Station;
 import com.service.StationService;
 import org.apache.log4j.LogManager;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import static com.utils.UtilData.*;
+import static com.utils.UtilConstants.*;
 
 /**
  * The {@code GetStationByIdCommand} class is an implementation of
@@ -40,7 +40,7 @@ public class GetStationByIdCommand implements Command {
             sendJson(station, response);
 
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_STATION);
         }
 
     }

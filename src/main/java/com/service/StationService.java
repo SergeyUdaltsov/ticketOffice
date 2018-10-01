@@ -28,8 +28,8 @@ public interface StationService {
 
     List<String> getDateTimeOfTrip(int routeId, int stationFrom, int stationTo) throws SQLException;
 
-    Station buildIntermediateStation(int routeId, int stationId, LocalTime arrTime, LocalTime depTime,
-                                      LocalDate arrDate, boolean endStation);
+    Station buildIntermediateStation(int routeId, int stationId, LocalTime arrTime,
+                                     LocalTime depTime, LocalDate arrDate, boolean endStation);
 
 
 }

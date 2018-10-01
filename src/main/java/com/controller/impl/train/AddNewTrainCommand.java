@@ -24,10 +24,35 @@ public class AddNewTrainCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(AddNewTrainCommand.class);
 
-    private static final TrainService SERVICE = DAOFactory.getDAOFactory().getTrainService();
+    private final TrainService SERVICE;
+
+    public AddNewTrainCommand(TrainService service) {
+        this.SERVICE = service;
+    }
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+            Train train = buildTrainFromRequest(request, response);
+
+            SERVICE.addNewTrain(train);
+
+            LOGGER.info(TRAIN + train.getName() + CREATED);
+
+        } catch (SQLException e) {
+
+            LOGGER.error(e.getMessage());
+            response.setStatus(406);
+            return;
+        }
+
+        response.setStatus(200);
+    }
+
+    private Train buildTrainFromRequest(HttpServletRequest request, HttpServletResponse response) {
+
+        Train train = new Train();
 
         String jsStr = request.getParameter("jsonTrain");
 
@@ -40,31 +65,22 @@ public class AddNewTrainCommand implements Command {
             int comfortNumber = jsonObject.getInt("comfort");
 
 
-            Train train = new TrainBuilder()
+            train = new TrainBuilder()
                     .buildName(name)
                     .buildEconomy(economyNumber)
                     .buildBusiness(businessNumber)
                     .buildComfort(comfortNumber)
                     .build();
 
-            try {
-
-                SERVICE.addNewTrain(train);
-
-                LOGGER.info(TRAIN + train.getName() + CREATED);
-            } catch (SQLException e) {
-
-                LOGGER.error(e.getMessage());
-                response.setStatus(406);
-                return;
-            }
 
         } catch (JSONException e) {
-            LOGGER.error(e.getMessage());
+
+            response.setStatus(406);
+
+            LOGGER.error(WRONG_DATA_FROM_CLIENT_TRAIN);
         }
 
-        response.setStatus(200);
-
+        return train;
     }
 
 }

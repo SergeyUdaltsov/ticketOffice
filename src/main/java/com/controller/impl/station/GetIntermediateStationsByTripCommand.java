@@ -48,10 +48,8 @@ public class GetIntermediateStationsByTripCommand implements Command {
 
             response.getWriter().write(new Gson().toJson(stations));
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SQLException | IOException e) {
+            LOGGER.info(COULD_NOT_LOAD_STATIONS);
         }
 
         response.setStatus(200);

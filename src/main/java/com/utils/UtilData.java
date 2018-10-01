@@ -11,15 +11,19 @@ import com.controller.impl.train.*;
 import com.controller.impl.user.RegisterNewUserCommand;
 import com.controller.Command;
 import com.controller.impl.user.ValidateUserPasswordCommand;
+import com.dao.TicketDAO;
+import com.dao.TrainDAO;
 import com.dao.factory.DAOFactory;
 import com.dao.RouteDAO;
 import com.dao.impl.JDBCRouteDAO;
 import com.dao.impl.JDBCStationDAO;
 import com.dao.StationDAO;
+import com.dao.impl.JDBCTicketDAO;
+import com.dao.impl.JDBCTrainDAO;
 import com.entity.Sendable;
+import com.entity.Train;
 import com.google.gson.Gson;
-import com.service.RouteService;
-import com.service.StationService;
+import com.service.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -42,10 +46,14 @@ public class UtilData {
 
         RouteDAO routeDAO = new JDBCRouteDAO();
         StationDAO stationDAO = new JDBCStationDAO();
+        TrainDAO trainDAO = new JDBCTrainDAO();
+        TicketDAO ticketDAO = new JDBCTicketDAO();
 
-        StationService stationService = DAOFactory.getDAOFactory().getStationService(stationDAO);
-        RouteService routeService = DAOFactory.getDAOFactory().getRouteService(routeDAO, stationService);
-
+        MailService mailService = DAOFactory.getDAOFactory().getMailService();
+        StationService stationService = DAOFactory.getDAOFactory().getStationService(stationDAO, routeDAO);
+        RouteService routeService = DAOFactory.getDAOFactory().getRouteService(routeDAO, stationService, trainDAO, stationDAO);
+        TicketService ticketService = DAOFactory.getDAOFactory().getTicketService(ticketDAO, stationService, mailService);
+        TrainService trainService = DAOFactory.getDAOFactory().getTrainService();
 
         COMMANDS_MAP.put(REGISTER_NEW_USER_COMMAND, new RegisterNewUserCommand());
         COMMANDS_MAP.put(VALIDATE_USER_PASSWORD_COMMAND, new ValidateUserPasswordCommand());
@@ -61,16 +69,16 @@ public class UtilData {
         COMMANDS_MAP.put(GET_INTERMEDIATE_STATIONS_BY_ROUTE, new GetIntermediateStationsByRouteCommand(routeService));
         COMMANDS_MAP.put(DELETE_INTERMEDIATE_STATION_BY_ID_COMMAND, new DeleteIntermediateStationByIdCommand(stationService));
         COMMANDS_MAP.put(DELETE_ROUTE_BY_ID_COMMAND, new DeleteRouteByIdCommand(routeService));
-        COMMANDS_MAP.put(ADD_NEW_TRAIN_COMMAND, new AddNewTrainCommand());
+        COMMANDS_MAP.put(ADD_NEW_TRAIN_COMMAND, new AddNewTrainCommand(trainService));
         COMMANDS_MAP.put(GET_ALL_TRAINS_COMMAND, new GetAllTrainsCommand());
         COMMANDS_MAP.put(GET_TRAIN_BY_ID_COMMAND, new GetTrainByIdCommand());
         COMMANDS_MAP.put(UPDATE_TRAIN_COMMAND, new UpdateTrainCommand());
         COMMANDS_MAP.put(DELETE_TRAIN_COMMAND, new DeleteTrainByIdCommand());
         COMMANDS_MAP.put(SET_TRAIN_COMMAND, new SetTrainToRouteCommand(routeService));
         COMMANDS_MAP.put(SHOW_TRAINS_COMMAND, new ShowTrainsCommand());
-        COMMANDS_MAP.put(GET_TICKETS_COUNT_COMMAND, new GetTicketsCountCommand());
+        COMMANDS_MAP.put(GET_TICKETS_COUNT_COMMAND, new GetTicketsCountCommand(ticketService));
         COMMANDS_MAP.put(GET_STATIONS_BY_TRIP_COMMAND, new GetIntermediateStationsByTripCommand(stationService));
-        COMMANDS_MAP.put(BUY_TICKETS_COMMAND, new BuyTicketsCommand());
+        COMMANDS_MAP.put(BUY_TICKETS_COMMAND, new BuyTicketsCommand(ticketService));
 
     }
 
