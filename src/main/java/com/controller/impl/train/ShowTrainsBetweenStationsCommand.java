@@ -19,13 +19,13 @@ import static com.utils.UtilConstants.*;
 /**
  * Created by Serg on 26.09.2018.
  */
-public class ShowTrainsCommand implements Command {
+public class ShowTrainsBetweenStationsCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(ShowTrainsCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(ShowTrainsBetweenStationsCommand.class);
 
     private final TrainService SERVICE;
 
-    public ShowTrainsCommand(TrainService service) {
+    public ShowTrainsBetweenStationsCommand(TrainService service) {
         this.SERVICE = service;
     }
 

@@ -46,6 +46,8 @@ public class RegisterNewUserCommand implements Command {
 
             SERVICE.createNewUser(user);
 
+
+
         } catch (SQLException e) {
 
             LOGGER.error(USER_EXISTS);

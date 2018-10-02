@@ -8,6 +8,7 @@ public class Station implements Sendable{
     private int id;
     private int routeId;
     private String name;
+    private String nameRu;
     private int intermediateId;
     private LocalTime arrivalTime;
     private LocalTime departureTime;
@@ -18,6 +19,13 @@ public class Station implements Sendable{
     private boolean endStation;
 
 
+    public String getNameRu() {
+        return nameRu;
+    }
+
+    public void setNameRu(String nameRu) {
+        this.nameRu = nameRu;
+    }
 
     public boolean isEndStation() {
         return endStation;
@@ -59,32 +67,16 @@ public class Station implements Sendable{
         this.routeId = routeId;
     }
 
-    public int getStopping() {
-        return stopping;
-    }
-
     public void setStopping(int stopping) {
         this.stopping = stopping;
-    }
-
-    public int getIntermediateId() {
-        return intermediateId;
     }
 
     public void setIntermediateId(int intermediateId) {
         this.intermediateId = intermediateId;
     }
 
-    public String getArrDateTimeString() {
-        return arrDateTimeString;
-    }
-
     public void setArrDateTimeString(String arrDateTimeString) {
         this.arrDateTimeString = arrDateTimeString;
-    }
-
-    public String getDepTimeString() {
-        return depTimeString;
     }
 
     public void setDepTimeString(String depTimeString) {

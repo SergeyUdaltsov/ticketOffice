@@ -1,12 +1,8 @@
 package com.entity.builder;
 
 import com.entity.Route;
-import com.entity.Station;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
 
 public class RouteBuilder {
 
@@ -14,6 +10,16 @@ public class RouteBuilder {
 
     public RouteBuilder() {
         this.rout = new Route();
+    }
+
+    public RouteBuilder buildDepartureStationRu(String departureStatinRu){
+        this.rout.setDepartureStationRu(departureStatinRu);
+        return this;
+    }
+
+    public RouteBuilder buildArrivalStationRu(String arrivalStationRu) {
+        this.rout.setArrivalStationRu(arrivalStationRu);
+        return this;
     }
 
     public RouteBuilder buildTrain(String train) {

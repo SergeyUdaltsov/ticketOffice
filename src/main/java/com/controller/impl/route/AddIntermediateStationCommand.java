@@ -28,7 +28,6 @@ public class AddIntermediateStationCommand implements Command {
     private final RouteService ROUTE_SERVICE;
     private final StationService STATION_SERVICE;
 
-    //    private static final RouteService SERVICE = DAOFactory.getDAOFactory().getRouteService();
 
     public AddIntermediateStationCommand(RouteService ROUTE_SERVICE, StationService STATION_SERVICE) {
         this.ROUTE_SERVICE = ROUTE_SERVICE;

@@ -15,14 +15,15 @@ import com.dao.*;
 import com.dao.factory.DAOFactory;
 import com.dao.impl.*;
 import com.entity.Sendable;
-import com.entity.Train;
 import com.google.gson.Gson;
 import com.service.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import static com.utils.UtilConstants.*;
 
@@ -32,8 +33,6 @@ import static com.utils.UtilConstants.*;
 public class UtilData {
 
     public static final Map<String, Command> COMMANDS_MAP = new HashMap<>();
-
-
 
 
     static {
@@ -71,7 +70,7 @@ public class UtilData {
         COMMANDS_MAP.put(UPDATE_TRAIN_COMMAND, new UpdateTrainCommand(trainService));
         COMMANDS_MAP.put(DELETE_TRAIN_COMMAND, new DeleteTrainByIdCommand(trainService));
         COMMANDS_MAP.put(SET_TRAIN_COMMAND, new SetTrainToRouteCommand(routeService));
-        COMMANDS_MAP.put(SHOW_TRAINS_COMMAND, new ShowTrainsCommand(trainService));
+        COMMANDS_MAP.put(SHOW_TRAINS_COMMAND, new ShowTrainsBetweenStationsCommand(trainService));
         COMMANDS_MAP.put(GET_TICKETS_COUNT_COMMAND, new GetTicketsCountCommand(ticketService));
         COMMANDS_MAP.put(GET_STATIONS_BY_TRIP_COMMAND, new GetIntermediateStationsByTripCommand(stationService));
         COMMANDS_MAP.put(BUY_TICKETS_COMMAND, new BuyTicketsCommand(ticketService));
@@ -84,4 +83,27 @@ public class UtilData {
         response.getWriter().write(new Gson().toJson(entity));
     }
 
+    static String localize(String key) {
+
+        Locale locale = null;
+
+        String lang = "ru";
+
+        switch (lang) {
+            case "ru": {
+                locale = new Locale("ru");
+                break;
+            }
+            case "en": {
+                locale = new Locale("en");
+                break;
+            }
+            default: {
+                locale = new Locale("en");
+            }
+        }
+        ResourceBundle myBundle = ResourceBundle.getBundle("logs", locale);
+
+        return myBundle.getString(key);
+    }
 }

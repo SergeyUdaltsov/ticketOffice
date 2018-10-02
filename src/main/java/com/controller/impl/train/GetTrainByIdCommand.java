@@ -1,7 +1,6 @@
 package com.controller.impl.train;
 
 import com.controller.Command;
-import com.dao.factory.DAOFactory;
 import com.entity.Train;
 import com.google.gson.Gson;
 import com.service.TrainService;

@@ -4,7 +4,6 @@ import com.dao.CommonsOperable;
 import com.dao.StationDAO;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.Station;
-import com.service.mysqlimpl.MySQLUserService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -32,6 +31,7 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
             MySQLConnectorManager.startTransaction(connection);
 
             statement.setString(1, station.getName());
+            statement.setString(2, station.getNameRu());
 
             statement.executeUpdate();
             MySQLConnectorManager.commitTransaction(connection);
@@ -45,15 +45,11 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
     @Override
     public ResultSet getResultSetStationTimes(Station station, Connection connection) throws SQLException {
 
-        ResultSet resultSet = null;
-
         PreparedStatement statement = connection.prepareStatement(SQL_GET_STATIONS_TIME);
 
         statement.setInt(1, station.getRouteId());
 
-        resultSet = statement.executeQuery();
-
-        return resultSet;
+        return statement.executeQuery();
     }
 
     @Override
@@ -127,7 +123,8 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
             MySQLConnectorManager.startTransaction(connection);
 
             statement.setString(1, station.getName());
-            statement.setInt(2, station.getId());
+            statement.setString(2, station.getNameRu());
+            statement.setInt(3, station.getId());
 
             statement.executeUpdate();
 

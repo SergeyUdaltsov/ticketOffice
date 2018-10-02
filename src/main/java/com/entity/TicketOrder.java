@@ -32,10 +32,6 @@ public class TicketOrder {
         this.user = user;
     }
 
-    public String getTrainNumber() {
-        return trainNumber;
-    }
-
     public void setTrainNumber(String trainNumber) {
         this.trainNumber = trainNumber;
     }
@@ -86,14 +82,6 @@ public class TicketOrder {
 
     public void setDepartureTime(LocalTime departureTime) {
         this.departureTime = departureTime;
-    }
-
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
     }
 
     public int getRouteId() {

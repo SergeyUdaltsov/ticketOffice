@@ -10,23 +10,25 @@ public class Tour {
     private String arrivalTimeDateStart;
     private String departureTime;
     private String departureStation;
+    private String departureStationRu;
     private int departureStationId;
     private String arrivalTimeDateFinish;
     private String arrivalStation;
+    private String arrivalStationRu;
     private int arrivalStationId;
     private String tourTime;
     private long tourPrice;
 
-    public String getTourTime() {
-        return tourTime;
+    public void setDepartureStationRu(String departureStationRu) {
+        this.departureStationRu = departureStationRu;
+    }
+
+    public void setArrivalStationRu(String arrivalStationRu) {
+        this.arrivalStationRu = arrivalStationRu;
     }
 
     public void setTourTime(String tourTime) {
         this.tourTime = tourTime;
-    }
-
-    public long getTourPrice() {
-        return tourPrice;
     }
 
     public void setTourPrice(long tourPrice) {
@@ -65,16 +67,8 @@ public class Tour {
         this.departureTime = departureTime;
     }
 
-    public String getDepartureStation() {
-        return departureStation;
-    }
-
     public void setDepartureStation(String departureStation) {
         this.departureStation = departureStation;
-    }
-
-    public int getDepartureStationId() {
-        return departureStationId;
     }
 
     public void setDepartureStationId(int departureStationId) {
@@ -89,16 +83,8 @@ public class Tour {
         this.arrivalTimeDateFinish = arrivalTimeDateFinish;
     }
 
-    public String getArrivalStation() {
-        return arrivalStation;
-    }
-
     public void setArrivalStation(String arrivalStation) {
         this.arrivalStation = arrivalStation;
-    }
-
-    public int getArrivalStationId() {
-        return arrivalStationId;
     }
 
     public void setArrivalStationId(int arrivalStationId) {
@@ -106,14 +92,3 @@ public class Tour {
     }
 }
 
-
-//    buildCode(resultSet.getString("code"))
-//        .buildRouteId(resultSet.getInt("route_id"))
-//        .buildArrTimeDateString(resultSet.getString("arr_date_from"))
-//        .buildDepTimeString(resultSet.getString("dep_time"))
-//        .buildDepStation(resultSet.getString("dep_st"))
-//        .buildStartStationId(resultSet.getInt("dep_st_id"))
-//        .buildArrTimeDateFinString(resultSet.getString("arr_date_to"))
-//        .buildArrStation(resultSet.getString("arr_st"))
-//        .buildFinishStationId(resultSet.getInt("arr_st_id"))
-//        .build();

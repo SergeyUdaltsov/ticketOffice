@@ -3,7 +3,7 @@ var vocabulary;
 var language;
 $(window).ready(function () {
 
-    if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
+    if (JSON.parse(window.localStorage.getItem('status')) !== 'admin') {
         $(location).attr('href', 'http://localhost:9999/index.jsp');
     }
 
@@ -16,7 +16,6 @@ $(window).ready(function () {
     }
 
     var stationId = window.location.href.split("?")[1].split("=")[1];
-    console.log(stationId);
 
     loadStationInfo(stationId);
 
@@ -24,6 +23,8 @@ $(window).ready(function () {
 
         station.id = stationId;
         station.name = $("#nStation").val();
+        station.nameRu = $("#nStationRu").val();
+
 
         (station.name === "")
             ? alert('fill up')
@@ -51,43 +52,6 @@ $(window).ready(function () {
     });
 
 });
-
-function translatePage(transLang) {
-
-    $('.lang').each(function (index, element) {
-        $(this).text(vocabulary[transLang][$(this).attr('key')]);
-    });
-
-}
-
-function getVocabulary() {
-
-    return {
-        ru: {
-            'title': 'Станция',
-            'create': 'Создать',
-            'name': 'Название',
-            'update': 'Сохранить',
-            'delete': 'Удалить',
-            'cancel': 'Отмена',
-            'cDelete': 'Невозможно удалить станцию.',
-            'exists': 'Cтанция уже есть в базе.',
-            'fillUp': 'Заполните все поля.'
-        },
-        en: {
-            'title': 'Station',
-            'create': 'Create',
-            'name': 'Station name',
-            'cDelete': 'Could not delete',
-            'update': 'Save',
-            'cancel': 'Cancel',
-            'delete': 'Delete',
-            'exists': 'Station already exists.',
-            'fillUp': 'Fill up all the fields'
-        }
-
-    };
-}
 
 function deleteStation(data) {
     $.ajax({
@@ -150,11 +114,51 @@ function loadStationInfo(stationId) {
         },
         success: function (data) {
 
-            console.log(data.name);
-            document.getElementById("nStation").text = data.name;
+            document.getElementById("nStation").value = data.name;
+            document.getElementById("nStationRu").value = data.nameRu;
+
         },
         error: function (data) {
+
         }
     });
 }
 
+function getVocabulary() {
+
+    return {
+        ru: {
+            'title': 'Станция',
+            'create': 'Создать',
+            'name': 'Название EN',
+            'nameRu': 'Название RU',
+            'update': 'Сохранить',
+            'delete': 'Удалить',
+            'cancel': 'Отмена',
+            'cDelete': 'Невозможно удалить станцию.',
+            'exists': 'Cтанция уже есть в базе.',
+            'fillUp': 'Заполните все поля.'
+        },
+        en: {
+            'title': 'Station',
+            'create': 'Create',
+            'name': 'Station name EN',
+            'nameRu': 'Station name RU',
+            'cDelete': 'Could not delete',
+            'update': 'Save',
+            'cancel': 'Cancel',
+            'delete': 'Delete',
+            'exists': 'Station already exists.',
+            'fillUp': 'Fill up all the fields'
+        }
+
+    };
+}
+
+function translatePage(transLang) {
+
+    $('.lang').each(function (index, element) {
+        $(this).text(vocabulary[transLang][$(this).attr('key')]);
+    });
+
+}

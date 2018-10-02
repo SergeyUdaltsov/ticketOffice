@@ -49,10 +49,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public boolean isAdministrator() {
-        return administrator;
-    }
-
     public void setAdministrator(boolean administrator) {
         this.administrator = administrator;
     }

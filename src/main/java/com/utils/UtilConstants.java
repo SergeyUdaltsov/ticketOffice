@@ -1,73 +1,74 @@
 package com.utils;
 
+import static com.utils.UtilData.localize;
+
 public class UtilConstants {
 
-    //Errors
-
-    public static final String UNKNOWN_ENTITY = "Trying to persist unknown entity to data base.";
-    public static final String COULD_NOT_ADD_NEW_ITEM = "Could not add new item.";
-    public static final String COULD_NOT_UPDATE_ITEM = "Could not update item.";
-
-    //JSON error
-
-
-
     //user errors
-    public static final String USER_EXISTS = "User already exists.";
-    public static final String USER_CREATED = "User created.";
-    public static final String USER_NOT_VALIDATED = "User not validated.";
-    public static final String WRONG_DATA_FROM_CLIENT_USER = "Wrong user data received from client side.";
+    public static final String USER_EXISTS = localize("User.already.exists.");
+    public static final String USER_CREATED = localize("User.created.");
+    public static final String USER_NOT_VALIDATED = localize("User.not.validated.");
+    public static final String WRONG_DATA_FROM_CLIENT_USER = localize("Wrong.user.data.received.from.client.side.");
 
 
     //station errors
-    public static final String STATION_EXISTS = "Station already exists.";
-    public static final String COULD_NOT_PERSIST_STATION = "Could not persist station.";
-    public static final String COULD_NOT_DELETE_STATION = "Could not delete station";
-    public static final String COULD_NOT_LOAD_STATIONS = "Could not load stations from db.";
-    public static final String COULD_NOT_LOAD_STATION = "Could not load station from db.";
-    public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATION_TIMES = "Could not receive intermediate station times from db";
-    public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATIONS = "Could not receive intermediate stations from db";
-    public static final String INTERMEDIATE_STATION_ERROR = "Intermediate station already exists or equals to start or finish station";
-    public static final String WRONG_DATA_FROM_CLIENT_STATION = "Wrong station data received from client side.";
-    public static final String WRONG_DATA_FROM_CLIENT_ROUTE = "Wrong route data received from client side.";
+    public static final String STATION_EXISTS = localize("Station.exists.");
+    public static final String COULD_NOT_PERSIST_STATION = localize("Could.not.persist.station.");
+    public static final String COULD_NOT_DELETE_STATION = localize("Could.not.delete.station");
+    public static final String COULD_NOT_LOAD_STATIONS = localize("Could.not.load.stations.from.db.");
+    public static final String COULD_NOT_LOAD_STATION = localize("Could.not.load.station.from.db.");
+    public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATION_TIMES =
+            localize("Could.not.receive.intermediate.station.times.from.db");
+    public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATIONS =
+            localize("Could.not.receive.intermediate.stations.from.db");
+    public static final String INTERMEDIATE_STATION_ERROR =
+            localize("Intermediate.station.already.exists.or.equals.to.start.or.finish.station");
+    public static final String WRONG_DATA_FROM_CLIENT_STATION =
+            localize("Wrong.station.data.received.from.client.side.");
+    public static final String WRONG_DATA_FROM_CLIENT_ROUTE =
+            localize("Wrong.route.data.received.from.client.side.");
 
     //route errors
-    public static final String ROUTE_EXISTS = "Route already exists.";
-    public static final String COULD_NOT_LOAD_ROUTES = "Could not load routes from db";
-    public static final String COULD_NOT_PERSIST_ROUTE = "Could not persist route";
-    public static final String WRONG_DATE_OR_TIME_INTER_STATION = "Wrong date or time of intermediate station";
+    public static final String ROUTE_EXISTS = localize("Route.already.exists.");
+    public static final String COULD_NOT_LOAD_ROUTES = localize("Could.not.load.routes.from.db");
+    public static final String COULD_NOT_PERSIST_ROUTE = localize("Could.not.persist.route");
+    public static final String WRONG_DATE_OR_TIME_INTER_STATION =
+            localize("Wrong.date.or.time.of.intermediate.station");
 
     //train errors
-    public static final String TRAIN_EXISTS = "Train already exists.";
-    public static final String TRAIN_ERROR_UPDATE = "Could not update train.";
-    public static final String COULD_NOT_SET_TRAIN_TO_ROUTE = "Could not set train to route.";
-    public static final String COULD_NOT_DELETE_TRAIN = "Could not delete train.";
-    public static final String COULD_NOT_LOAD_SEATS = "Could not set count of seats by train.";
-    public static final String COULD_NOT_LOAD_TRAINS = "Could not load trains from db.";
-    public static final String COULD_NOT_SET_SEATS = "Could not set count of seats to intermediate stations.";
-    public static final String WRONG_DATA_FROM_CLIENT_TRAIN = "Wrong train data received from client side.";
+    public static final String TRAIN_EXISTS = localize("Train.already.exists.");
+    public static final String TRAIN_ERROR_UPDATE = localize("Could.not.update.train.");
+    public static final String COULD_NOT_SET_TRAIN_TO_ROUTE = localize("Could.not.set.train.to.route.");
+    public static final String COULD_NOT_DELETE_TRAIN = localize("Could.not.delete.train.");
+    public static final String COULD_NOT_LOAD_SEATS = localize("Could.not.set.count.of.seats.by.train.");
+    public static final String COULD_NOT_LOAD_TRAINS = localize("Could.not.load.trains.from.db.");
+    public static final String COULD_NOT_SET_SEATS =
+            localize("Could.not.set.count.of.seats.to.intermediate.stations.");
+    public static final String WRONG_DATA_FROM_CLIENT_TRAIN =
+            localize("Wrong.train.data.received.from.client.side.");
 
     //ticket
-    public static final String WRONG_DATA_FROM_CLIENT_TICKET = "Wrong ticket data received from client side.";
-    public static final String COULD_NOT_LOAD_TICKETS = "Could not load count of seats from db.";
+    public static final String WRONG_DATA_FROM_CLIENT_TICKET =
+            localize("Wrong.ticket.data.received.from.client.side.");
+    public static final String COULD_NOT_LOAD_TICKETS = localize("Could.not.load.count.of.seats.from.db.");
 
 
     //strings
-    public static final String STATION = "Station";
-    public static final String TRAIN = "Train";
-    public static final String CREATED = " created";
-    public static final String UPDATED = " updated";
-    public static final String DELETED = " deleted";
-    public static final String ROUTE = "Route";
-    public static final String FROM = " from ";
-    public static final String TO = " to ";
-    public static final String USER = "User";
-    public static final String BOUGHT_TICKETS = " bought tickets.";
-    public static final String NOT_ENOUGH_TICKETS = "Not enough tickets.";
-    public static final String MAIL_SENT = "Mail sent.";
-    public static final String INTER_STATION = "InterStation";
-    public static final String INTERMEDIATE_STATION_DELETED = "Intermediate station deleted";
-    public static final String INTERMEDIATE_STATION_ADDED = "Intermediate station added";
+    public static final String STATION = localize("Station");
+    public static final String TRAIN = localize("Train");
+    public static final String CREATED = localize("created");
+    public static final String UPDATED = localize("updated");
+    public static final String DELETED = localize("deleted");
+    public static final String ROUTE = localize("Route");
+    public static final String FROM = localize("from");
+    public static final String TO = localize("to");
+    public static final String USER = localize("User");
+    public static final String BOUGHT_TICKETS = localize("bought.tickets.");
+    public static final String NOT_ENOUGH_TICKETS = localize("Not.enough.tickets.");
+    public static final String MAIL_SENT = localize("Mail.sent.");
+    public static final String INTER_STATION = localize("InterStation");
+    public static final String INTERMEDIATE_STATION_DELETED = localize("Intermediate.station.deleted");
+    public static final String INTERMEDIATE_STATION_ADDED = localize("Intermediate.station.added");
 
 
     //Mail
@@ -141,10 +142,10 @@ public class UtilConstants {
     public static final String SQL_VALIDATE_PASSWORD_USER = "SELECT * FROM users WHERE email=(?) AND pswrd=(?);";
 
     //SQL Station
-    public static final String SQL_ADD_NEW_STATION = "INSERT INTO station(name) VALUES(?)";
+    public static final String SQL_ADD_NEW_STATION = "INSERT INTO station(name, name_ru) VALUES(?, ?)";
     public static final String SQL_GET_ALL_STATIONS = "SELECT * FROM station";
     public static final String SQL_GET_STATION_BY_ID = "SELECT * FROM station WHERE station_id=(?);";
-    public static final String SQL_UPDATE_STATION = "UPDATE station SET name=(?) WHERE station_id=(?);";
+    public static final String SQL_UPDATE_STATION = "UPDATE station SET name=(?), name_ru=(?) WHERE station_id=(?);";
     public static final String SQL_DELETE_STATION = "DELETE FROM station WHERE station_id=(?);";
     public static final String SQL_GET_STATIONS_TIME = "SELECT arrival_date_time, stopping " +
             "FROM intermediate_station " +
@@ -156,8 +157,9 @@ public class UtilConstants {
             "arrival_date, st_finish, arrival_time) VALUES" +
             "(?, ?, ?, ?, ?, ?, ?);";
 
-    public static final String SQL_GET_ALL_ROUTES = "SELECT r.route_id, r.code, st.name AS dep_st, r.departure_date, " +
-            "r.departure_time, st1.name AS arr_st, r.arrival_date, r.arrival_time " +
+    public static final String SQL_GET_ALL_ROUTES = "SELECT r.route_id, r.code, st.name AS dep_st, st.name_ru AS dep_st_ru, " +
+            " r.departure_date, " +
+            "r.departure_time, st1.name AS arr_st, st1.name_ru AS arr_st_ru, r.arrival_date, r.arrival_time " +
             "FROM route AS r " +
             "INNER JOIN station AS st ON st.station_id = st_start " +
             "INNER JOIN station AS st1 ON st1.station_id = st_finish;";
@@ -166,7 +168,7 @@ public class UtilConstants {
             "station_id_fk, arrival_date_time, stopping, departure_time) VALUES\n" +
             "(?, ?, ?, ?, ?);";
 
-    public static final String SQL_GET_INTERMEDIATE_STATIONS_BY_ROUTE = "SELECT i.intermediate_id, st.name, " +
+    public static final String SQL_GET_INTERMEDIATE_STATIONS_BY_ROUTE = "SELECT i.intermediate_id, st.name, st.name_ru, " +
             "i.arrival_date_time, i.stopping, i.departure_time " +
             "FROM intermediate_station AS i " +
             "INNER JOIN station AS st " +
@@ -199,19 +201,19 @@ public class UtilConstants {
 
 
     //SQL train
-    public static final String SQL_ADD_NEW_TRAIN = "INSERT INTO train(name, economy, business, comfort) " +
-            "VALUES(?, ?, ?, ?)";
+    public static final String SQL_ADD_NEW_TRAIN = "INSERT INTO train(name, name_ru, economy, business, comfort) " +
+            "VALUES(?, ?, ?, ?, ?)";
     public static final String SQL_GET_ALL_TRAINS = "SELECT * FROM train";
     public static final String SQL_GET_TRAIN_BY_ID = "SELECT * FROM train WHERE train_id=(?)";
-    public static final String SQL_UPDATE_TRAIN = "UPDATE train SET name=(?), economy=(?), business=(?), comfort=(?)" +
+    public static final String SQL_UPDATE_TRAIN = "UPDATE train SET name=(?), name_ru=(?), economy=(?), business=(?), comfort=(?)" +
             " WHERE train_id=(?);";
     public static final String SQL_DELETE_TRAIN_BY_ID = "DELETE FROM train WHERE train_id=(?);";
     public static final String SQL_GET_SEATS_COUNT_BY_TRAIN_ID = "SELECT economy, business, comfort FROM train WHERE train_id = (?);";
 
     public static final String SQL_SHOW_TRAINS_BY_STATIONS = "SELECT r.route_id, t.name AS train, " +
             "i1.arrival_date_time AS arr_date_from, i1.departure_time AS dep_time, " +
-            "st.station_id AS dep_st_id, st.name AS dep_st, " +
-            "i2.arrival_date_time AS arr_date_to, st1.station_id AS arr_st_id, st1.name AS arr_st " +
+            "st.station_id AS dep_st_id, st.name AS dep_st, st.name_ru AS dep_st_ru, " +
+            "i2.arrival_date_time AS arr_date_to, st1.station_id AS arr_st_id, st1.name AS arr_st, st1.name_ru AS arr_st_ru " +
             "FROM intermediate_station AS i " +
             "INNER JOIN station AS st ON st.station_id = (?) " +
             "INNER JOIN station AS st1 ON st1.station_id = (?) " +

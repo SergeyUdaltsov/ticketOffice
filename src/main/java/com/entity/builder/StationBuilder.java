@@ -15,6 +15,11 @@ public class StationBuilder {
 
 
 
+    public StationBuilder buildNameRu(String nameRu){
+        this.station.setNameRu(nameRu);
+        return this;
+    }
+
     public StationBuilder buildEndStation(boolean isEnd){
         this.station.setEndStation(isEnd);
         return this;

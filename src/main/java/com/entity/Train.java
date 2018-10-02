@@ -6,14 +6,17 @@ public class Train {
 
     private int id;
     private String name;
+    private String nameRu;
     private int comfortPlacesCount;
     private int businessPlacesCount;
     private int economyPlacesCount;
 
-    public Train(){
-        this.businessPlacesCount = BUSINESS_PLACES_COUNT;
-        this.comfortPlacesCount = COMFORT_PLACES_COUNT;
-        this.economyPlacesCount = ECONOMY_PLACES_COUNT;
+    public String getNameRu() {
+        return nameRu;
+    }
+
+    public void setNameRu(String nameRu) {
+        this.nameRu = nameRu;
     }
 
     public int getId() {

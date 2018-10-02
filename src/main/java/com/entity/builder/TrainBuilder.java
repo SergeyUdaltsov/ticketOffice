@@ -10,6 +10,11 @@ public class TrainBuilder {
         this.train = new Train();
     }
 
+    public TrainBuilder buildNameRu(String nameRu){
+        this.train.setNameRu(nameRu);
+        return this;
+    }
+
     public TrainBuilder buildId(int id) {
         this.train.setId(id);
         return this;

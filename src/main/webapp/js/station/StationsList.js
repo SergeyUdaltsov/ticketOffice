@@ -15,6 +15,8 @@ $(window).ready(function () {
         translatePage(language);
     }
 
+    console.log(language);
+
     var url = 'http://localhost:9999/railways/station/get/all';
 
     loadStations(url);
@@ -39,46 +41,12 @@ $(window).ready(function () {
 
         translatePage(transLang);
 
+        location.reload();
+
         window.localStorage.setItem('lang', JSON.stringify(transLang));
     });
 });
 
-function translatePage(transLang) {
-
-    $('.lang').each(function (index, element) {
-        $(this).text(vocabulary[transLang][$(this).attr('key')]);
-    });
-
-}
-
-function getVocabulary() {
-
-    return {
-        ru: {
-            'title': 'Станции',
-            'id': '№',
-            'name': 'Название',
-            'new station': 'Добавить станцию',
-            'home': 'Отмена',
-            'cancel': 'Отмена',
-            'stationName': 'Название',
-            'exists': 'Пользователь с таким адресом уже зарегистрирован.',
-            'fillUp': 'Заполните все поля.'
-        },
-        en: {
-            'title': 'Stations',
-            'id': 'Id',
-            'name': 'Name',
-            'new station': 'New station',
-            'home': 'Отмена',
-            'cancel': 'Cancel',
-            'stationName': 'Name',
-            'exists': 'User with this email already registered.',
-            'fillUp': 'Fill up all the fields'
-        }
-
-    };
-}
 
 function loadStations(url) {
     $.ajax({
@@ -108,7 +76,7 @@ function loadStations(url) {
                 textNode2 = document.createTextNode(this.name);
 
                 var nod = document.createElement('a');
-                var nodText = document.createTextNode(this.name);
+                var nodText = document.createTextNode((language === 'ru') ? this.nameRu : this.name);
 
                 nod.setAttribute('href', 'http://localhost:9999/html/station/EditStation.html?id=' + this.id);
                 nod.appendChild(nodText);
@@ -129,4 +97,41 @@ function loadStations(url) {
         }
 
     });
+}
+
+function translatePage(transLang) {
+
+    $('.lang').each(function (index, element) {
+        $(this).text(vocabulary[transLang][$(this).attr('key')]);
+    });
+
+}
+
+function getVocabulary() {
+
+    return {
+        ru: {
+            'title': 'Станции',
+            'id': '№',
+            'name': 'Название',
+            'new station': 'Добавить станцию',
+            'home': 'Отмена',
+            'cancel': 'Отмена',
+            'stationName': 'Название',
+            'exists': 'Пользователь с таким адресом уже зарегистрирован.',
+            'fillUp': 'Заполните все поля.'
+        },
+        en: {
+            'title': 'Stations',
+            'id': 'Id',
+            'name': 'Name',
+            'new station': 'New station',
+            'home': 'Cancel',
+            'cancel': 'Cancel',
+            'stationName': 'Name',
+            'exists': 'User with this email already registered.',
+            'fillUp': 'Fill up all the fields'
+        }
+
+    };
 }

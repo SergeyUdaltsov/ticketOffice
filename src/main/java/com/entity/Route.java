@@ -9,17 +9,27 @@ public class Route implements Sendable {
     private int startStationId;
     private int finishStationId;
     private String departureStation;
+    private String departureStationRu;
     private String depTimeString;
     private String depDateString;
     private String arrTimeString;
     private String arrDateString;
     private String arrivalStation;
+    private String arrivalStationRu;
     private String code;
     private LocalTime departureTime;
     private LocalTime arrivalTime;
     private LocalDate departureDate;
     private LocalDate arrivalDate;
     private String train;
+
+    public void setDepartureStationRu(String departureStationRu) {
+        this.departureStationRu = departureStationRu;
+    }
+
+    public void setArrivalStationRu(String arrivalStationRu) {
+        this.arrivalStationRu = arrivalStationRu;
+    }
 
     public String getTrain() {
         return train;
@@ -45,16 +55,8 @@ public class Route implements Sendable {
         this.arrivalDate = arrivalDate;
     }
 
-    public String getDepartureStation() {
-        return departureStation;
-    }
-
     public void setDepartureStation(String departureStation) {
         this.departureStation = departureStation;
-    }
-
-    public String getArrivalStation() {
-        return arrivalStation;
     }
 
     public void setArrivalStation(String arrivalStation) {
@@ -109,32 +111,16 @@ public class Route implements Sendable {
         this.arrivalTime = arrivalTime;
     }
 
-    public String getDepTimeString() {
-        return depTimeString;
-    }
-
     public void setDepTimeString(String depTimeString) {
         this.depTimeString = depTimeString;
-    }
-
-    public String getDepDateString() {
-        return depDateString;
     }
 
     public void setDepDateString(String depDateString) {
         this.depDateString = depDateString;
     }
 
-    public String getArrTimeString() {
-        return arrTimeString;
-    }
-
     public void setArrTimeString(String arrTimeString) {
         this.arrTimeString = arrTimeString;
-    }
-
-    public String getArrDateString() {
-        return arrDateString;
     }
 
     public void setArrDateString(String arrDateString) {

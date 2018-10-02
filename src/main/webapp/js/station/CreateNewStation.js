@@ -18,6 +18,7 @@ $(window).ready(function () {
     $("#createStation").click(function () {
 
         station.name = $("#name").val();
+        station.nameRu = $("#nameRu").val();
 
         var data = JSON.stringify(station);
 
@@ -43,42 +44,6 @@ $(window).ready(function () {
     });
 });
 
-function translatePage(transLang) {
-
-    $('.lang').each(function (index, element) {
-        $(this).text(vocabulary[transLang][$(this).attr('key')]);
-    });
-
-}
-
-function getVocabulary() {
-
-    return {
-        ru: {
-            'title': 'Новая станция',
-            'create': 'Создать',
-            'stName': 'Название',
-            'lName': 'Фамилия',
-            'скуфеу': 'Зарегистрировать',
-            'cancel': 'Отмена',
-            'pass': 'Пароль',
-            'exists': 'Cтанция уже есть в базе.',
-            'fillUp': 'Заполните все поля.'
-        },
-        en: {
-            'title': 'New station',
-            'create': 'Create',
-            'stName': 'Station name',
-            'lName': 'Last name',
-            'register': 'Register',
-            'cancel': 'Cancel',
-            'pass': 'Password',
-            'exists': 'Station already exists.',
-            'fillUp': 'Fill up all the fields'
-        }
-
-    };
-}
 
 function createStation(data) {
     $.ajax({
@@ -103,4 +68,42 @@ function createStation(data) {
             }
         }
     });
+}
+
+function translatePage(transLang) {
+
+    $('.lang').each(function (index, element) {
+        $(this).text(vocabulary[transLang][$(this).attr('key')]);
+    });
+
+}
+
+function getVocabulary() {
+
+    return {
+        ru: {
+            'title': 'Новая станция',
+            'create': 'Создать',
+            'stName': 'Название EN',
+            'stNameRu': 'Название RU',
+            'lName': 'Фамилия',
+            'cancel': 'Отмена',
+            'pass': 'Пароль',
+            'exists': 'Cтанция уже есть в базе.',
+            'fillUp': 'Заполните все поля.'
+        },
+        en: {
+            'title': 'New station',
+            'create': 'Create',
+            'stName': 'Station name EN',
+            'stNameRu': 'Station name RU',
+            'lName': 'Last name',
+            'register': 'Register',
+            'cancel': 'Cancel',
+            'pass': 'Password',
+            'exists': 'Station already exists.',
+            'fillUp': 'Fill up all the fields'
+        }
+
+    };
 }

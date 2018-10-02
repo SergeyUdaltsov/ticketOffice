@@ -1,10 +1,7 @@
 var station = new Object();
 var vocabulary;
 var language;
-var depDate;
-var depTime;
 var arrDate;
-var arrTime;
 $(window).ready(function () {
 
     if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
@@ -92,63 +89,6 @@ $(window).ready(function () {
 
 });
 
-function getVocabulary() {
-    return {
-        ru: {
-            'title': 'Изменить маршрут',
-            'interSt': 'Добавить промежуточную станцию',
-            'depTime': 'Отправление',
-            'chStationArr': 'Конечная станция :',
-            'arrTime': 'Прибытие',
-            'arrDate': 'Дата прибытия',
-            'timeError': 'Время отправления больше времени прибытия',
-            'dateError': 'Неверная дата',
-            'add': 'Добавить станцию',
-            'id': '№',
-            'name': 'Станция',
-            'cancel': 'Отмена',
-            'stFrom': 'Станция отпр: ',
-            'stTo': 'Станция приб: ',
-            'stopping': 'Стоянка',
-            'train': 'Поезд: ',
-            'time': 'Время: ',
-            'date': 'Дата: ',
-            'create': 'Создать',
-            'delete': 'Удалить маршрут',
-            'fillUp': 'Заполните все поля.',
-            'setTrain': 'Назначить поезд',
-            'station added': 'Станция успешно добавлена',
-            'exists': 'Маршрут уже существует.'
-        },
-        en: {
-            'title': 'Edit route',
-            'interSt': 'Intermediate station :',
-            'depTime': 'Departure',
-            'chStationArr': 'Finish station :',
-            'arrTime': 'Arrival',
-            'timeError': 'Arrival time is more than departure time',
-            'dateError': 'Wrong date',
-            'add': 'Add station',
-            'stFrom': 'Station from: ',
-            'time': 'Time: ',
-            'arrDate': 'Arrival date',
-            'stopping': 'Stopping',
-            'date': 'Date: ',
-            'id': 'Id',
-            'name': 'Station',
-            'train': 'Train: ',
-            'stTo': 'Station to',
-            'cancel': 'Cancel',
-            'setTrain': 'Set train',
-            'delete': 'Delete route',
-            'create': 'Create',
-            'station added': 'Station successfully added.',
-            'fillUp': 'Please fill up all the fields.',
-            'exists': 'Route already exists'
-        }
-
-    };
-}
 
 function translatePage(transLang) {
 
@@ -173,8 +113,6 @@ function loadRouteInfo(routeId) {
             var startTime = document.createTextNode(data.depTimeString);
             var startDate = document.createTextNode(data.depDateString);
 
-            // var train = document.createTextNode(data.train);
-
             var stTo = document.createTextNode(data.arrivalStation);
             var finishTime = document.createTextNode(data.arrTimeString);
             var finishDate = document.createTextNode(data.arrDateString);
@@ -182,8 +120,6 @@ function loadRouteInfo(routeId) {
             document.getElementById("depSt").appendChild(stFrom);
             document.getElementById("startTime").appendChild(startTime);
             document.getElementById("startDate").appendChild(startDate);
-
-            // document.getElementById("train").appendChild(train);
 
             document.getElementById("arrSt").appendChild(stTo);
             document.getElementById("finTime").appendChild(finishTime);
@@ -206,7 +142,7 @@ function loadStations(select, url) {
         success: function (data) {
             $.each(data, function () {
 
-                var opt = $("<option value='" + this.id + "'></option>").text(this.name);
+                var opt = $("<option value='" + this.id + "'></option>").text((language === 'ru') ? this.nameRu : this.name);
                 select.append(opt);
             });
         }
@@ -293,7 +229,7 @@ function loadIntermediateStations(routeId) {
 
 
                 textNode1 = document.createTextNode(this.intermediateId);
-                textNode2 = document.createTextNode(this.name);
+                textNode2 = document.createTextNode((language === 'ru') ? this.nameRu : this.name);
                 textNode3 = document.createTextNode(this.arrDateTimeString);
                 textNode4 = document.createTextNode(this.stopping);
                 textNode5 = document.createTextNode(this.depTimeString);
@@ -346,4 +282,63 @@ function deleteItem(data, url) {
             }
         }
     });
+}
+
+
+function getVocabulary() {
+    return {
+        ru: {
+            'title': 'Изменить маршрут',
+            'interSt': 'Добавить промежуточную станцию',
+            'depTime': 'Отправление',
+            'chStationArr': 'Конечная станция :',
+            'arrTime': 'Прибытие',
+            'arrDate': 'Дата прибытия',
+            'timeError': 'Время отправления больше времени прибытия',
+            'dateError': 'Неверная дата',
+            'add': 'Добавить станцию',
+            'id': '№',
+            'name': 'Станция',
+            'cancel': 'Отмена',
+            'stFrom': 'Станция отпр: ',
+            'stTo': 'Станция приб: ',
+            'stopping': 'Стоянка',
+            'train': 'Поезд: ',
+            'time': 'Время: ',
+            'date': 'Дата: ',
+            'create': 'Создать',
+            'delete': 'Удалить маршрут',
+            'fillUp': 'Заполните все поля.',
+            'setTrain': 'Назначить поезд',
+            'station added': 'Станция успешно добавлена',
+            'exists': 'Маршрут уже существует.'
+        },
+        en: {
+            'title': 'Edit route',
+            'interSt': 'Intermediate station :',
+            'depTime': 'Departure',
+            'chStationArr': 'Finish station :',
+            'arrTime': 'Arrival',
+            'timeError': 'Arrival time is more than departure time',
+            'dateError': 'Wrong date',
+            'add': 'Add station',
+            'stFrom': 'Station from: ',
+            'time': 'Time: ',
+            'arrDate': 'Arrival date',
+            'stopping': 'Stopping',
+            'date': 'Date: ',
+            'id': 'Id',
+            'name': 'Station',
+            'train': 'Train: ',
+            'stTo': 'Station to',
+            'cancel': 'Cancel',
+            'setTrain': 'Set train',
+            'delete': 'Delete route',
+            'create': 'Create',
+            'station added': 'Station successfully added.',
+            'fillUp': 'Please fill up all the fields.',
+            'exists': 'Route already exists'
+        }
+
+    };
 }

@@ -17,6 +17,16 @@ public class TourBuilder {
         return this.tour;
     }
 
+    public TourBuilder buildDepartureStationRu(String departureStationRu) {
+        this.tour.setDepartureStationRu(departureStationRu);
+        return this;
+    }
+
+    public TourBuilder buildArrivalStationRu(String arrivalStationRu) {
+        this.tour.setArrivalStationRu(arrivalStationRu);
+        return this;
+    }
+
     public TourBuilder buildTourPrice(long tourPrice) {
         this.tour.setTourPrice(tourPrice);
         return this;

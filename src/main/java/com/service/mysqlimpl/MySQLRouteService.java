@@ -76,6 +76,7 @@ public class MySQLRouteService implements RouteService {
             routes = getRoutesFromResultSet(resultSet);
 
             MySQLConnectorManager.commitTransaction(connection);
+            resultSet.close();
 
         } catch (SQLException e) {
 
@@ -86,7 +87,7 @@ public class MySQLRouteService implements RouteService {
 
     }
 
-    List<Route> getRoutesFromResultSet(ResultSet resultSet) throws SQLException {
+    private List<Route> getRoutesFromResultSet(ResultSet resultSet) throws SQLException {
 
         List<Route> routes = new ArrayList<>();
 
@@ -96,10 +97,12 @@ public class MySQLRouteService implements RouteService {
                     .buildId(resultSet.getInt("route_id"))
                     .buildCode(resultSet.getString("code"))
                     .buildDepStationString(resultSet.getString("dep_st"))
+                    .buildDepartureStationRu(resultSet.getString("dep_st_ru"))
                     .buildDepartureDate(LocalDate.parse(resultSet.getString("departure_date")))
                     .buildArrivalDate(LocalDate.parse(resultSet.getString("arrival_date")))
                     .buildDepartureTime(LocalTime.parse(resultSet.getString("departure_time")))
                     .buildArrStationString(resultSet.getString("arr_st"))
+                    .buildArrivalStationRu(resultSet.getString("arr_st_ru"))
                     .buildArrivalTime(LocalTime.parse(resultSet.getString("arrival_time")))
                     .build();
 
@@ -148,6 +151,8 @@ public class MySQLRouteService implements RouteService {
 
             MySQLConnectorManager.commitTransaction(connection);
 
+            resultSet.close();
+
         } catch (SQLException e) {
 
             LOGGER.error(COULD_NOT_RECEIVE_INTERMEDIATE_STATIONS);
@@ -166,6 +171,7 @@ public class MySQLRouteService implements RouteService {
             Station station = new StationBuilder()
                     .buildIntermediateId(resultSet.getInt("intermediate_id"))
                     .buildName(resultSet.getString("name"))
+                    .buildNameRu(resultSet.getString("name_ru"))
                     .buildArrDateTimeString(resultSet.getString("arrival_date_time"))
                     .buildDepTimeString(resultSet.getString("departure_time"))
                     .buildStopping(resultSet.getInt("stopping"))
@@ -216,6 +222,8 @@ public class MySQLRouteService implements RouteService {
             route = getRouteFromResultSet(resultSet);
 
             MySQLConnectorManager.commitTransaction(connection);
+
+            resultSet.close();
 
         } catch (SQLException e) {
 

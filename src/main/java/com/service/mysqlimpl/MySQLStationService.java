@@ -69,6 +69,8 @@ public class MySQLStationService implements StationService {
 
             MySQLConnectorManager.commitTransaction(connection);
 
+            resultSet.close();
+
         } catch (SQLException e) {
 
             LOGGER.error(COULD_NOT_LOAD_STATIONS);
@@ -85,6 +87,7 @@ public class MySQLStationService implements StationService {
 
             Station station = new StationBuilder()
                     .buildName(resultSet.getString("name"))
+                    .buildNameRu(resultSet.getString("name_ru"))
                     .buildId(resultSet.getInt("station_id"))
                     .build();
 
@@ -109,6 +112,8 @@ public class MySQLStationService implements StationService {
 
             MySQLConnectorManager.commitTransaction(connection);
 
+            resultSet.close();
+
         } catch (SQLException e) {
 
             LOGGER.error(COULD_NOT_LOAD_STATION);
@@ -126,6 +131,7 @@ public class MySQLStationService implements StationService {
             station = new StationBuilder()
                     .buildId(resultSet.getInt("station_id"))
                     .buildName(resultSet.getString("name"))
+                    .buildNameRu(resultSet.getString("name_ru"))
                     .build();
         }
         return station;
@@ -205,6 +211,8 @@ public class MySQLStationService implements StationService {
 
             MySQLConnectorManager.commitTransaction(connection);
 
+            resultSet.close();
+
         }
 
         return stations;
@@ -249,6 +257,8 @@ public class MySQLStationService implements StationService {
                 dateTimes.add(point);
             }
             MySQLConnectorManager.commitTransaction(connection);
+
+            resultSet.close();
 
         }
 

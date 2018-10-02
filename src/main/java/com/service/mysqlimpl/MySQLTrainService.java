@@ -57,6 +57,8 @@ public class MySQLTrainService implements TrainService {
 
             MySQLConnectorManager.commitTransaction(connection);
 
+            resultSet.close();
+
         } catch (SQLException e) {
 
             LOGGER.error(COULD_NOT_LOAD_TRAINS);
@@ -90,6 +92,10 @@ public class MySQLTrainService implements TrainService {
 
             tours = getToursFromResultSet(resultSet);
 
+            MySQLConnectorManager.commitTransaction(connection);
+
+            resultSet.close();
+
         } catch (SQLException e) {
 
             LOGGER.error(COULD_NOT_LOAD_ROUTES);
@@ -109,9 +115,11 @@ public class MySQLTrainService implements TrainService {
                     .buildArrivalDateTimeStart(resultSet.getString("arr_date_from"))
                     .buildDepartureTime(resultSet.getString("dep_time"))
                     .buildDepartureStation(resultSet.getString("dep_st"))
+                    .buildDepartureStationRu(resultSet.getString("dep_st_ru"))
                     .buildDepartureStationId(resultSet.getInt("dep_st_id"))
                     .buildArrivalTimeDateFinish(resultSet.getString("arr_date_to"))
                     .buildArrivalStation(resultSet.getString("arr_st"))
+                    .buildArrivalStationRu(resultSet.getString("arr_st_ru"))
                     .buildArrivalStationId(resultSet.getInt("arr_st_id"))
                     .build();
 
@@ -152,6 +160,8 @@ public class MySQLTrainService implements TrainService {
 
             MySQLConnectorManager.commitTransaction(connection);
 
+            resultSet.close();
+
         } catch (SQLException e) {
 
             LOGGER.error(COULD_NOT_LOAD_TRAINS);
@@ -165,6 +175,7 @@ public class MySQLTrainService implements TrainService {
         return new TrainBuilder()
                 .buildId(resultSet.getInt("train_id"))
                 .buildName(resultSet.getString("name"))
+                .buildNameRu(resultSet.getString("name_ru"))
                 .buildEconomy(resultSet.getInt("economy"))
                 .buildBusiness(resultSet.getInt("business"))
                 .buildComfort(resultSet.getInt("comfort"))

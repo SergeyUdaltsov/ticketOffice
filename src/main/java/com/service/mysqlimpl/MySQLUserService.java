@@ -62,6 +62,8 @@ public class MySQLUserService implements UserService {
 
             MySQLConnectorManager.commitTransaction(connection);
 
+            resultSet.close();
+
         } catch (SQLException e) {
 
             LOGGER.error(USER_NOT_VALIDATED);

@@ -1,7 +1,6 @@
 package com.controller.impl.train;
 
 import com.controller.Command;
-import com.dao.factory.DAOFactory;
 import com.entity.Train;
 import com.entity.builder.TrainBuilder;
 import com.service.TrainService;
@@ -60,12 +59,14 @@ public class AddNewTrainCommand implements Command {
             JSONObject jsonObject = new JSONObject(jsStr);
 
             String name = jsonObject.getString("name");
+            String nameRu = jsonObject.getString("nameRu");
             int economyNumber = jsonObject.getInt("economy");
             int businessNumber = jsonObject.getInt("business");
             int comfortNumber = jsonObject.getInt("comfort");
 
             train = new TrainBuilder()
                     .buildName(name)
+                    .buildNameRu(nameRu)
                     .buildEconomy(economyNumber)
                     .buildBusiness(businessNumber)
                     .buildComfort(comfortNumber)

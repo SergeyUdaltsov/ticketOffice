@@ -53,6 +53,8 @@ public class MySQLTicketService implements TicketService {
 
             MySQLConnectorManager.commitTransaction(connection);
 
+            resultSet.close();
+
         } catch (SQLException e) {
 
             LOGGER.error(COULD_NOT_LOAD_TICKETS);

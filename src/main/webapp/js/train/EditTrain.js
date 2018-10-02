@@ -25,6 +25,7 @@ $(window).ready(function () {
 
         train.id = trainId;
         train.name = $("#trainName").val();
+        train.nameRu = $("#trainNameRu").val();
         train.econCount = $("#econCount").val();
         train.busCount = $("#busCount").val();
         train.comfCount = $("#comfCount").val();
@@ -64,48 +65,6 @@ $(window).ready(function () {
 
 });
 
-function getVocabulary() {
-    return {
-        ru: {
-            'title': 'Изменить маршрут',
-            'interSt': 'Добавить промежуточную станцию',
-            'depTime': 'Отправление',
-            'chStationArr': 'Конечная станция :',
-            'arrTime': 'Прибытие',
-            'add': 'Добавить',
-            'cancel': 'Отмена',
-            'create': 'Создать',
-            'delete': 'Удалить поезд',
-            'fillUp': 'Заполните все поля.',
-            'station added': 'Станция успешно добавлена',
-            'exists': 'Маршрут уже существует.'
-        },
-        en: {
-            'title': 'Edit route',
-            'interSt': 'Intermediate station :',
-            'depTime': 'Departure',
-            'chStationArr': 'Finish station :',
-            'arrTime': 'Arrival',
-            'add': 'Add',
-            'cancel': 'Cancel',
-            'delete': 'Delete train',
-            'create': 'Create',
-            'station added': 'Station successfully added.',
-            'fillUp': 'Please fill up all the fields.',
-            'exists': 'Route already exists'
-        }
-
-    };
-}
-
-function translatePage(transLang) {
-
-    $('.lang').each(function (index, element) {
-        $(this).text(vocabulary[transLang][$(this).attr('key')]);
-    });
-
-}
-
 function saveTrain(data) {
     $.ajax({
         type: 'post',
@@ -143,6 +102,7 @@ function loadTrainInfo(trainId) {
         success: function (data) {
 
             document.getElementById("trainName").value = data.name;
+            document.getElementById("trainNameRu").value = data.nameRu;
             document.getElementById("econCount").value = data.economyPlacesCount;
             document.getElementById("busCount").value = data.businessPlacesCount;
             document.getElementById("comfCount").value = data.comfortPlacesCount;
@@ -178,4 +138,45 @@ function deleteTrain(data) {
             }
         }
     });
+}
+
+function translatePage(transLang) {
+
+    $('.lang').each(function (index, element) {
+        $(this).text(vocabulary[transLang][$(this).attr('key')]);
+    });
+
+}
+
+function getVocabulary() {
+    return {
+        ru: {
+            'title': 'Изменить Поезд',
+            'name': 'Название EN',
+            'nameRu': 'Название RU',
+            'cancel': 'Отмена',
+            'save': 'Сохранить',
+            'econ': 'Общие',
+            'bus': 'Плацкарт',
+            'comf': 'Купе',
+            'delete': 'Удалить поезд',
+            'fillUp': 'Заполните все поля.',
+            'station added': 'Станция успешно добавлена',
+            'exists': 'Поезд уже существует.'
+        },
+        en: {
+            'title': 'Edit train',
+            'save': 'Save',
+            'name': 'Name EN',
+            'nameRu': 'Name RU',
+            'econ': 'Economy',
+            'bus': 'Business',
+            'comf': 'Comfort',
+            'cancel': 'Cancel',
+            'delete': 'Delete train',
+            'fillUp': 'Please fill up all the fields.',
+            'exists': 'Train already exists'
+        }
+
+    };
 }

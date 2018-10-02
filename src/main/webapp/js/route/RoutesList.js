@@ -34,6 +34,8 @@ $(window).ready(function () {
     });
 
     $('.translate').click(function () {
+
+        location.reload();
         var transLang = $(this).attr('id');
 
         translatePage(transLang);
@@ -42,47 +44,6 @@ $(window).ready(function () {
     });
 
 });
-
-function translatePage(transLang) {
-
-    $('.lang').each(function (index, element) {
-        $(this).text(vocabulary[transLang][$(this).attr('key')]);
-    });
-
-}
-
-function getVocabulary() {
-    return {
-        ru: {
-            'title': 'Маршруты',
-            'create' : 'Создать маршрут',
-            'cancel' :'Отмена',
-            'code' : 'Код',
-            'depDate' : 'Дата отпр.',
-            'arrDate' : 'Дата приб.',
-            'st_start' : 'Ст. отпр.',
-            'depart_time': 'Время отпр',
-            'st_finish': 'Ст приб.',
-            'arr_time': 'Время приб.'
-
-        },
-        en: {
-            'title': 'Routes',
-            'create' : 'Create route',
-            'cancel' :'Cancel',
-            'code' : 'Code',
-            'depDate' : 'Dep. date',
-            'arrDate' : 'Arr. date',
-            'st_start' : 'Dep st.',
-            'depart_time': 'Dep. time',
-            'st_finish': 'Arr. st.',
-            'arr_time': 'Arr. time'
-        }
-
-    };
-}
-
-
 
 function loadRoutes(url) {
     $.ajax({
@@ -117,10 +78,10 @@ function loadRoutes(url) {
                 cell7 = document.createElement("td");
 
 
-                textNode2 = document.createTextNode(this.departureStation);
+                textNode2 = document.createTextNode((language === 'ru') ? this.departureStationRu : this.departureStation);
                 textNode3 = document.createTextNode(prepareDate(this.departureDate));
                 textNode4 = document.createTextNode(prepareTime(this.departureTime));
-                textNode5 = document.createTextNode(this.arrivalStation);
+                textNode5 = document.createTextNode((language === 'ru') ? this.arrivalStationRu : this.arrivalStation);
                 textNode6 = document.createTextNode(prepareTime(this.arrivalTime));
                 textNode7 = document.createTextNode(prepareDate(this.arrivalDate));
 
@@ -173,3 +134,43 @@ function prepareDate(date) {
     var date = Object.values(date)[0] + month + day;
     return date;
 }
+
+function translatePage(transLang) {
+
+    $('.lang').each(function (index, element) {
+        $(this).text(vocabulary[transLang][$(this).attr('key')]);
+    });
+
+}
+
+function getVocabulary() {
+    return {
+        ru: {
+            'title': 'Маршруты',
+            'create' : 'Создать маршрут',
+            'cancel' :'Отмена',
+            'code' : 'Код',
+            'depDate' : 'Дата отпр.',
+            'arrDate' : 'Дата приб.',
+            'st_start' : 'Ст. отпр.',
+            'depart_time': 'Время отпр',
+            'st_finish': 'Ст приб.',
+            'arr_time': 'Время приб.'
+
+        },
+        en: {
+            'title': 'Routes',
+            'create' : 'Create route',
+            'cancel' :'Cancel',
+            'code' : 'Code',
+            'depDate' : 'Dep. date',
+            'arrDate' : 'Arr. date',
+            'st_start' : 'Dep st.',
+            'depart_time': 'Dep. time',
+            'st_finish': 'Arr. st.',
+            'arr_time': 'Arr. time'
+        }
+
+    };
+}
+

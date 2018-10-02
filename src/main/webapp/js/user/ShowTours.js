@@ -26,6 +26,8 @@ $(window).ready(function () {
     });
 
     $('.translate').click(function () {
+
+        location.reload();
         var transLang = $(this).attr('id');
 
         translatePage(transLang);
@@ -33,6 +35,84 @@ $(window).ready(function () {
         window.localStorage.setItem('lang', JSON.stringify(transLang));
     });
 });
+
+
+
+function loadTrains(data) {
+    $.ajax({
+        url: 'http://localhost:9999/railways/train/show',
+        type: 'get',
+        dataType: 'json',
+        data: {
+            jsonTrip: data
+        },
+
+        success: function (data) {
+            var new_tbody = document.createElement('tbody');
+
+            if (data.length === 0) {
+
+                document.getElementsByTagName("tbody").item(0).parentNode.replaceChild(new_tbody,
+                    document.getElementsByTagName("tbody").item(0));
+
+                return;
+            }
+
+            $.each(data, function () {
+
+                var row = document.createElement("tr");
+                cell1 = document.createElement("td");
+                cell2 = document.createElement("td");
+                cell3 = document.createElement("td");
+                cell4 = document.createElement("td");
+                cell5 = document.createElement("td");
+                cell6 = document.createElement("td");
+                cell7 = document.createElement("td");
+                cell8 = document.createElement("td");
+
+                textNode2 = document.createTextNode(this.arrivalTimeDateStart);
+                textNode3 = document.createTextNode(this.departureTime);
+                textNode4 = document.createTextNode((language === 'ru') ? this.departureStationRu : this.departureStation);
+                textNode5 = document.createTextNode(this.arrivalTimeDateFinish);
+                textNode6 = document.createTextNode((language === 'ru') ? this.arrivalStationRu : this.arrivalStation);
+                textNode7 = document.createTextNode(this.tourTime);
+                textNode8 = document.createTextNode(this.tourPrice);
+
+
+                var nod = document.createElement('a');
+                var nodText = document.createTextNode(vocabulary[language]['buy']);
+
+                nod.setAttribute('href', 'http://localhost:9999/html/ticket/BuyTicket.html?id=' +
+                    this.routeId + "&dep_st_id=" + this.departureStationId + "&arr_st_id=" + this.arrivalStationId);
+                nod.appendChild(nodText);
+
+                cell1.appendChild(nod);
+                cell2.appendChild(textNode2);
+                cell3.appendChild(textNode3);
+                cell4.appendChild(textNode4);
+                cell5.appendChild(textNode5);
+                cell6.appendChild(textNode6);
+                cell7.appendChild(textNode7);
+                cell8.appendChild(textNode8);
+
+                row.appendChild(cell1);
+                row.appendChild(cell2);
+                row.appendChild(cell3);
+                row.appendChild(cell4);
+                row.appendChild(cell5);
+                row.appendChild(cell6);
+                row.appendChild(cell7);
+                row.appendChild(cell8);
+
+                new_tbody.appendChild(row);
+
+                document.getElementsByTagName("tbody").item(0).parentNode.replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
+
+            });
+        }
+
+    });
+}
 
 function translatePage(transLang) {
 
@@ -84,96 +164,3 @@ function getVocabulary() {
 
     };
 }
-
-function loadTrains(data) {
-    $.ajax({
-        url: 'http://localhost:9999/railways/train/show',
-        type: 'get',
-        dataType: 'json',
-        data: {
-            jsonTrip: data
-        },
-
-        success: function (data) {
-            var new_tbody = document.createElement('tbody');
-
-            if (data.length === 0) {
-
-                document.getElementsByTagName("tbody").item(0).parentNode.replaceChild(new_tbody,
-                    document.getElementsByTagName("tbody").item(0));
-
-                return;
-            }
-
-            $.each(data, function () {
-
-                var row = document.createElement("tr");
-                cell1 = document.createElement("td");
-                cell2 = document.createElement("td");
-                cell3 = document.createElement("td");
-                cell4 = document.createElement("td");
-                cell5 = document.createElement("td");
-                cell6 = document.createElement("td");
-                cell7 = document.createElement("td");
-                cell8 = document.createElement("td");
-
-                textNode2 = document.createTextNode(this.arrivalTimeDateStart);
-                textNode3 = document.createTextNode(this.departureTime);
-                textNode4 = document.createTextNode(this.departureStation);
-                textNode5 = document.createTextNode(this.arrivalTimeDateFinish);
-                textNode6 = document.createTextNode(this.arrivalStation);
-                textNode7 = document.createTextNode(this.tourTime);
-                textNode8 = document.createTextNode(this.tourPrice);
-
-
-                var nod = document.createElement('a');
-                var nodText = document.createTextNode(vocabulary[language]['buy']);
-
-                nod.setAttribute('href', 'http://localhost:9999/html/ticket/BuyTicket.html?id=' +
-                    this.routeId + "&dep_st_id=" + this.departureStationId + "&arr_st_id=" + this.arrivalStationId);
-                nod.appendChild(nodText);
-
-                cell1.appendChild(nod);
-                cell2.appendChild(textNode2);
-                cell3.appendChild(textNode3);
-                cell4.appendChild(textNode4);
-                cell5.appendChild(textNode5);
-                cell6.appendChild(textNode6);
-                cell7.appendChild(textNode7);
-                cell8.appendChild(textNode8);
-
-                row.appendChild(cell1);
-                row.appendChild(cell2);
-                row.appendChild(cell3);
-                row.appendChild(cell4);
-                row.appendChild(cell5);
-                row.appendChild(cell6);
-                row.appendChild(cell7);
-                row.appendChild(cell8);
-
-                new_tbody.appendChild(row);
-
-                document.getElementsByTagName("tbody").item(0).parentNode.replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
-
-            });
-        }
-
-    });
-}
-
-// function prepareTime(time) {
-//
-//     var hours = (Object.values(time)[0] < 10) ? ("0" + Object.values(time)[0]) : (Object.values(time)[0]);
-//     var minutes = (Object.values(time)[1] < 10) ? ("0" + Object.values(time)[1]) : (Object.values(time)[1]);
-//     var res = hours + ":" + minutes;
-//     return res;
-// }
-//
-// function prepareDate(date) {
-//     var month = (Object.values(date)[1] < 10) ? ("-0" + Object.values(date)[1]) : ("-" + Object.values(date)[1]);
-//
-//     var day = (Object.values(date)[2] < 10) ? ("-0" + Object.values(date)[2]) : ("-" + Object.values(date)[2]);
-//
-//     var date = Object.values(date)[0] + month + day;
-//     return date;
-// }

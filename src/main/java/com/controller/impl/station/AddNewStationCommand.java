@@ -1,7 +1,6 @@
 package com.controller.impl.station;
 
 import com.controller.Command;
-import com.dao.factory.DAOFactory;
 import com.entity.Station;
 import com.entity.builder.StationBuilder;
 import com.service.StationService;
@@ -73,9 +72,11 @@ public class AddNewStationCommand implements Command {
             jsonObject = new JSONObject(jsStr);
 
             String name = jsonObject.getString("name");
+            String nameRu = jsonObject.getString("nameRu");
 
             station = new StationBuilder()
                     .buildName(name)
+                    .buildNameRu(nameRu)
                     .build();
 
         } catch (JSONException e) {

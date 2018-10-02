@@ -18,6 +18,7 @@ $(window).ready(function () {
     $("#createButton").click(function () {
 
         train.name = $("#trainName").val();
+        train.nameRu = $("#trainNameRu").val();
         train.economy = $("#econNumber").val();
         train.business = $("#businessNumber").val();
         train.comfort = $("#comfortNumber").val();
@@ -61,8 +62,13 @@ function getVocabulary() {
             'title': 'Новая станция',
             'create': 'Создать',
             'stName': 'Название',
+            'trainName': 'Название EN',
+            'trainNameRu': 'Название RU',
             'lName': 'Фамилия',
             'cancel': 'Отмена',
+            'economyName': 'Общие',
+            'businessName': 'Плацкарт',
+            'comfortName': 'Купе',
             'pass': 'Пароль',
             'exists': 'Cтанция уже есть в базе.',
             'fillUp': 'Заполните все поля.'
@@ -71,6 +77,11 @@ function getVocabulary() {
             'title': 'New station',
             'create': 'Create',
             'stName': 'Station name',
+            'trainName': 'Name EN',
+            'economyName': 'Economy',
+            'businessName': 'Business',
+            'comfortName': 'Comfort',
+            'trainNameRu': 'Name RU',
             'lName': 'Last name',
             'cancel': 'Cancel',
             'pass': 'Password',

@@ -42,6 +42,8 @@ $(window).ready(function () {
     });
 
     $('.translate').click(function () {
+
+        location.reload();
         var transLang = $(this).attr('id');
 
         translatePage(transLang);
@@ -50,6 +52,24 @@ $(window).ready(function () {
     });
 
 });
+
+
+
+function loadItems(select, url) {
+    $.ajax({
+        url: url,
+        type: 'get',
+        dataType: 'json',
+
+        success: function (data) {
+            $.each(data, function () {
+
+                var opt = $("<option value='" + this.id + "'></option>").text((language === 'ru') ? this.nameRu : this.name);
+                select.append(opt);
+            });
+        }
+    });
+}
 
 function translatePage(transLang) {
 
@@ -89,21 +109,3 @@ function getVocabulary() {
 
     };
 }
-
-
-function loadItems(select, url) {
-    $.ajax({
-        url: url,
-        type: 'get',
-        dataType: 'json',
-
-        success: function (data) {
-            $.each(data, function () {
-
-                var opt = $("<option value='" + this.id + "'></option>").text(this.name);
-                select.append(opt);
-            });
-        }
-    });
-}
-

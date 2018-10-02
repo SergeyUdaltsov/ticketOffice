@@ -63,6 +63,58 @@ $(window).ready(function () {
 
 });
 
+
+
+
+function loadStations(url, select) {
+    $.ajax({
+        url: url,
+        type: 'get',
+        dataType: 'json',
+
+        success: function (data) {
+            $.each(data, function () {
+
+                var opt = $("<option value='" + this.id + "'></option>").text((language === 'ru') ? this.nameRu : this.name);
+                select.append(opt);
+            });
+        }
+    });
+}
+
+function createRoute(data) {
+    $.ajax({
+        type: 'post',
+        url: 'http://localhost:9999/railways/route/new',
+        dataType: 'JSON',
+        data: {
+            jsonRoute: data
+        },
+        success: function (data) {
+
+        },
+        error: function (data) {
+            if (data.status === 406) {
+                alert(vocabulary[language]['exists']);
+            }
+        },
+        complete: function (data) {
+            if (data.status === 200) {
+                $(location).attr('href', 'http://localhost:9999/html/route/RoutesList.html');
+            }
+        }
+    });
+}
+
+function translatePage(transLang) {
+
+    $('.lang').each(function (index, element) {
+        $(this).text(vocabulary[transLang][$(this).attr('key')]);
+    });
+
+}
+
+
 function getVocabulary() {
     return {
         ru: {
@@ -95,52 +147,4 @@ function getVocabulary() {
         }
 
     };
-}
-
-function translatePage(transLang) {
-
-    $('.lang').each(function (index, element) {
-        $(this).text(vocabulary[transLang][$(this).attr('key')]);
-    });
-
-}
-
-function loadStations(url, select) {
-    $.ajax({
-        url: url,
-        type: 'get',
-        dataType: 'json',
-
-        success: function (data) {
-            $.each(data, function () {
-
-                var opt = $("<option value='" + this.id + "'></option>").text(this.name);
-                select.append(opt);
-            });
-        }
-    });
-}
-
-function createRoute(data) {
-    $.ajax({
-        type: 'post',
-        url: 'http://localhost:9999/railways/route/new',
-        dataType: 'JSON',
-        data: {
-            jsonRoute: data
-        },
-        success: function (data) {
-
-        },
-        error: function (data) {
-            if (data.status === 406) {
-                alert(vocabulary[language]['exists']);
-            }
-        },
-        complete: function (data) {
-            if (data.status === 200) {
-                $(location).attr('href', 'http://localhost:9999/html/route/RoutesList.html');
-            }
-        }
-    });
 }

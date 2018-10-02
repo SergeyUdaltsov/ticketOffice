@@ -4,8 +4,6 @@ import com.dao.CommonsOperable;
 import com.dao.TrainDAO;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.Train;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -61,9 +59,10 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
             MySQLConnectorManager.startTransaction(connection);
 
             statement.setString(1, train.getName());
-            statement.setInt(2, train.getEconomyPlacesCount());
-            statement.setInt(3, train.getBusinessPlacesCount());
-            statement.setInt(4, train.getComfortPlacesCount());
+            statement.setString(2, train.getNameRu());
+            statement.setInt(3, train.getEconomyPlacesCount());
+            statement.setInt(4, train.getBusinessPlacesCount());
+            statement.setInt(5, train.getComfortPlacesCount());
 
             statement.executeUpdate();
 
@@ -104,10 +103,11 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
             MySQLConnectorManager.startTransaction(connection);
 
             statement.setString(1, train.getName());
-            statement.setInt(2, train.getEconomyPlacesCount());
-            statement.setInt(3, train.getBusinessPlacesCount());
-            statement.setInt(4, train.getComfortPlacesCount());
-            statement.setInt(5, train.getId());
+            statement.setString(2, train.getNameRu());
+            statement.setInt(3, train.getEconomyPlacesCount());
+            statement.setInt(4, train.getBusinessPlacesCount());
+            statement.setInt(5, train.getComfortPlacesCount());
+            statement.setInt(6, train.getId());
 
             statement.executeUpdate();
 
