@@ -15,12 +15,18 @@ import java.time.temporal.ChronoUnit;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 30.09.2018.
+ * The {@code JDBCRouteDao} class is a JDBC implementation
+ * of {@code RouteDao} interface
  */
 public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
 
     private static final Logger LOGGER = LogManager.getLogger(JDBCRouteDAO.class);
 
+    /**
+     * Receives route and saves it into DB
+     *
+     * @param route the instance of {@code Route} entity class
+     */
     @Override
     public int addNewRoute(Route route) throws SQLException {
 
@@ -60,6 +66,11 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
         return routeId;
     }
 
+    /**
+     * Receives intermediate station and saves it into DB
+     *
+     * @param station the instance of {@code Station} entity class
+     */
     @Override
     public void addIntermediateStation(Station station) throws SQLException {
 
@@ -92,6 +103,11 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
 
     }
 
+    /**
+     * Receives the id of route and deletes it from DB.
+     *
+     * @param routeId the {@code int} parameter specifies the Route.
+     * */
     @Override
     public void deleteRouteById(int routeId) throws SQLException {
 
@@ -100,12 +116,24 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
         LOGGER.info(ROUTE + routeId + DELETED);
     }
 
+    /**
+     * Receives the connection and returns all the routes from DB.
+     *
+     * @return ResultSet containing al the data of all the Routes from DB.
+     * */
     @Override
     public ResultSet getAllRoutes(Connection connection) throws SQLException {
 
         return getAllItems(connection, SQL_GET_ALL_ROUTES);
     }
 
+    /**
+     * Receives the connection and returns the ResultSet with data of all the
+     * intermediate stations by the route from DB.
+     *
+     * @return ResultSet containing al the data of all the Stations by the route from DB.
+     * @param routeId the {@code int} parameter specifies the Route.
+     * */
     @Override
     public ResultSet getIntermediateStationsByRouteId(Connection connection, int routeId) throws SQLException {
 
@@ -116,6 +144,13 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
         return statement.executeQuery();
     }
 
+    /**
+     * Responsible for getting the Route with specified id from DB.
+     *
+     * @param connection java.sql.Connection
+     * @param routeId the {@code int} parameter, specifies route.
+     * @return ResultSet with all the data of Route.
+     * */
     @Override
     public ResultSet getRouteById(int routeId, Connection connection) throws SQLException {
 
@@ -123,6 +158,12 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
 
     }
 
+    /**
+     * Responsible for setting the Train with specified id to the Route with specified id from DB.
+     *
+     * @param trainId the {@code int} parameter, specifies train.
+     * @param routeId the {@code int} parameter, specifies route.
+     * */
     @Override
     public void setTrainToRoute(int routeId, int trainId) throws SQLException {
 
@@ -145,6 +186,14 @@ public class JDBCRouteDAO implements RouteDAO, CommonsOperable {
         }
     }
 
+    /**
+     * Responsible for getting the ResultSet from DB containing the data of date and time of Tour.
+     *
+     * @param routeId the {@code int} parameter, specifies route.
+     * @param statement the {@code PreparedStatement} from {@code MySQLRouteService}.
+     * @param stationFrom the {@code int} parameter, specifies departure Station.
+     * @param stationTo the {@code int} parameter, specifies arrival Station.
+     * */
     @Override
     public ResultSet getDateTimeOfTrip(PreparedStatement statement, int routeId,
                                        int stationFrom, int stationTo) throws SQLException {

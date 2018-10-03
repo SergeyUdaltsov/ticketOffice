@@ -12,12 +12,18 @@ import static com.utils.UtilConstants.*;
 
 
 /**
- * Created by Serg on 29.09.2018.
+ * The {@code MySQLMailService} class is the implementation of
+ * {@code MailService} interface
  */
 public class MySQLMailService implements MailService {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLMailService.class);
 
+    /**
+     *Responsible for sending mail to the user which bought the ticket.
+     *
+     * @param letter the {@code Letter} instance encapsulating all the data for sending mail.
+     * */
     @Override
     public void sendMail(Letter letter) {
         try {

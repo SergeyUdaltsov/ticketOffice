@@ -13,10 +13,17 @@ import java.util.List;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 01.10.2018.
+ * The {@code JDBCTicketDao} class is a JDBC implementation
+ * of {@code TicketDAO} interface
  */
 public class JDBCTicketDAO implements TicketDAO {
 
+    /**
+     * Responsible for buying tickets process performing.
+     *
+     * @param order the {@code TicketOrder} instance containing all the data about tickets to buy.
+     * @param dateTimes the {@code List<String>} instance containing the data about dates and times of tour.
+     * */
     @Override
     public void buyTickets(TicketOrder order, List<String> dateTimes) throws SQLException {
 
@@ -39,6 +46,13 @@ public class JDBCTicketDAO implements TicketDAO {
         }
     }
 
+    /**
+     * Responsible for getting the ResultSet from DB containing the data of count of available tickets of Tour.
+     *
+     * @param routeId the {@code int} parameter, specifies route.
+     * @param points the {@code List<String>} instance containing the data about dates and times of tour.
+     * @param statement the {@code PreparedStatement} from {@code MySQLTicketService}.
+     * */
     @Override
     public ResultSet getCountOfAvailableSeats(PreparedStatement statement, List<String> points,
                                               int routeId) throws SQLException {

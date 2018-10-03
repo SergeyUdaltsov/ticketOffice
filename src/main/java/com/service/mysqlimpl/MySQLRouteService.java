@@ -42,6 +42,13 @@ public class MySQLRouteService implements RouteService {
         this.STATION_SERVICE = STATION_SERVICE;
     }
 
+    /**
+     * Responsible for creating new Route instance and save it to DB.
+     * Creates two intermediate stations which are the start and finish stations of the route.
+     * Sets the default train to the route.
+     *
+     * @param route is {@code Route} instance to save.
+     */
     @Override
     public void addNewRoute(Route route) throws SQLException {
 
@@ -61,7 +68,11 @@ public class MySQLRouteService implements RouteService {
 
     }
 
-
+    /**
+     * Responsible for getting the list of all Routes from DB.
+     *
+     * @return {@code List<Route>} the list of all Route from DB.
+     */
     @Override
     public List<Route> getAllRoutes() {
 
@@ -87,6 +98,12 @@ public class MySQLRouteService implements RouteService {
 
     }
 
+    /**
+     * Responsible for building the list of Route instance from the list of data encapsulated in ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} from {@code getAllRoutes()} method.
+     * @return {@code List<Route>} from ResultSet.
+     */
     private List<Route> getRoutesFromResultSet(ResultSet resultSet) throws SQLException {
 
         List<Route> routes = new ArrayList<>();
@@ -112,6 +129,12 @@ public class MySQLRouteService implements RouteService {
         return routes;
     }
 
+    /**
+     * Responsible for saving intermediate station to the route.
+     * Validates station's date, time and name.
+     *
+     * @param interStation the {@code Station} instance to save.
+     */
     @Override
     public void addIntermediateStation(Station interStation) throws SQLException {
 
@@ -122,6 +145,15 @@ public class MySQLRouteService implements RouteService {
         routeDAO.addIntermediateStation(interStation);
     }
 
+    /**
+     * Responsible for validating intermediate station date and time.
+     * Checks if the date-time point of arrival to the intermediate station is after the departure
+     * from the start station of the route and before the arrival to the finish station of the route.
+     * Checks if the station is end station of the route.
+     * Checks if the date-time point of station does not intersect date-time points of other intermediate stations.
+     *
+     * @param interStation the {@code Station} instance encapsulating all the data of intermediate station.
+     */
     private boolean validateIntermediateStation(Station interStation) {
 
         Route route = getRouteById(interStation.getRouteId());
@@ -131,11 +163,17 @@ public class MySQLRouteService implements RouteService {
         LocalDateTime stationDateTime = LocalDateTime.of(interStation.getArrivalDate(), interStation.getArrivalTime());
 
         return departure.isBefore(stationDateTime) &&
-                 stationDateTime.isBefore(arrival) &&
-                 STATION_SERVICE.validateIntermediateStationTime(interStation);
+                stationDateTime.isBefore(arrival) &&
+                STATION_SERVICE.validateIntermediateStationTime(interStation);
     }
 
 
+    /**
+     * Responsible for getting the list of all intermediate stations by specified Route.
+     *
+     * @param routeId the {@code int} parameter specifies the Route.
+     * @return {@code List<Station>} list of intermediate stations by specified route.
+     */
     @Override
     public List<Station> getIntermediateStationsByRouteId(int routeId) {
 
@@ -162,6 +200,11 @@ public class MySQLRouteService implements RouteService {
     }
 
 
+    /**
+     * Responsible for building list of Station from ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} instance encapsulating data of Station.
+     * */
     private List<Station> getIntermediateStationsFromResultSet(ResultSet resultSet) throws SQLException {
 
         List<Station> intermediateStations = new ArrayList<>();
@@ -184,12 +227,24 @@ public class MySQLRouteService implements RouteService {
     }
 
 
+    /**
+     * Responsible for deleting specified Route from DB.
+     *
+     * @param routeId the {@code int} parameter specifies Route.
+     * */
     @Override
     public void deleteRouteById(int routeId) throws SQLException {
 
         routeDAO.deleteRouteById(routeId);
     }
 
+    /**
+     * Responsible for setting the train to the specified Route.
+     * Adds values of available tickets to all the stations of the route according to the train.
+     *
+     * @param trainId the {@code int} parameter specifies Train.
+     * @param routeId the {@code int} parameter specifies Route.
+     * */
     @Override
     public void setTrain(int trainId, int routeId) {
 
@@ -207,7 +262,12 @@ public class MySQLRouteService implements RouteService {
         }
     }
 
-
+    /**
+     * Responsible for getting Route instance with specified id.
+     *
+     * @param routeId the {@code int} parameter specifies Route.
+     * @return {@code Route} instance with specified id.
+     * */
     @Override
     public Route getRouteById(int routeId) {
 
@@ -234,6 +294,11 @@ public class MySQLRouteService implements RouteService {
         return route;
     }
 
+    /**
+     * Responsible for building Route instance from ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} from {@code getRouteById()} method instance encapsulating data of Route.
+     * */
     private Route getRouteFromResultSet(ResultSet resultSet) throws SQLException {
 
         Route route = new Route();

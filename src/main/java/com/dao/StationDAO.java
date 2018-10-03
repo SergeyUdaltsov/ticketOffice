@@ -65,7 +65,7 @@ public interface StationDAO {
 
 
     /**
-     * Responsible for getting the specified Station from DB.
+     * Responsible for getting the ResultSet with all the data of specified Station from DB.
      *
      * @param statement the {@code PreparedStatement} from {@code MySQLStationService}.
      * @param stationId the{@code int} parameter specifies the corresponding Station.

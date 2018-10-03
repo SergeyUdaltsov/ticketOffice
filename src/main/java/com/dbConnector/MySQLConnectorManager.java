@@ -8,6 +8,9 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * The {@code MySQLConnectorManager} class is responsible for creation and managing connection to DB.
+ */
 public class MySQLConnectorManager {
 
     private static final Logger LOGGER = LogManager.getLogger(MySQLConnectorManager.class);
@@ -45,6 +48,11 @@ public class MySQLConnectorManager {
 
     }
 
+    /**
+     * Gets connection java.sql.Connection from connection pool ({@code DataSource} class)
+     *
+     * @return opened connection
+     */
     public static synchronized Connection getConnection() {
         Connection connection = null;
         try {

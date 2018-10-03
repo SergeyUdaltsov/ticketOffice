@@ -72,6 +72,8 @@ public interface RouteDAO {
      *
      * @param routeId the {@code int} parameter, specifies route.
      * @param statement the {@code PreparedStatement} from {@code MySQLRouteService}.
+     * @param stationFrom the {@code int} parameter, specifies departure Station.
+     * @param stationTo the {@code int} parameter, specifies arrival Station.
      * */
     ResultSet getDateTimeOfTrip(PreparedStatement statement, int routeId,
                                 int stationFrom, int stationTo) throws SQLException;

@@ -15,10 +15,16 @@ import java.util.List;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 01.10.2018.
+ * The {@code JDBCTrainDao} class is a JDBC implementation
+ * of {@code TrainDAO} interface
  */
 public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
 
+    /**
+     * Responsible for retrieving count of available seats by train from DB
+     *
+     * @param trainId the{@code int} parameter specifies the corresponding Train.
+     */
     @Override
     public List<Integer> getSeatsCountByTrainId(int trainId) throws SQLException {
 
@@ -50,6 +56,11 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
         return seats;
     }
 
+    /**
+     * Responsible for saving new Train to DB
+     *
+     * @param train the instance of {@code Train} entity class
+     */
     @Override
     public void addNewTrain(Train train) throws SQLException {
 
@@ -74,18 +85,34 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
         }
     }
 
+    /**
+     * Responsible for deleting Train from DB
+     *
+     * @param trainId the {@code int} parameter, specifies Train.
+     */
     @Override
     public void deleteTrainById(int trainId) throws SQLException {
 
         deleteItemById(trainId, SQL_DELETE_TRAIN_BY_ID);
     }
 
+    /**
+     * Responsible for getting the list of all Train from DB
+     *
+     * @param connection java.sql.Connection
+     * */
     @Override
     public ResultSet getAllTrains(Connection connection) throws SQLException {
 
         return getAllItems(connection, SQL_GET_ALL_TRAINS);
     }
 
+    /**
+     * Responsible for getting ResultSet from DB containing all the data of Train.
+     *
+     * @param trainId the {@code int} parameter, specifies Train.
+     * @param statement the {@code PreparedStatement} from {@code MySQLTrainService}.
+     */
     @Override
     public ResultSet getTrainById(PreparedStatement statement, int trainId) throws SQLException {
 
@@ -94,6 +121,11 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
         return statement.executeQuery();
     }
 
+    /**
+     * Responsible for updating Train in DB
+     *
+     * @param train the instance of {@code Train} entity class
+     */
     @Override
     public void updateTrain(Train train) throws SQLException {
 
@@ -116,6 +148,14 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
         }
     }
 
+    /**
+     * Responsible for getting ResultSet from DB containing all the data of all the Train
+     * due to the specified stations.
+     *
+     * @param departureStationId the {@code int} parameter, specifies departure station.
+     * @param arrivalStationId the {@code int} parameter, specifies arrival station.
+     * @param statement the {@code PreparedStatement} from {@code MySQLTrainService}.
+     */
     @Override
     public ResultSet getTrainsByStations(PreparedStatement statement, int departureStationId,
                                          int arrivalStationId) throws SQLException {

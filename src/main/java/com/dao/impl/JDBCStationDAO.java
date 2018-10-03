@@ -16,12 +16,18 @@ import java.util.List;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 01.10.2018.
+ * The {@code JDBCStationDao} class is a JDBC implementation
+ * of {@code StationDAO} interface
  */
 public class JDBCStationDAO implements StationDAO, CommonsOperable {
 
     private static final Logger LOGGER = LogManager.getLogger(JDBCStationDAO.class);
 
+    /**
+     * Responsible for saving new Station to DB
+     *
+     * @param station the instance of {@code Station} entity class
+     */
     @Override
     public void addNewStation(Station station) throws SQLException {
 
@@ -42,6 +48,12 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
         }
     }
 
+    /**
+     * Responsible for getting the ResultSet from DB containing the data of arrival and departure due to the station.
+     *
+     * @param station the {@code Station} instance parameter, specifies Station.
+     * @param connection java.sql.Connection.
+     * */
     @Override
     public ResultSet getResultSetStationTimes(Station station, Connection connection) throws SQLException {
 
@@ -52,6 +64,12 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
         return statement.executeQuery();
     }
 
+    /**
+     * Responsible for deleting Station from DB
+     *
+     * @param stationId the {@code int} parameter, specifies station.
+     * @param intermediate the {@code boolean} parameter specifies if the station is intermediate.
+     */
     @Override
     public void deleteStationById(int stationId, boolean intermediate) throws SQLException {
 
@@ -66,6 +84,12 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
         LOGGER.info(STATION + stationId + DELETED);
     }
 
+    /**
+     * Responsible for setting count of available seats by class to the Station according to Route.
+     *
+     * @param seats the {@code List<Integer>} parameter containing data of count of seats.
+     * @param routeId the{@code int} parameter specifies the corresponding Route.
+     * */
     @Override
     public void setSeatsToIntermediateStations(List<Integer> seats, int routeId) throws SQLException {
 
@@ -88,6 +112,11 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
         }
     }
 
+    /**
+     * Responsible for getting the list of all Station from DB
+     *
+     * @param connection java.sql.Connection
+     * */
     @Override
     public ResultSet getAllStations(Connection connection) throws SQLException {
 
@@ -95,6 +124,14 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
 
     }
 
+    /**
+     * Responsible for getting the list of all intermediate stations according to
+     * specified parameters of tour from DB.
+     *
+     * @param statement the {@code PreparedStatement} from {@code MySQLStationService}.
+     * @param dateTimes the {@code List<String>} parameter containing data of departure and arrival of tour.
+     * @param routeId the{@code int} parameter specifies the corresponding Route.
+     * */
     @Override
     public ResultSet getIntermediateStationsByTrip(PreparedStatement statement, List<String> dateTimes,
                                                    int routeId) throws SQLException {
@@ -106,6 +143,12 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
         return statement.executeQuery();
     }
 
+    /**
+     * Responsible for getting the ResultSet with all the data of specified Station from DB.
+     *
+     * @param statement the {@code PreparedStatement} from {@code MySQLStationService}.
+     * @param stationId the{@code int} parameter specifies the corresponding Station.
+     * */
     @Override
     public ResultSet getStationById(PreparedStatement statement, int stationId) throws SQLException {
 
@@ -114,6 +157,11 @@ public class JDBCStationDAO implements StationDAO, CommonsOperable {
         return statement.executeQuery();
     }
 
+    /**
+     * Responsible for updating Station in DB
+     *
+     * @param station the instance of {@code Station} entity class
+     */
     @Override
     public void updateStation(Station station) throws SQLException {
 
