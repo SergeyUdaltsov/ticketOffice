@@ -1,6 +1,8 @@
 package com.utils;
 
-
+/**
+ * The {@code UtilConstants} class is responsible for holding all the text constants of application
+ */
 public class UtilConstants {
 
     public static String language;

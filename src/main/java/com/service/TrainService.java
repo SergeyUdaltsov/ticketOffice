@@ -30,6 +30,7 @@ public interface TrainService {
      * Responsible for getting Train instance with specified id.
      *
      * @param trainId the {@code int} parameter specifies Train.
+     * @return {@code Train} instance
      */
     Train getTrainById(int trainId);
 

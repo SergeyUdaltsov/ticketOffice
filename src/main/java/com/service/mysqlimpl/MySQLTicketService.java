@@ -18,7 +18,7 @@ import java.util.List;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 27.09.2018.
+ * This is the MySQL implementation of {@code TicketService interface}
  */
 public class MySQLTicketService implements TicketService {
 
@@ -34,7 +34,15 @@ public class MySQLTicketService implements TicketService {
         this.MAIL_SERVICE = mailService;
     }
 
-
+    /**
+     * Responsible for getting the count of available tickets to the train
+     * which goes through specified stations.
+     *
+     * @param routeId the {@code int} parameter specifies the Route.
+     * @param stationFrom the {@code int} parameter specifies departure station.
+     * @param stationTo the {@code int} parameter specifies arrival station.
+     * @return {@code List<Integer>} list of values according to types.
+     * */
     @Override
     public List<Integer> getTicketCount(int routeId, int stationFrom, int stationTo) throws SQLException {
 
@@ -64,6 +72,12 @@ public class MySQLTicketService implements TicketService {
         return availableSeats;
     }
 
+    /**
+     * Responsible for creating {@code List<Integer>} from ResultSet
+     *
+     * @param resultSet the {@code ResultSet} from {@code getTicketCount()} method.
+     * @return {@code List<Integer>} list of counts of tickets by the types.
+     * */
     private List<Integer> getCountOfSeatsFromResultSet(ResultSet resultSet) throws SQLException {
 
         List<Integer> availableSeats = new ArrayList<>();
@@ -83,6 +97,12 @@ public class MySQLTicketService implements TicketService {
         return availableSeats;
     }
 
+    /**
+     * Responsible for process of buying tickets which consists of
+     * decreasing the values of corresponds available tickets in DB.
+     *
+     * @param order the {@code Order} instance encapsulating all the data for buying tickets.
+     * */
     @Override
     public void buyTickets(TicketOrder order) throws SQLException {
 
@@ -105,6 +125,11 @@ public class MySQLTicketService implements TicketService {
         }
     }
 
+    /**
+     * Responsible for sending mail to the user who bought tickets.
+     *
+     * @param order the {@code TicketOrder} instance encapsulating all the data for sending mail.
+     * */
     private void sendMail(TicketOrder order) {
 
         StringBuilder text = new StringBuilder();

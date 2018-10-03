@@ -31,6 +31,11 @@ public class MySQLTrainService implements TrainService {
         this.TRAIN_DAO = trainDAO;
     }
 
+    /**
+     * Responsible for creating new Train instance and save it to DB.
+     *
+     * @param train is {@code Train} instance to save.
+     */
     @Override
     public void addNewTrain(Train train) throws SQLException {
 
@@ -38,6 +43,12 @@ public class MySQLTrainService implements TrainService {
     }
 
 
+    /**
+     * Responsible for getting Train instance with specified id.
+     *
+     * @param trainId the {@code int} parameter specifies Train.
+     * @return {@code Train} instance
+     */
     @Override
     public Train getTrainById(int trainId) {
 
@@ -67,17 +78,35 @@ public class MySQLTrainService implements TrainService {
         return train;
     }
 
+    /**
+     * Responsible for updating train with specified id with new values.
+     *
+     * @param train the {@code Train} instance encapsulating new values.
+     */
     @Override
     public void updateTrain(Train train) throws SQLException {
 
         TRAIN_DAO.updateTrain(train);
     }
 
+    /**
+     * Responsible for deleting specified Train from DB.
+     *
+     * @param trainId the {@code int} parameter specifies Train.
+     */
     @Override
     public void deleteTrainById(int trainId) throws SQLException {
         TRAIN_DAO.deleteTrainById(trainId);
     }
 
+    /**
+     * Responsible for getting the list of all trains
+     * which go through between specified stations.
+     *
+     * @param departureStationId the {@code int} parameter specifies departure station.
+     * @param arrivalStationId   the {@code int} parameter specifies arrival station.
+     * @return {@code List<Tour>} list of tours between specified stations.
+     */
     @Override
     public List<Tour> getTrainsByStations(int departureStationId, int arrivalStationId) {
 
@@ -103,6 +132,12 @@ public class MySQLTrainService implements TrainService {
         return tours;
     }
 
+    /**
+     * responsible for creating {@code List<Tour>} from ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} instance from {@code getTrainsByStations()} method.
+     * @return {@code List<Tour>} of Tour.
+     * */
     private List<Tour> getToursFromResultSet(ResultSet resultSet) throws SQLException {
 
         List<Tour> tours = new ArrayList<>();
@@ -138,6 +173,11 @@ public class MySQLTrainService implements TrainService {
         return tours;
     }
 
+    /**
+     * Responsible for getting the list of all Train from DB.
+     *
+     * @return {@code List<Train>} the list of all Train from DB.
+     */
     @Override
     public List<Train> getAllTrains() {
 
@@ -170,6 +210,12 @@ public class MySQLTrainService implements TrainService {
         return trains;
     }
 
+    /**
+     * responsible for creating {@code List<Train>} from ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} instance from {@code getAllTrains()} method.
+     * @return {@code List<Train>} of Train.
+     * */
     private Train getTrainFromResultSet(ResultSet resultSet) throws SQLException {
 
         return new TrainBuilder()

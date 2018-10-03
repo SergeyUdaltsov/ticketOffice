@@ -73,6 +73,12 @@ public class MySQLUserService implements UserService {
         return user;
     }
 
+    /**
+     * Responsible for creatinf {@code User} instance from ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} from {@code validateUser()} method.
+     * @return {@code User} instance.
+     * */
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
 
         User user = new User();

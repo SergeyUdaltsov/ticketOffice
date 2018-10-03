@@ -79,6 +79,11 @@ public class MySQLStationService implements StationService {
         return stations;
     }
 
+    /**
+     * Responsible for building {@code List<Station>} from ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} from {@code getAllStations()} method instance encapsulating data of Station.
+     */
     private List<Station> getStationsFromResultSet(ResultSet resultSet) throws SQLException {
 
         List<Station> stations = new ArrayList<>();
@@ -96,6 +101,12 @@ public class MySQLStationService implements StationService {
         return stations;
     }
 
+    /**
+     * Responsible for getting Station instance with specified id.
+     *
+     * @param stationId the {@code int} parameter specifies Station.
+     * @return {@code Station} instance with specified id.
+     */
     @Override
     public Station getStationById(int stationId) {
 
@@ -122,6 +133,11 @@ public class MySQLStationService implements StationService {
         return station;
     }
 
+    /**
+     * Responsible for building Station instance from ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} from {@code getStationById()} method instance encapsulating data of Station.
+     */
     private Station getStationFromResultSet(ResultSet resultSet) throws SQLException {
 
         Station station = new Station();
@@ -137,6 +153,15 @@ public class MySQLStationService implements StationService {
         return station;
     }
 
+    /**
+     * Responsible for validating time of intermediate station.
+     * It must be not before than departure time from start station and
+     * not after the arrival to the end station of the route.
+     * Checks if the date-time point of station does not intersect date-time points of other intermediate stations.
+     *
+     * @param station the {@code Station} instance
+     * @return {@code boolean} result.
+     */
     @Override
     public boolean validateIntermediateStationTime(Station station) {
 
@@ -178,6 +203,11 @@ public class MySQLStationService implements StationService {
     }
 
 
+    /**
+     * Responsible for updating station with specified id with new values.
+     *
+     * @param station the {@code Station} instance encapsulating new values.
+     * */
     @Override
     public void updateStation(Station station) throws SQLException {
 
@@ -186,13 +216,27 @@ public class MySQLStationService implements StationService {
         LOGGER.info(STATION + station.getName() + UPDATED);
     }
 
-
+    /**
+     * Responsible for deleting specified Station from DB.
+     *
+     * @param stationId the {@code int} parameter specifies Station.
+     * @param isIntermediate the {@code boolean} parameter specifies if the station is intermediate.
+     * */
     @Override
     public void deleteStationById(int stationId, boolean isIntermediate) throws SQLException {
 
         stationDAO.deleteStationById(stationId, isIntermediate);
     }
 
+    /**
+     * Responsible for getting list of all the intermediate stations between specified stations
+     * according to the route.
+     *
+     * @param routeId the {@code int} parameter specifies the Route.
+     * @param depStId the {@code int} parameter specifies the departure Station.
+     * @param arrStId the {@code int} parameter specifies the arrival Station.
+     * @return {@code List<Station>} the list of all intermediate stations between specified stations.
+     * */
     @Override
     public List<Station> getIntermediateStationsByTrip(int routeId, int depStId, int arrStId) throws SQLException {
 
@@ -218,6 +262,12 @@ public class MySQLStationService implements StationService {
         return stations;
     }
 
+    /**
+     * Responsible for creating {@code List<Station>} from ResultSet.
+     *
+     * @param resultSet the {@code ResultSet} from {@code getIntermediateStationsByTrip()} method.
+     * @return {@code List<Station>}.
+     * */
     private List<Station> getInterStationsFromResultSet(ResultSet resultSet) throws SQLException {
 
         List<Station> stations = new ArrayList<>();
@@ -235,7 +285,14 @@ public class MySQLStationService implements StationService {
         return stations;
     }
 
-
+    /**
+     * Responsible for calculating the date and time of start station and date and time of finish station
+     * according to route with specified id.
+     *
+     * @param routeId the {@code int} parameter specifies Route.
+     * @param stationFrom the {@code int} parameter specifies departure station.
+     * @param stationTo the {@code int} parameter specifies arrival station.
+     * */
     @Override
     public List<String> getDateTimeOfTrip(int routeId, int stationFrom, int stationTo) throws SQLException {
 
@@ -265,6 +322,15 @@ public class MySQLStationService implements StationService {
         return dateTimes;
     }
 
+    /**
+     * Responsible for building Station instance from list of data.
+     *
+     * @param routeId the {@code int} parameter specifies Route.
+     * @param stationId the {@code int} parameter specifies Station id.
+     * @param arrTime the {@code LocalTime} instance specifies time of arrival to station.
+     * @param depTime the {@code LocalTime} instance specifies time of departure from station.
+     * @param arrDate the {@code LocalDate} instance specifies date of arrival to station.
+     * */
     @Override
     public Station buildIntermediateStation(int routeId, int stationId, LocalTime arrTime, LocalTime depTime,
                                             LocalDate arrDate, boolean endStation) {
