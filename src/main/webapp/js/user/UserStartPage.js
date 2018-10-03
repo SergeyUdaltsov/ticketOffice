@@ -1,8 +1,10 @@
 var trip = new Object();
 var vocabulary;
 var language;
-$(window).ready(function () {
 
+
+
+$(window).ready(function () {
 
     vocabulary = getVocabulary();
 
@@ -11,8 +13,6 @@ $(window).ready(function () {
     if (language !== null && language !== undefined) {
         translatePage(language);
     }
-
-    console.log(JSON.parse(window.localStorage.getItem('user')));
 
     var select = $("#depSelect");
     url = 'http://localhost:9999/railways/station/get/all';
@@ -23,7 +23,7 @@ $(window).ready(function () {
 
     $("#cancelButton").click(function () {
 
-        window.localStorage.setItem('status', JSON.stringify(''));
+        window.localStorage.removeItem('status');
 
         $(location).attr('href', 'http://localhost:9999/index.jsp');
 
@@ -51,6 +51,8 @@ $(window).ready(function () {
         window.localStorage.setItem('lang', JSON.stringify(transLang));
     });
 
+
+
 });
 
 
@@ -70,6 +72,8 @@ function loadItems(select, url) {
         }
     });
 }
+
+
 
 function translatePage(transLang) {
 

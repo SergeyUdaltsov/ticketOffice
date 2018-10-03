@@ -1,74 +1,72 @@
 package com.utils;
 
-import static com.utils.UtilData.localize;
 
 public class UtilConstants {
 
-    //user errors
-    public static final String USER_EXISTS = localize("User.already.exists.");
-    public static final String USER_CREATED = localize("User.created.");
-    public static final String USER_NOT_VALIDATED = localize("User.not.validated.");
-    public static final String WRONG_DATA_FROM_CLIENT_USER = localize("Wrong.user.data.received.from.client.side.");
+    public static String language;
 
+    //user errors
+    public static final String USER_EXISTS = "User.already.exists.";
+    public static final String USER_CREATED = "User.created.";
+    public static final String USER_NOT_VALIDATED = "User.not.validated.";
+    public static final String WRONG_DATA_FROM_CLIENT_USER = "Wrong.user.data.received.from.client.side.";
 
     //station errors
-    public static final String STATION_EXISTS = localize("Station.exists.");
-    public static final String COULD_NOT_PERSIST_STATION = localize("Could.not.persist.station.");
-    public static final String COULD_NOT_DELETE_STATION = localize("Could.not.delete.station");
-    public static final String COULD_NOT_LOAD_STATIONS = localize("Could.not.load.stations.from.db.");
-    public static final String COULD_NOT_LOAD_STATION = localize("Could.not.load.station.from.db.");
+    public static final String STATION_EXISTS = "Station.exists.";
+    public static final String COULD_NOT_PERSIST_STATION = "Could.not.persist.station.";
+    public static final String COULD_NOT_DELETE_STATION = "Could.not.delete.station";
+    public static final String COULD_NOT_LOAD_STATION = "Could.not.load.station.from.db.";
+    public static final String COULD_NOT_LOAD_STATIONS = "Could.not.load.stations.from.db.";
     public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATION_TIMES =
-            localize("Could.not.receive.intermediate.station.times.from.db");
+            "Could.not.receive.intermediate.station.times.from.db";
     public static final String COULD_NOT_RECEIVE_INTERMEDIATE_STATIONS =
-            localize("Could.not.receive.intermediate.stations.from.db");
+            "Could.not.receive.intermediate.stations.from.db";
     public static final String INTERMEDIATE_STATION_ERROR =
-            localize("Intermediate.station.already.exists.or.equals.to.start.or.finish.station");
+            "Intermediate.station.already.exists.or.equals.to.start.or.finish.station";
     public static final String WRONG_DATA_FROM_CLIENT_STATION =
-            localize("Wrong.station.data.received.from.client.side.");
+            "Wrong.station.data.received.from.client.side.";
     public static final String WRONG_DATA_FROM_CLIENT_ROUTE =
-            localize("Wrong.route.data.received.from.client.side.");
+            "Wrong.route.data.received.from.client.side.";
 
     //route errors
-    public static final String ROUTE_EXISTS = localize("Route.already.exists.");
-    public static final String COULD_NOT_LOAD_ROUTES = localize("Could.not.load.routes.from.db");
-    public static final String COULD_NOT_PERSIST_ROUTE = localize("Could.not.persist.route");
+    public static final String ROUTE_EXISTS = "Route.already.exists.";
+    public static final String COULD_NOT_LOAD_ROUTES = "Could.not.load.routes.from.db";
+    public static final String COULD_NOT_PERSIST_ROUTE = "Could.not.persist.route";
     public static final String WRONG_DATE_OR_TIME_INTER_STATION =
-            localize("Wrong.date.or.time.of.intermediate.station");
+            "Wrong.date.or.time.of.intermediate.station";
 
     //train errors
-    public static final String TRAIN_EXISTS = localize("Train.already.exists.");
-    public static final String TRAIN_ERROR_UPDATE = localize("Could.not.update.train.");
-    public static final String COULD_NOT_SET_TRAIN_TO_ROUTE = localize("Could.not.set.train.to.route.");
-    public static final String COULD_NOT_DELETE_TRAIN = localize("Could.not.delete.train.");
-    public static final String COULD_NOT_LOAD_SEATS = localize("Could.not.set.count.of.seats.by.train.");
-    public static final String COULD_NOT_LOAD_TRAINS = localize("Could.not.load.trains.from.db.");
+    public static final String TRAIN_EXISTS = "Train.already.exists.";
+    public static final String TRAIN_ERROR_UPDATE = "Could.not.update.train.";
+    public static final String COULD_NOT_SET_TRAIN_TO_ROUTE = "Could.not.set.train.to.route.";
+    public static final String COULD_NOT_DELETE_TRAIN = "Could.not.delete.train.";
+    public static final String COULD_NOT_LOAD_SEATS = "Could.not.set.count.of.seats.by.train.";
+    public static final String COULD_NOT_LOAD_TRAINS = "Could.not.load.trains.from.db.";
     public static final String COULD_NOT_SET_SEATS =
-            localize("Could.not.set.count.of.seats.to.intermediate.stations.");
+            "Could.not.set.count.of.seats.to.intermediate.stations.";
     public static final String WRONG_DATA_FROM_CLIENT_TRAIN =
-            localize("Wrong.train.data.received.from.client.side.");
+            "Wrong.train.data.received.from.client.side.";
 
     //ticket
     public static final String WRONG_DATA_FROM_CLIENT_TICKET =
-            localize("Wrong.ticket.data.received.from.client.side.");
-    public static final String COULD_NOT_LOAD_TICKETS = localize("Could.not.load.count.of.seats.from.db.");
+            "Wrong.ticket.data.received.from.client.side.";
+    public static final String COULD_NOT_LOAD_TICKETS = "Could.not.load.count.of.seats.from.db.";
 
 
     //strings
-    public static final String STATION = localize("Station");
-    public static final String TRAIN = localize("Train");
-    public static final String CREATED = localize("created");
-    public static final String UPDATED = localize("updated");
-    public static final String DELETED = localize("deleted");
-    public static final String ROUTE = localize("Route");
-    public static final String FROM = localize("from");
-    public static final String TO = localize("to");
-    public static final String USER = localize("User");
-    public static final String BOUGHT_TICKETS = localize("bought.tickets.");
-    public static final String NOT_ENOUGH_TICKETS = localize("Not.enough.tickets.");
-    public static final String MAIL_SENT = localize("Mail.sent.");
-    public static final String INTER_STATION = localize("InterStation");
-    public static final String INTERMEDIATE_STATION_DELETED = localize("Intermediate.station.deleted");
-    public static final String INTERMEDIATE_STATION_ADDED = localize("Intermediate.station.added");
+    public static final String STATION = "Station";
+    public static final String TRAIN = "Train";
+    public static final String CREATED = "created";
+    public static final String UPDATED = "updated";
+    public static final String DELETED = "deleted";
+    public static final String ROUTE = "Route";
+    public static final String FROM = "from";
+    public static final String TO = "to";
+    public static final String USER = "User";
+    public static final String BOUGHT_TICKETS = "bought.tickets.";
+    public static final String NOT_ENOUGH_TICKETS = "Not.enough.tickets.";
+    public static final String MAIL_SENT = "Mail.sent.";
+    public static final String INTERMEDIATE_STATION_ADDED = "Intermediate.station.added";
 
 
     //Mail
@@ -77,6 +75,7 @@ public class UtilConstants {
     public static final int SMTP_PORT = 465;
     public static final String MAIL_PASSWORD = "t883774t";
     public static final String MAIL_FROM = "sergii.udaltsov@gmail.com";
+    public static final String EMAIL_REGEX = "^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$";
 
 
 
@@ -246,7 +245,27 @@ public class UtilConstants {
             "WHERE route_id_fk = (?) AND " +
             "arrival_date_time BETWEEN (?) AND (?);";
 
-
+//    private static String localize(String key) {
+//
+//        Locale locale = null;
+//
+//        switch (language) {
+//            case "ru": {
+//                locale = new Locale("ru");
+//                break;
+//            }
+//            case "en": {
+//                locale = new Locale("en");
+//                break;
+//            }
+//            default: {
+//                locale = new Locale("en");
+//            }
+//        }
+//        ResourceBundle myBundle = ResourceBundle.getBundle("logs", locale);
+//
+//        return myBundle.getString(key);
+//    }
 
 }
 

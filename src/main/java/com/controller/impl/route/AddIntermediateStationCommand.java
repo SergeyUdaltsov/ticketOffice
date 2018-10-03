@@ -19,7 +19,7 @@ import static com.utils.UtilConstants.*;
 
 /**
  * The {@code AddIntermediateStationCommand} class is an implementation of
- * {@code Command} interface, that is responsible for creating new route.
+ * {@code Command} interface, that is responsible for creating new intermediate station.
  */
 public class AddIntermediateStationCommand implements Command {
 
@@ -35,7 +35,7 @@ public class AddIntermediateStationCommand implements Command {
     }
 
     /**
-     * Receives request and response gets route from request,
+     * Receives request and response gets station from request,
      * add new intermediate station to the specified route.
      * <p>
      * if station exists, sets response status 406.
@@ -63,7 +63,11 @@ public class AddIntermediateStationCommand implements Command {
         response.setStatus(status);
     }
 
-
+    /**
+     * Receives request gets builds station from it,
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     */
     private Station getStationFromRequest(HttpServletRequest request) {
 
         String jsStr = request.getParameter("jsonStation");

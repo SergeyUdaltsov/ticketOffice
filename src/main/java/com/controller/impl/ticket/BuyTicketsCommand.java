@@ -7,7 +7,6 @@ import com.entity.TicketOrder;
 import com.entity.User;
 import com.entity.builder.StationBuilder;
 import com.entity.builder.TicketOrderBuilder;
-import com.entity.builder.UserBuilder;
 import com.service.TicketService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -21,7 +20,8 @@ import java.sql.SQLException;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 29.09.2018.
+ * The {@code BuyTicketCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for buying tickets by user.
  */
 public class BuyTicketsCommand implements Command {
 
@@ -33,6 +33,17 @@ public class BuyTicketsCommand implements Command {
         this.SERVICE = service;
     }
 
+    /**
+     * Receives request and response, gets data from request:
+     * depStId - departure station id, arrStId - arrival station id,
+     * creates instance of TicketOrder with all the data for buying tickets.
+     * <p>
+     * Gets from request session User instance with data of email address and sends a email
+     * with the information about tickets were bought.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
@@ -44,11 +55,12 @@ public class BuyTicketsCommand implements Command {
             int depStId = jsonObject.getInt("depStId");
             int arrStId = jsonObject.getInt("arrStId");
 
-            User user = fillUpUser(request);
-
             Station stationFrom = fillUpStation(depStId);
 
             Station stationTo = fillUpStation(arrStId);
+
+            User user = (User) request.getSession().getAttribute("user");
+
 
             TicketOrder order = fillUpTicketOrder(request, user, stationFrom, stationTo);
 
@@ -66,35 +78,25 @@ public class BuyTicketsCommand implements Command {
 
     }
 
-
-    private User fillUpUser(HttpServletRequest request) throws JSONException {
-
-        String jsStr = request.getParameter("jsRequest");
-
-        JSONObject jsonObject = new JSONObject(jsStr);
-
-        String userFirstName = jsonObject.getString("userFirstName");
-        String userLastName = jsonObject.getString("userLastName");
-        String userEmail = jsonObject.getString("userEmail");
-
-        User user = new UserBuilder()
-                .buildFirstName(userFirstName)
-                .buildLastName(userLastName)
-                .buildEmail(userEmail)
-                .build();
-
-        return user;
-    }
-
+    /**
+     * Creates new station instance with specified id.
+     * */
     private Station fillUpStation(int stationId) {
 
-        Station station = new StationBuilder()
+        return new StationBuilder()
                 .buildId(stationId)
                 .build();
-
-        return station;
     }
 
+    /**
+     * Collects all the data from request and prepared data from process metod and creates
+     * the instance of TicketOrder for buying tickets
+     *
+     * @param request {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param user {@code User} from {@code process} method
+     * @param stationFrom {@code Station} from {@code process} method
+     * @param stationTo {@code Station} from {@code process} method
+     * */
     private TicketOrder fillUpTicketOrder(HttpServletRequest request, User user,
                                           Station stationFrom, Station stationTo) throws JSONException {
 
@@ -107,7 +109,7 @@ public class BuyTicketsCommand implements Command {
         int comCount = jsonObject.getInt("comCountToBuy");
         int routeId = jsonObject.getInt("routeId");
 
-        TicketOrder order = new TicketOrderBuilder()
+        return new TicketOrderBuilder()
                 .buildUser(user)
                 .buildStationFrom(stationFrom)
                 .buildStationTo(stationTo)
@@ -116,7 +118,5 @@ public class BuyTicketsCommand implements Command {
                 .buildBusinessCount(busCount)
                 .buildComfortCount(comCount)
                 .build();
-
-        return order;
     }
 }

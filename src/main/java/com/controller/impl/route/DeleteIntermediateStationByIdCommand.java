@@ -13,7 +13,8 @@ import static com.utils.UtilConstants.*;
 
 /**
  * The {@code DeleteIntermediateStationByIdCommand} class is an implementation of
- * {@code Command} interface, that is responsible for creating new route.
+ * {@code Command} interface, that is responsible for deleting intermediate
+ * station by it's ID.
  */
 public class DeleteIntermediateStationByIdCommand implements Command {
 
@@ -26,6 +27,15 @@ public class DeleteIntermediateStationByIdCommand implements Command {
         this.SERVICE = service;
     }
 
+
+    /**
+     * Receives request and response gets id of station
+     * which should be deleted from request and deletes it.
+     *
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 

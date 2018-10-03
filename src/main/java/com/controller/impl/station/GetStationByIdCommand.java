@@ -2,6 +2,7 @@ package com.controller.impl.station;
 
 import com.controller.Command;
 import com.entity.Station;
+import com.google.gson.Gson;
 import com.service.StationService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -26,6 +27,16 @@ public class GetStationByIdCommand implements Command {
         this.STATION_SERVICE = STATION_SERVICE;
     }
 
+
+    /**
+     * Receives request and response, gets from request id of station
+     * which should be received
+     *
+     * Sets to the response content the data of station with specified id.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
@@ -36,8 +47,9 @@ public class GetStationByIdCommand implements Command {
         Station station = STATION_SERVICE.getStationById(stationId);
 
         try {
-
-            sendJson(station, response);
+            response.setContentType(CONTENT_TYPE);
+            response.setCharacterEncoding(ENCODING);
+            response.getWriter().write(new Gson().toJson(station));
 
         } catch (IOException e) {
             LOGGER.error(WRONG_DATA_FROM_CLIENT_STATION);

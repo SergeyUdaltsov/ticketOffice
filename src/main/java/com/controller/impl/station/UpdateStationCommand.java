@@ -16,7 +16,9 @@ import java.sql.SQLException;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 22.09.2018.
+ * The {@code UpdateStationCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for updating data of station with specified
+ * id in data base.
  */
 public class UpdateStationCommand implements Command {
 
@@ -28,9 +30,17 @@ public class UpdateStationCommand implements Command {
         this.STATION_SERVICE = service;
     }
 
+
+    /**
+     * Receives request and response, creates instance of station which should be persisted
+     * to data base. Gets the id of station and updates it with the new data.
+     *
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
-
 
         Station station = buildStationFromRequest(request, response);
 
@@ -48,6 +58,14 @@ public class UpdateStationCommand implements Command {
         response.setStatus(200);
     }
 
+    /**
+     * Receives request, creates instance of station which should be persisted
+     * to data base.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     * @return the instance of {@code Station} entity class
+     */
     private Station buildStationFromRequest(HttpServletRequest request, HttpServletResponse response) {
 
         Station station = null;

@@ -8,3 +8,49 @@
 2018-10-02 17:16:57 INFO  JDBCRouteDAO:100 - Маршрут 3удален(а)
 2018-10-02 17:16:57 INFO  DeleteRouteByIdCommand:39 - Маршрут удален(а)
 2018-10-02 17:17:23 INFO  AddNewTrainCommand:40 - Поезд Intercity3создан(а) 
+2018-10-02 17:39:47 INFO  AddNewTrainCommand:40 - TrainOberihcreated
+2018-10-02 17:40:09 INFO  JDBCRouteDAO:86 - Intermediate.station.added
+2018-10-02 18:41:41 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 18:41:43 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 18:59:29 INFO  MySQLUserService:36 - Пользователь зарегистрирован
+2018-10-02 19:00:00 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 19:00:02 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 19:00:15 INFO  MySQLUserService:97 - Пользовательsergey udaltsovкупил билеты
+2018-10-02 19:00:17 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 19:11:39 INFO  MySQLUserService:97 - Пользовательsergey udaltsovкупил билеты
+2018-10-02 19:11:41 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 19:11:56 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 19:11:58 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 19:12:14 INFO  MySQLUserService:97 - Пользовательsergey udaltsovкупил билеты
+2018-10-02 19:12:16 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 19:12:25 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 19:12:27 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 19:59:03 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
+2018-10-02 19:59:05 INFO  MySQLUserService:128 - Mail.sent.
+2018-10-02 19:59:31 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
+2018-10-02 19:59:32 INFO  MySQLUserService:128 - Mail.sent.
+2018-10-02 20:00:37 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
+2018-10-02 20:00:39 INFO  MySQLUserService:128 - Mail.sent.
+2018-10-02 20:02:07 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 20:02:09 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 20:02:43 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 20:02:44 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 20:03:09 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 20:03:10 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 20:07:02 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
+2018-10-02 20:07:04 INFO  MySQLUserService:128 - Mail.sent.
+2018-10-02 20:07:45 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
+2018-10-02 20:07:47 INFO  MySQLUserService:128 - Mail.sent.
+2018-10-02 20:12:22 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 20:12:24 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 20:13:06 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 20:13:07 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 20:28:40 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 20:28:43 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 20:29:14 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
+2018-10-02 20:29:15 INFO  MySQLUserService:128 - Письмо послано
+2018-10-02 21:24:12 INFO  JDBCRouteDAO:100 - Route8deleted
+2018-10-02 21:24:12 INFO  DeleteRouteByIdCommand:39 - Routedeleted
+2018-10-02 21:32:14 INFO  JDBCRouteDAO:86 - Intermediate.station.added
+2018-10-02 21:32:28 INFO  JDBCRouteDAO:100 - Route6deleted
+2018-10-02 21:32:28 INFO  DeleteRouteByIdCommand:39 - Routedeleted

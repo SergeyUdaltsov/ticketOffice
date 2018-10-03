@@ -16,7 +16,9 @@ import java.util.List;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 28.09.2018.
+ * The {@code GetIntermediateStationsByTripCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for retrieving list of all intermediate
+ * stations according to the specified tour.
  */
 public class GetIntermediateStationsByTripCommand implements Command {
 
@@ -28,6 +30,17 @@ public class GetIntermediateStationsByTripCommand implements Command {
         this.STATION_SERVICE = STATION_SERVICE;
     }
 
+    /**
+     * Receives request and response, gets from request tour data:
+     * routeId - the id of specified route, depSt - id of departure station,
+     * arrSt - id of arrival station.
+     *
+     * Sets to the response content the list of all intermediate stations from data base
+     * by these parameters.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 

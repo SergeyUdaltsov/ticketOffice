@@ -3,6 +3,7 @@ package com.controller.impl.user;
 import com.controller.Command;
 import com.entity.User;
 import com.entity.builder.UserBuilder;
+import com.google.gson.Gson;
 import com.service.UserService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import static com.utils.UtilConstants.*;
@@ -30,8 +32,7 @@ public class RegisterNewUserCommand implements Command {
     }
 
     /**
-     * Receives request and response gets user from request,
-     * checks user for existing using {@code checkIfUserExists() method} and register new user
+     * Receives request and response, gets user from request, register new user.
      * <p>
      * if user exists, sets response status 406.
      *
@@ -44,20 +45,38 @@ public class RegisterNewUserCommand implements Command {
         try {
             User user = getUserFromRequest(request);
 
+            if (!user.getEmail().matches(EMAIL_REGEX)){
+                response.setStatus(406);
+                return;
+            }
+
             SERVICE.createNewUser(user);
 
+            request.getSession().setAttribute("user", user);
 
+            response.setContentType(CONTENT_TYPE);
+            response.setCharacterEncoding(ENCODING);
+            response.getWriter().write(new Gson().toJson(user));
 
         } catch (SQLException e) {
 
             LOGGER.error(USER_EXISTS);
             response.setStatus(406);
             return;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         response.setStatus(200);
     }
 
+
+    /**
+     * Method responsible for creating User instance from request
+     *
+     * @param request is{@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @return user {@code User} instance.
+     */
     private User getUserFromRequest(HttpServletRequest request) {
 
         User user = new User();

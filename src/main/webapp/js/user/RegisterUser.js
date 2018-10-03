@@ -98,10 +98,23 @@ function registerUser(user) {
         complete: function (data) {
             if (data.status === 200) {
 
-                window.localStorage.setItem('status', JSON.stringify('registered'));
+                window.localStorage.setItem('status', JSON.stringify('entered'));
+                writeCookie('password', data.password, 365);
                 window.localStorage.setItem('user', user);
                 $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
             }
         }
     });
+}
+
+function writeCookie(name,value,min) {
+    var date, expires;
+    if (min) {
+        date = new Date();
+        date.setTime(date.getTime()+(min*24*60*60*1000));
+        expires = "; expires=" + date.toGMTString();
+    }else{
+        expires = "";
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
 }

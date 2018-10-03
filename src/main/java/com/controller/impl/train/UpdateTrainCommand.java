@@ -16,7 +16,8 @@ import java.sql.SQLException;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 25.09.2018.
+ * The {@code UpdateTrainCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for updating the specified train.
  */
 public class UpdateTrainCommand implements Command {
 
@@ -28,6 +29,14 @@ public class UpdateTrainCommand implements Command {
         this.SERVICE = service;
     }
 
+
+    /**
+     * Receives request and response, gets from the request data of train which should be updated.
+     * Updates the specified train in data base.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
@@ -48,6 +57,14 @@ public class UpdateTrainCommand implements Command {
         response.setStatus(200);
     }
 
+    /**
+     * Method responsible for creating the instance of Train from the data received in request
+     * Sets status of response 406 if could not create Train from the data received from client side.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     * @return train {@code Train} instance
+     * */
     private Train getTrainFromRequest(HttpServletRequest request, HttpServletResponse response) {
 
         Train train = new Train();

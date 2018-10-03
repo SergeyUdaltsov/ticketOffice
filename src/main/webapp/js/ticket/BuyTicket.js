@@ -7,17 +7,22 @@ var comfortCount;
 
 $(window).ready(function () {
 
-    if(JSON.parse(window.localStorage.getItem('status')) !== 'registered'){
+    var password = readCookie('password');
+    var user = JSON.parse(window.localStorage.getItem('user'));
+
+    console.log(JSON.parse(window.localStorage.getItem('status')));
+    if (password !== user.password ||
+        JSON.parse(window.localStorage.getItem('status')) !== 'entered') {
 
         $(location).attr('href', 'http://localhost:9999/index.jsp');
 
     }
 
+
+
     var routeId = window.location.href.split("?")[1].split("=")[1].split("&")[0];
     var depStId = window.location.href.split("&")[1].split("=")[1];
     var arrStId = window.location.href.split("&")[2].split("=")[1];
-
-    var user = JSON.parse(window.localStorage.getItem('user'));
 
     loadTicketsInfo(routeId, depStId, arrStId);
 
@@ -33,19 +38,18 @@ $(window).ready(function () {
 
     $("#buy").click(function () {
 
-        request.ecoCountToBuy = ($("#ecoCount").val() === "")? 0 : $("#ecoCount").val();
-        request.busCountToBuy = ($("#busCount").val() === "")? 0 : $("#busCount").val();
-        request.comCountToBuy = ($("#comCount").val() === "")? 0 : $("#comCount").val();
+        window.localStorage.removeItem('status');
+
+        request.ecoCountToBuy = ($("#ecoCount").val() === "") ? 0 : $("#ecoCount").val();
+        request.busCountToBuy = ($("#busCount").val() === "") ? 0 : $("#busCount").val();
+        request.comCountToBuy = ($("#comCount").val() === "") ? 0 : $("#comCount").val();
         request.routeId = routeId;
         request.depStId = depStId;
         request.arrStId = arrStId;
-        request.userFirstName = user.firstName;
-        request.userLastName = user.lastName;
-        request.userEmail = user.email;
 
         (request.ecoCountToBuy === 0 && request.busCountToBuy === 0 && request.comCountToBuy === 0)
-            ?alert(vocabulary[language]['fillUp'])
-            :((economyCount - request.ecoCountToBuy) < 0 || (businessCount - request.busCountToBuy) < 0 || (comfortCount - request.comCountToBuy) < 0)
+            ? alert(vocabulary[language]['fillUp'])
+            : ((economyCount - request.ecoCountToBuy) < 0 || (businessCount - request.busCountToBuy) < 0 || (comfortCount - request.comCountToBuy) < 0)
             ? alert(vocabulary[language]['noTickets'])
             : buyTickets(JSON.stringify(request));
 
@@ -90,6 +94,21 @@ function buyTickets(request) {
             }
         }
     });
+}
+
+function readCookie(name) {
+    var i, c, ca, nameEQ = name + "=";
+    ca = document.cookie.split(';');
+    for (i = 0; i < ca.length; i++) {
+        c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1, c.length);
+        }
+        if (c.indexOf(nameEQ) == 0) {
+            return c.substring(nameEQ.length, c.length);
+        }
+    }
+    return '';
 }
 
 function loadTrip(routeId, depSt, arrSt) {
@@ -138,11 +157,8 @@ function loadTrip(routeId, depSt, arrSt) {
                 document.getElementsByTagName("tbody").item(0).parentNode.replaceChild(new_tbody, document.getElementsByTagName("tbody").item(0));
 
             });
-
         }
-
     });
-
 }
 
 function loadTicketsInfo(routeId, depSt, arrSt) {
@@ -200,6 +216,7 @@ function getVocabulary() {
             'departure': 'Отправление',
             'register': 'Зарегистрировать',
             'cancel': 'Отмена',
+            'status': 'Время сессии истекло или пользователь не зарегистрирован',
             'noTickets': 'Недостаточно билетов',
             'pass': 'Пароль',
             'exists': 'Cтанция уже есть в базе.',
@@ -215,6 +232,7 @@ function getVocabulary() {
             'economy': 'Count of economy:',
             'business': 'Count of business:',
             'comfort': 'Count of comfort:',
+            'status': 'Session is over or user not validated',
             'stName': 'Station name',
             'lName': 'Last name',
             'register': 'Register',

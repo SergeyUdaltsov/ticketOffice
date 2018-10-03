@@ -59,6 +59,11 @@ public class AddNewRouteCommand implements Command {
         response.setStatus(200);
     }
 
+    /**
+     * Receives request gets builds route from it.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     */
     private Route getRouteFromRequest(HttpServletRequest request) {
 
         String jsStr = request.getParameter("jsonRoute");

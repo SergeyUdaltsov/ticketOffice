@@ -78,6 +78,18 @@ function getVocabulary() {
     };
 }
 
+function writeCookie(name,value,min) {
+    var date, expires;
+    if (min) {
+        date = new Date();
+        date.setTime(date.getTime()+(min*60*1000));
+        expires = "; expires=" + date.toGMTString();
+    }else{
+        expires = "";
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
 function validateUser(login) {
     $.ajax({
         type: 'post',
@@ -98,9 +110,13 @@ function validateUser(login) {
                 user.firstName = data.firstName;
                 user.lastName = data.lastName;
                 user.email = data.email;
+                user.password = data.password;
 
                 window.localStorage.setItem('user', JSON.stringify(user));
-                window.localStorage.setItem('status', JSON.stringify('registered'));
+
+                writeCookie('password', data.password, 10);
+
+                window.localStorage.setItem('status', JSON.stringify('entered'));
 
                 $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
             }

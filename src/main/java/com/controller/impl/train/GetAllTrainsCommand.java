@@ -15,7 +15,8 @@ import java.util.List;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 25.09.2018.
+ * The {@code GetAllTrainsCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for getting the list of all the trains.
  */
 public class GetAllTrainsCommand implements Command {
 
@@ -27,6 +28,12 @@ public class GetAllTrainsCommand implements Command {
         this.SERVICE = service;
     }
 
+    /**
+     * Receives request and response, sets to the response content list of all trains from data base.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 

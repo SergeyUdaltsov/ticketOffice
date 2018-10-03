@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Serg on 25.09.2018.
+ * The {@code GetTrainByIdCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for getting data of train with specified id.
  */
 public class GetTrainByIdCommand implements Command {
 
@@ -26,6 +27,14 @@ public class GetTrainByIdCommand implements Command {
         this.SERVICE = service;
     }
 
+    /**
+     * Receives request and response, gets from request the id of train which should be retrieved.
+     * Gets from data base data of train with specified id and sets the instance of train
+     * to the response content.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
@@ -36,9 +45,9 @@ public class GetTrainByIdCommand implements Command {
         Train train = SERVICE.getTrainById(trainId);
 
         try {
+            response.setCharacterEncoding(ENCODING);
 
             response.setContentType(CONTENT_TYPE);
-            response.setCharacterEncoding(ENCODING);
             response.getWriter().write(new Gson().toJson(train));
 
         } catch (IOException e) {

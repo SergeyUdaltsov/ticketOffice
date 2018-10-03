@@ -28,6 +28,13 @@ public class GetAllRoutesCommand implements Command {
         this.ROUTE_SERVICE = ROUTE_SERVICE;
     }
 
+
+    /**
+     * Receives request and response, sets the list of routes to the response
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 

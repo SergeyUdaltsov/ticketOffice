@@ -28,6 +28,14 @@ public class GetAllStationsCommand implements Command{
         this.STATION_SERVICE = STATION_SERVICE;
     }
 
+
+    /**
+     * Receives request and response, sets to the response content
+     * the list of all stations from data base
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 

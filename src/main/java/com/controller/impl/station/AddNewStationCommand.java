@@ -32,7 +32,7 @@ public class AddNewStationCommand implements Command {
 
     /**
      * Receives request and response, gets station from request,
-     * checks station for existing using and creates new station.
+     * and creates new station.
      * <p>
      * if station exists, sets response status 406.
      *
@@ -60,6 +60,14 @@ public class AddNewStationCommand implements Command {
 
     }
 
+    /**
+     * Receives request, creates a station object from request,
+     * and returnes it to the method.
+     * <p>
+     *
+     * @param request {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @return the instance of {@code Station} entity class
+     */
     private Station buildStationFromRequest(HttpServletRequest request) {
 
         String jsStr = request.getParameter("jsonStation");

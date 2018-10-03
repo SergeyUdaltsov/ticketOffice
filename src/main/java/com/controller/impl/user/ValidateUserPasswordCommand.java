@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
+
 import static com.utils.UtilConstants.*;
 
 /**
@@ -32,10 +33,10 @@ public class ValidateUserPasswordCommand implements Command {
     /**
      * Receives request and response, gets user email and password from request,
      * gets user from db using {@code validateUser() method} and checks for matching email to password.
-     *
+     * <p>
      * if user exists or password does not match the email sets response status 406.
      *
-     * @param request {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
      * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
      */
     @Override
@@ -50,18 +51,19 @@ public class ValidateUserPasswordCommand implements Command {
 
             User user = SERVICE.validateUser(email, password);
 
-            if (Objects.isNull(user)){
+            if (Objects.isNull(user)) {
                 response.setStatus(406);
                 return;
             }
-
+            request.getSession().setAttribute("user", user);
             try {
+
                 response.setContentType(CONTENT_TYPE);
                 response.setCharacterEncoding(ENCODING);
                 response.getWriter().write(new Gson().toJson(user));
 
             } catch (IOException e) {
-               LOGGER.error(USER_NOT_VALIDATED);
+                LOGGER.error(USER_NOT_VALIDATED);
             }
 
         } catch (JSONException e) {

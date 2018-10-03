@@ -13,7 +13,8 @@ import static com.utils.UtilConstants.*;
 
 /**
  * The {@code DeleteRouteByIdCommand} class is an implementation of
- * {@code Command} interface, that is responsible to delete route with specified id.
+ * {@code Command} interface, that is responsible for deleting route with specified id.
+ *
  */
 public class DeleteRouteByIdCommand implements Command {
 
@@ -27,6 +28,14 @@ public class DeleteRouteByIdCommand implements Command {
     }
 
 
+    /**
+     * Receives request and response gets id of route
+     * which should be deleted from request and deletes it.
+     *
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
         String jsStr = request.getParameter("stationId");

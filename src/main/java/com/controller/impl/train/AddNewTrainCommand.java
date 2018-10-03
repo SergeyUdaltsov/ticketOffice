@@ -29,6 +29,14 @@ public class AddNewTrainCommand implements Command {
         this.SERVICE = service;
     }
 
+    /**
+     * Receives request and response, creates from request instance of Train which should
+     * be persisted to the data base.
+     *
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 
@@ -49,6 +57,12 @@ public class AddNewTrainCommand implements Command {
         response.setStatus(200);
     }
 
+    /**
+     * Method responsible for the creating of instance of Train
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     * */
     private Train buildTrainFromRequest(HttpServletRequest request, HttpServletResponse response) {
 
         Train train = new Train();

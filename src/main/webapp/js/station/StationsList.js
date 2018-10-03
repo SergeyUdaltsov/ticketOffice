@@ -1,7 +1,12 @@
 var vocabulary;
 var language;
 var user = new Object();
+
+
+
 $(window).ready(function () {
+
+
 
     if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
         $(location).attr('href', 'http://localhost:9999/index.jsp');
@@ -45,8 +50,13 @@ $(window).ready(function () {
 
         window.localStorage.setItem('lang', JSON.stringify(transLang));
     });
+
+
 });
 
+$(window).onunload(function () {
+    localStorage.setItem('user', null);
+});
 
 function loadStations(url) {
     $.ajax({

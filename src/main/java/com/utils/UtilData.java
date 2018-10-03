@@ -21,9 +21,7 @@ import com.service.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import static com.utils.UtilConstants.*;
 
@@ -34,8 +32,14 @@ public class UtilData {
 
     public static final Map<String, Command> COMMANDS_MAP = new HashMap<>();
 
+    private String language = "ru";
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     static {
+
 
         RouteDAO routeDAO = new JDBCRouteDAO();
         StationDAO stationDAO = new JDBCStationDAO();
@@ -77,33 +81,11 @@ public class UtilData {
 
     }
 
-    public static void sendJson(Sendable entity, HttpServletResponse response) throws IOException {
-        response.setContentType(CONTENT_TYPE);
-        response.setCharacterEncoding(ENCODING);
-        response.getWriter().write(new Gson().toJson(entity));
-    }
+//    public static void sendJson(Sendable entity, HttpServletResponse response) throws IOException {
+//        response.setContentType(CONTENT_TYPE);
+//        response.setCharacterEncoding(ENCODING);
+//        response.getWriter().write(new Gson().toJson(entity));
+//    }
 
-    static String localize(String key) {
 
-        Locale locale = null;
-
-        String lang = "ru";
-
-        switch (lang) {
-            case "ru": {
-                locale = new Locale("ru");
-                break;
-            }
-            case "en": {
-                locale = new Locale("en");
-                break;
-            }
-            default: {
-                locale = new Locale("en");
-            }
-        }
-        ResourceBundle myBundle = ResourceBundle.getBundle("logs", locale);
-
-        return myBundle.getString(key);
-    }
 }

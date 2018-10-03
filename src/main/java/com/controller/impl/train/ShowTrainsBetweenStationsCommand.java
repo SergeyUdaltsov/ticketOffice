@@ -4,6 +4,8 @@ import com.controller.Command;
 import com.entity.Tour;
 import com.google.gson.Gson;
 import com.service.TrainService;
+import com.utils.UtilConstants;
+import com.utils.UtilData;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -17,7 +19,9 @@ import java.util.List;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 26.09.2018.
+ * The {@code ShowTrainsBetweenStationsCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for retrieving from data base
+ * the list of trains with its data which go through the specified stations.
  */
 public class ShowTrainsBetweenStationsCommand implements Command {
 
@@ -29,6 +33,14 @@ public class ShowTrainsBetweenStationsCommand implements Command {
         this.SERVICE = service;
     }
 
+    /**
+     * Receives request and response, gets from request the data of departure and arrival stations,
+     * and sets to the response content list of all the trains which go through between specified stations.
+     *
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 

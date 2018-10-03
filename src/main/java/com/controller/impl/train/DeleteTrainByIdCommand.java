@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 25.09.2018.
+ * The {@code DeleteTrainByIdCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for deleting train with
+ * specified id.
  */
 public class DeleteTrainByIdCommand implements Command {
 
@@ -24,6 +26,15 @@ public class DeleteTrainByIdCommand implements Command {
         this.SERVICE = service;
     }
 
+
+    /**
+     * Receives request and response, gets from request id of Train which should
+     * be deleted from data base.
+     *
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 

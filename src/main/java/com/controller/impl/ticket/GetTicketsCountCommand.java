@@ -16,7 +16,9 @@ import java.util.List;
 import static com.utils.UtilConstants.*;
 
 /**
- * Created by Serg on 27.09.2018.
+ * The {@code GetTicketsCountCommand} class is an implementation of
+ * {@code Command} interface, that is responsible for calculating tickets count
+ * available for buying to the specified train between specified stations.
  */
 public class GetTicketsCountCommand implements Command {
 
@@ -28,6 +30,17 @@ public class GetTicketsCountCommand implements Command {
         this.SERVICE = service;
     }
 
+    /**
+     * Receives request and response, gets data from request:
+     * depStId - departure station id, arrStId - arrival station id.
+     *
+     * Calculates count of available tickets and sets to the response
+     * the list of three numbers: count of economy places, count of business places
+     * and count of comfort places.
+     *
+     * @param request  {@code HttpServletRequest} from {@code FrontControllerServlet} servlet
+     * @param response {@code HttpServletResponse} from {@code FrontControllerServlet} servlet
+     */
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) {
 

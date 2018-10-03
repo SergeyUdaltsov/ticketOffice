@@ -85,6 +85,7 @@ public class MySQLUserService implements UserService {
                     .buildLastName(resultSet.getString("last_name"))
                     .buildEmail(resultSet.getString("email"))
                     .buildAdmin(resultSet.getBoolean("admin"))
+                    .buildPassword(resultSet.getString("pswrd"))
                     .build();
         }
         return user;

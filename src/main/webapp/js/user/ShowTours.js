@@ -2,7 +2,9 @@ var vocabulary;
 var language;
 var order = new Object();
 var trip;
+
 $(window).ready(function () {
+
 
     vocabulary = getVocabulary();
 
@@ -14,7 +16,7 @@ $(window).ready(function () {
 
     trip = window.localStorage.getItem('trip');
 
-    loadTrains(trip);
+    loadTrains(trip, language);
 
     window.localStorage.setItem('order', JSON.stringify(order));
 
@@ -27,24 +29,32 @@ $(window).ready(function () {
 
     $('.translate').click(function () {
 
-        location.reload();
         var transLang = $(this).attr('id');
 
         translatePage(transLang);
 
         window.localStorage.setItem('lang', JSON.stringify(transLang));
+
+        location.reload();
+
     });
+
+    // window.addEventListener("beforeunload", function () {
+    //     window.localStorage.removeItem('status');
+    // }, false);
+
+
 });
 
 
-
-function loadTrains(data) {
+function loadTrains(data, lang) {
     $.ajax({
         url: 'http://localhost:9999/railways/train/show',
         type: 'get',
         dataType: 'json',
         data: {
-            jsonTrip: data
+            jsonTrip: data,
+            jsLang: lang
         },
 
         success: function (data) {
