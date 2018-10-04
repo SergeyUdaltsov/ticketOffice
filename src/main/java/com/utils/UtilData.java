@@ -14,12 +14,8 @@ import com.controller.impl.user.ValidateUserPasswordCommand;
 import com.dao.*;
 import com.dao.factory.DAOFactory;
 import com.dao.impl.*;
-import com.entity.Sendable;
-import com.google.gson.Gson;
 import com.service.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,12 +76,5 @@ public class UtilData {
         COMMANDS_MAP.put(BUY_TICKETS_COMMAND, new BuyTicketsCommand(ticketService));
 
     }
-
-//    public static void sendJson(Sendable entity, HttpServletResponse response) throws IOException {
-//        response.setContentType(CONTENT_TYPE);
-//        response.setCharacterEncoding(ENCODING);
-//        response.getWriter().write(new Gson().toJson(entity));
-//    }
-
 
 }

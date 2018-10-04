@@ -61,7 +61,6 @@ public class BuyTicketsCommand implements Command {
 
             User user = (User) request.getSession().getAttribute("user");
 
-
             TicketOrder order = fillUpTicketOrder(request, user, stationFrom, stationTo);
 
             try {
@@ -108,6 +107,9 @@ public class BuyTicketsCommand implements Command {
         int busCount = jsonObject.getInt("busCountToBuy");
         int comCount = jsonObject.getInt("comCountToBuy");
         int routeId = jsonObject.getInt("routeId");
+        double ecoPrice = jsonObject.getDouble("ecoPr");
+        double busPrice = jsonObject.getDouble("busPr");
+        double comPrice = jsonObject.getDouble("comPr");
 
         return new TicketOrderBuilder()
                 .buildUser(user)
@@ -117,6 +119,9 @@ public class BuyTicketsCommand implements Command {
                 .buildEconomyCount(ecoCount)
                 .buildBusinessCount(busCount)
                 .buildComfortCount(comCount)
+                .buildEcoPrice(ecoPrice)
+                .buildBusPrice(busPrice)
+                .buildComPrice(comPrice)
                 .build();
     }
 }

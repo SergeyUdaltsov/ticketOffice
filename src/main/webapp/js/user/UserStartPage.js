@@ -51,11 +51,22 @@ $(window).ready(function () {
         window.localStorage.setItem('lang', JSON.stringify(transLang));
     });
 
-
-
 });
 
-
+function readCookie(name) {
+    var i, c, ca, nameEQ = name + "=";
+    ca = document.cookie.split(';');
+    for (i = 0; i < ca.length; i++) {
+        c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1, c.length);
+        }
+        if (c.indexOf(nameEQ) == 0) {
+            return c.substring(nameEQ.length, c.length);
+        }
+    }
+    return '';
+}
 
 function loadItems(select, url) {
     $.ajax({
@@ -93,6 +104,7 @@ function getVocabulary() {
             'stTo': 'Станция прибытия',
             'code' : 'Код',
             'st_start' : 'Ст. отпр.',
+            'stDate' : 'Выберите дату',
             'depart_time': 'Время отпр',
             'st_finish': 'Ст приб.',
             'arr_time': 'Время приб.'
@@ -105,6 +117,7 @@ function getVocabulary() {
             'stTo': 'Arrival station',
             'cancel' :'Exit',
             'code' : 'Code',
+            'stDate' : 'Choose date ',
             'st_start' : 'Dep st.',
             'depart_time': 'Dep. time',
             'st_finish': 'Arr. st.',

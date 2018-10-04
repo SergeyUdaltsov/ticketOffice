@@ -4,6 +4,7 @@ import com.entity.Tour;
 import com.entity.Train;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -56,6 +57,6 @@ public interface TrainService {
      * @param arrivalStationId   the {@code int} parameter specifies arrival station.
      * @return {@code List<Tour>} list of tours between specified stations.
      */
-    List<Tour> getTrainsByStations(int departureStationId, int arrivalStationId);
+    List<Tour> getTrainsByStations(int departureStationId, int arrivalStationId, LocalDate depDate);
 
 }

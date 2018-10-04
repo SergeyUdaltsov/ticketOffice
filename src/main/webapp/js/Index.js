@@ -43,6 +43,61 @@ $(window).ready(function () {
     });
 });
 
+
+
+function writeCookie(name,value,min) {
+    var date, expires;
+    if (min) {
+        date = new Date();
+        date.setTime(date.getTime()+(min*60*1000));
+        expires = "; expires=" + date.toGMTString();
+    }else{
+        expires = "";
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function validateUser(login) {
+    $.ajax({
+        type: 'post',
+        url: 'http://localhost:9999/railways/user/validate',
+        dataType: 'JSON',
+        data: {
+            jsonLogin: login
+        },
+        success: function (data) {
+
+            if (data.administrator === true) {
+
+                writeCookie('password', data.password, 60);
+                window.localStorage.setItem('user', JSON.stringify(data));
+
+                window.localStorage.setItem('status', JSON.stringify('admin'));
+
+                $(location).attr('href', 'http://localhost:9999/html/admin/AdminStartPage.html');
+            }else {
+
+                user.firstName = data.firstName;
+                user.lastName = data.lastName;
+                user.email = data.email;
+                user.password = data.password;
+
+                window.localStorage.setItem('user', JSON.stringify(user));
+                window.localStorage.setItem('status', JSON.stringify('registered'));
+
+                writeCookie('password', data.password, 10);
+
+                $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
+            }
+        },
+        error: function (data) {
+            if (data.status === 406) {
+                alert(vocabulary[language]['exists']);
+            }
+        }
+    });
+}
+
 function translatePage(transLang) {
 
     $('.lang').each(function (index, element) {
@@ -76,55 +131,4 @@ function getVocabulary() {
         }
 
     };
-}
-
-function writeCookie(name,value,min) {
-    var date, expires;
-    if (min) {
-        date = new Date();
-        date.setTime(date.getTime()+(min*60*1000));
-        expires = "; expires=" + date.toGMTString();
-    }else{
-        expires = "";
-    }
-    document.cookie = name + "=" + value + expires + "; path=/";
-}
-
-function validateUser(login) {
-    $.ajax({
-        type: 'post',
-        url: 'http://localhost:9999/railways/user/validate',
-        dataType: 'JSON',
-        data: {
-            jsonLogin: login
-        },
-        success: function (data) {
-
-            if (data.administrator === true) {
-
-                window.localStorage.setItem('status', JSON.stringify('admin'));
-
-                $(location).attr('href', 'http://localhost:9999/html/admin/AdminStartPage.html');
-            }else {
-
-                user.firstName = data.firstName;
-                user.lastName = data.lastName;
-                user.email = data.email;
-                user.password = data.password;
-
-                window.localStorage.setItem('user', JSON.stringify(user));
-
-                writeCookie('password', data.password, 10);
-
-                window.localStorage.setItem('status', JSON.stringify('entered'));
-
-                $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
-            }
-        },
-        error: function (data) {
-            if (data.status === 406) {
-                alert(vocabulary[language]['exists']);
-            }
-        }
-    });
 }

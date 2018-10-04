@@ -27,10 +27,6 @@ public class TourBuilder {
         return this;
     }
 
-    public TourBuilder buildTourPrice(long tourPrice) {
-        this.tour.setTourPrice(tourPrice);
-        return this;
-    }
 
     public TourBuilder buildTourTime(String tourTime){
         this.tour.setTourTime(tourTime);

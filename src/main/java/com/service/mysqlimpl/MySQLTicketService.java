@@ -11,6 +11,7 @@ import com.service.TicketService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,11 @@ public class MySQLTicketService implements TicketService {
      * Responsible for getting the count of available tickets to the train
      * which goes through specified stations.
      *
-     * @param routeId the {@code int} parameter specifies the Route.
+     * @param routeId     the {@code int} parameter specifies the Route.
      * @param stationFrom the {@code int} parameter specifies departure station.
-     * @param stationTo the {@code int} parameter specifies arrival station.
+     * @param stationTo   the {@code int} parameter specifies arrival station.
      * @return {@code List<Integer>} list of values according to types.
-     * */
+     */
     @Override
     public List<Integer> getTicketCount(int routeId, int stationFrom, int stationTo) throws SQLException {
 
@@ -77,7 +78,7 @@ public class MySQLTicketService implements TicketService {
      *
      * @param resultSet the {@code ResultSet} from {@code getTicketCount()} method.
      * @return {@code List<Integer>} list of counts of tickets by the types.
-     * */
+     */
     private List<Integer> getCountOfSeatsFromResultSet(ResultSet resultSet) throws SQLException {
 
         List<Integer> availableSeats = new ArrayList<>();
@@ -102,7 +103,7 @@ public class MySQLTicketService implements TicketService {
      * decreasing the values of corresponds available tickets in DB.
      *
      * @param order the {@code Order} instance encapsulating all the data for buying tickets.
-     * */
+     */
     @Override
     public void buyTickets(TicketOrder order) throws SQLException {
 
@@ -114,14 +115,13 @@ public class MySQLTicketService implements TicketService {
 
             TICKET_DAO.buyTickets(order, dateTimes);
 
-            LOGGER.info(USER + order.getUser().getFirstName() + " " + order.getUser().getLastName() + BOUGHT_TICKETS);
+            LOGGER.info(USER + order.getUser().getFirstName() + " " + order.getUser().getLastName() + " " + BOUGHT_TICKETS);
 
             sendMail(order);
 
         } catch (SQLException e) {
 
             throw new SQLException(NOT_ENOUGH_TICKETS);
-
         }
     }
 
@@ -129,22 +129,32 @@ public class MySQLTicketService implements TicketService {
      * Responsible for sending mail to the user who bought tickets.
      *
      * @param order the {@code TicketOrder} instance encapsulating all the data for sending mail.
-     * */
+     */
     private void sendMail(TicketOrder order) {
 
         StringBuilder text = new StringBuilder();
 
-        text.append("Dear ").append(order.getUser().getFirstName()).append(" ").append(order.getUser().getLastName()).append("!")
-                .append(System.lineSeparator()).append("You have bought ticket(s) on our site. Now you can travel ")
-                .append(System.lineSeparator()).append("with comfort by our trains").append(System.lineSeparator())
-                .append("Economy - ").append(order.getCountOfEconomy()).append(System.lineSeparator())
-                .append("Business - ").append(order.getCountOfBusiness()).append(System.lineSeparator())
-                .append("Comfort - ").append(order.getCountOfComfort());
+        double ecoSum = roundValue(order.getEcoPrice() * order.getCountOfEconomy());
+
+        double busSum = roundValue(order.getBusPrice() * order.getCountOfBusiness());
+
+        double comSum = roundValue(order.getComPrice() * order.getCountOfComfort());
+
+        text.append(DEAR).append(order.getUser().getFirstName()).append(" ").append(order.getUser().getLastName()).append("!")
+                .append(System.lineSeparator()).append(YOU_BOUGHT_TICKETS)
+                .append(System.lineSeparator()).append(OUR_TRAINS).append(System.lineSeparator())
+                .append(ECONOMY).append(order.getCountOfEconomy()).append(SUM).append(ecoSum)
+                .append(System.lineSeparator())
+                .append(BUSINESS).append(order.getCountOfBusiness()).append(SUM).append(busSum)
+                .append(System.lineSeparator())
+                .append(COMFORT).append(order.getCountOfComfort()).append(SUM).append(comSum)
+                .append(System.lineSeparator())
+                .append(TOTAL_SUM).append(ecoSum + busSum + comSum);
 
 
         Letter letter = new LetterBuilder()
                 .buildAddress(order.getUser().getEmail())
-                .buildSubject("Mail from ticket office")
+                .buildSubject(MAIL_SUBJECT)
                 .buildText(text.toString())
                 .build();
 
@@ -153,5 +163,9 @@ public class MySQLTicketService implements TicketService {
         LOGGER.info(MAIL_SENT);
     }
 
+    private double roundValue(double value) {
+
+        return BigDecimal.valueOf(value).setScale(ROUND_DOUBLE, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
 
 }

@@ -49,7 +49,7 @@ public class MySQLUserService implements UserService {
     @Override
     public User validateUser(String email, String password) {
 
-        User user = new User();
+        User user = null;
 
         try (Connection connection = MySQLConnectorManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_VALIDATE_PASSWORD_USER)) {
@@ -81,7 +81,7 @@ public class MySQLUserService implements UserService {
      * */
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
 
-        User user = new User();
+        User user = null;
 
         while (resultSet.next()) {
 

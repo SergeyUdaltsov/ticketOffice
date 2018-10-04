@@ -5,10 +5,10 @@ import com.dao.TrainDAO;
 import com.dbConnector.MySQLConnectorManager;
 import com.entity.Train;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +150,7 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
 
     /**
      * Responsible for getting ResultSet from DB containing all the data of all the Train
-     * due to the specified stations.
+     * due to the specified stations and departure date.
      *
      * @param departureStationId the {@code int} parameter, specifies departure station.
      * @param arrivalStationId the {@code int} parameter, specifies arrival station.
@@ -158,7 +158,10 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
      */
     @Override
     public ResultSet getTrainsByStations(PreparedStatement statement, int departureStationId,
-                                         int arrivalStationId) throws SQLException {
+                                         int arrivalStationId, LocalDate depDate) throws SQLException {
+
+        LocalDateTime depDateFrom =  LocalDateTime.of(depDate, LocalTime.parse("00:01"));
+        LocalDateTime depDateTo =  LocalDateTime.of(depDate, LocalTime.parse("23:59"));
 
         statement.setInt(1, departureStationId);
         statement.setInt(2, arrivalStationId);
@@ -166,7 +169,34 @@ public class JDBCTrainDAO implements TrainDAO, CommonsOperable {
         statement.setInt(4, arrivalStationId);
         statement.setInt(5, departureStationId);
         statement.setInt(6, arrivalStationId);
+        statement.setString(7, depDateFrom.toString());
+        statement.setString(8, depDateTo.toString());
 
         return statement.executeQuery();
+    }
+
+    @Override
+    public int getIdOfFirstTrainInDataBase() throws SQLException {
+
+        int trainId = 0;
+
+        try(Connection connection = MySQLConnectorManager.getConnection();
+            Statement statement = connection.createStatement()){
+
+            MySQLConnectorManager.startTransaction(connection);
+
+            ResultSet resultSet = statement.executeQuery(SQL_GET_TRAIN_ID_FIRST_RECORD);
+
+
+            while (resultSet.next()){
+
+                trainId = resultSet.getInt(1);
+            }
+
+            MySQLConnectorManager.commitTransaction(connection);
+
+        }
+
+        return trainId;
     }
 }

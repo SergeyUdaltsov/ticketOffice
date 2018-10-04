@@ -61,6 +61,7 @@ function getVocabulary() {
             'register': 'Зарегистрировать',
             'cancel': 'Отмена',
             'pass': 'Пароль',
+            'mailWrong': 'Неверный формат эл. адреса',
             'exists': 'Пользователь с таким адресом уже зарегистрирован.',
             'fillUp': 'Заполните все поля.'
         },
@@ -69,6 +70,7 @@ function getVocabulary() {
             'email': 'Email',
             'fName': 'First name',
             'lName': 'Last name',
+            'mailWrong': 'Wrong mail format',
             'register': 'Register',
             'cancel': 'Cancel',
             'pass': 'Password',
@@ -94,12 +96,15 @@ function registerUser(user) {
             if (data.status === 406) {
                 alert(vocabulary[language]['exists']);
             }
+            if (data.status === 405) {
+                alert(vocabulary[language]['mailWrong']);
+            }
         },
         complete: function (data) {
             if (data.status === 200) {
 
-                window.localStorage.setItem('status', JSON.stringify('entered'));
-                writeCookie('password', data.password, 365);
+                window.localStorage.setItem('status', JSON.stringify('registered'));
+                writeCookie('password', JSON.parse(user).password, 10);
                 window.localStorage.setItem('user', user);
                 $(location).attr('href', 'http://localhost:9999/html/user/UserStartPage.html');
             }

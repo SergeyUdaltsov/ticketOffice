@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -58,7 +59,8 @@ public interface TrainDAO {
      * @param arrivalStation the {@code int} parameter, specifies arrival station.
      * @param statement the {@code PreparedStatement} from {@code MySQLTrainService}.
      */
-    ResultSet getTrainsByStations(PreparedStatement statement, int departureStation, int arrivalStation) throws SQLException;
+    ResultSet getTrainsByStations(PreparedStatement statement, int departureStation,
+                                  int arrivalStation, LocalDate depDate) throws SQLException;
 
     /**
      * Responsible for updating Train in DB
@@ -66,4 +68,6 @@ public interface TrainDAO {
      * @param train the instance of {@code Train} entity class
      */
     void updateTrain(Train train) throws SQLException;
+
+    int getIdOfFirstTrainInDataBase() throws SQLException;
 }

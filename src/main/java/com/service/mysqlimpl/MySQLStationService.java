@@ -276,6 +276,7 @@ public class MySQLStationService implements StationService {
 
             Station station = new StationBuilder()
                     .buildName(resultSet.getString("name"))
+                    .buildNameRu(resultSet.getString("name_ru"))
                     .buildArrDateTimeString(resultSet.getString("arrival_date_time"))
                     .buildDepTimeString(resultSet.getString("departure_time"))
                     .build();

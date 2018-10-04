@@ -64,7 +64,9 @@ public class MySQLRouteService implements RouteService {
 
         addIntermediateStation(interStation);
 
-        setTrain(DEFAULT_TRAIN_ID, routeId);
+        int defaultTrainId = trainDAO.getIdOfFirstTrainInDataBase();
+
+        setTrain(defaultTrainId, routeId);
 
     }
 

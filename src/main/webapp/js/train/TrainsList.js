@@ -74,7 +74,6 @@ function loadTrains(url) {
                 cell3 = document.createElement("td");
                 cell4 = document.createElement("td");
 
-                textNode1 = document.createTextNode(this.name);
                 textNode2 = document.createTextNode(this.economyPlacesCount);
                 textNode3 = document.createTextNode(this.businessPlacesCount);
                 textNode4 = document.createTextNode(this.comfortPlacesCount);

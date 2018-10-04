@@ -39,13 +39,7 @@ $(window).ready(function () {
 
     });
 
-    // window.addEventListener("beforeunload", function () {
-    //     window.localStorage.removeItem('status');
-    // }, false);
-
-
 });
-
 
 function loadTrains(data, lang) {
     $.ajax({
@@ -79,6 +73,8 @@ function loadTrains(data, lang) {
                 cell6 = document.createElement("td");
                 cell7 = document.createElement("td");
                 cell8 = document.createElement("td");
+                cell9 = document.createElement("td");
+                cell10 = document.createElement("td");
 
                 textNode2 = document.createTextNode(this.arrivalTimeDateStart);
                 textNode3 = document.createTextNode(this.departureTime);
@@ -86,14 +82,17 @@ function loadTrains(data, lang) {
                 textNode5 = document.createTextNode(this.arrivalTimeDateFinish);
                 textNode6 = document.createTextNode((language === 'ru') ? this.arrivalStationRu : this.arrivalStation);
                 textNode7 = document.createTextNode(this.tourTime);
-                textNode8 = document.createTextNode(this.tourPrice);
+                textNode8 = document.createTextNode(this.tourPriceEco);
+                textNode9 = document.createTextNode(this.tourPriceBusiness);
+                textNode10 = document.createTextNode(this.tourPriceComfort);
 
 
                 var nod = document.createElement('a');
                 var nodText = document.createTextNode(vocabulary[language]['buy']);
 
                 nod.setAttribute('href', 'http://localhost:9999/html/ticket/BuyTicket.html?id=' +
-                    this.routeId + "&dep_st_id=" + this.departureStationId + "&arr_st_id=" + this.arrivalStationId);
+                    this.routeId + "&dep_st_id=" + this.departureStationId + "&arr_st_id=" + this.arrivalStationId +
+                    "&ecoPr=" + this.tourPriceEco + "&busPr=" + this.tourPriceBusiness + "&comPr=" + this.tourPriceComfort);
                 nod.appendChild(nodText);
 
                 cell1.appendChild(nod);
@@ -104,6 +103,8 @@ function loadTrains(data, lang) {
                 cell6.appendChild(textNode6);
                 cell7.appendChild(textNode7);
                 cell8.appendChild(textNode8);
+                cell9.appendChild(textNode9);
+                cell10.appendChild(textNode10);
 
                 row.appendChild(cell1);
                 row.appendChild(cell2);
@@ -113,6 +114,8 @@ function loadTrains(data, lang) {
                 row.appendChild(cell6);
                 row.appendChild(cell7);
                 row.appendChild(cell8);
+                row.appendChild(cell9);
+                row.appendChild(cell10);
 
                 new_tbody.appendChild(row);
 
@@ -149,6 +152,9 @@ function getVocabulary() {
             'register': 'Зарегистрировать',
             'cancel': 'Отмена',
             'buy': 'Купить',
+            'eco': 'Общ, грн.',
+            'bus': 'Пл грн.',
+            'com': 'Купе грн.',
             'pass': 'Пароль',
             'exists': 'Пользователь с таким адресом уже зарегистрирован.',
             'fillUp': 'Заполните все поля.'
@@ -164,6 +170,9 @@ function getVocabulary() {
             'tourPrice': 'Price',
             'fName': 'First name',
             'lName': 'Last name',
+            'eco': 'Eco hrn',
+            'bus': 'Busn hrn',
+            'com': 'Comf hrn',
             'buy': 'Buy',
             'register': 'Register',
             'cancel': 'Cancel',

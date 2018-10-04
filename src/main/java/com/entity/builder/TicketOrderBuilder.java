@@ -14,6 +14,22 @@ public class TicketOrderBuilder {
         this.ticket = new TicketOrder();
     }
 
+
+    public TicketOrderBuilder buildEcoPrice(double ecoPr){
+    this.ticket.setEcoPrice(ecoPr);
+    return this;
+    }
+
+    public TicketOrderBuilder buildBusPrice(double busPr) {
+        this.ticket.setBusPrice(busPr);
+        return this;
+    }
+
+    public TicketOrderBuilder buildComPrice(double comPr) {
+        this.ticket.setComPrice(comPr);
+        return this;
+    }
+
     public TicketOrderBuilder buildId(int ticketId) {
         this.ticket.setId(ticketId);
         return this;
@@ -39,10 +55,10 @@ public class TicketOrderBuilder {
         return this;
     }
 
-    public TicketOrderBuilder buildTrainNumber(String trainNumber) {
-        this.ticket.setTrainNumber(trainNumber);
-        return this;
-    }
+//    public TicketOrderBuilder buildTrainNumber(String trainNumber) {
+//        this.ticket.setTrainNumber(trainNumber);
+//        return this;
+//    }
 
     public TicketOrderBuilder buildRouteId(int routeId) {
         this.ticket.setRouteId(routeId);

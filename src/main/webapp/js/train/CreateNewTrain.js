@@ -25,7 +25,8 @@ $(window).ready(function () {
 
         var data = JSON.stringify(train);
 
-        (train.name === "" || train.economy === "" || train.business === "" || train.comfort === "")
+        (train.name === "" || train.economy === "" || train.business === "" ||
+        train.comfort === "" || train.nameRu === "")
             ? alert(vocabulary[language]['fillUp'])
             : createTrain(data);
 
@@ -70,7 +71,7 @@ function getVocabulary() {
             'businessName': 'Плацкарт',
             'comfortName': 'Купе',
             'pass': 'Пароль',
-            'exists': 'Cтанция уже есть в базе.',
+            'exists': 'Поезд уже есть в базе.',
             'fillUp': 'Заполните все поля.'
         },
         en: {
@@ -85,7 +86,7 @@ function getVocabulary() {
             'lName': 'Last name',
             'cancel': 'Cancel',
             'pass': 'Password',
-            'exists': 'Station already exists.',
+            'exists': 'Train already exists.',
             'fillUp': 'Fill up all the fields'
         }
 

@@ -46,7 +46,7 @@ public class RegisterNewUserCommand implements Command {
             User user = getUserFromRequest(request);
 
             if (!user.getEmail().matches(EMAIL_REGEX)){
-                response.setStatus(406);
+                response.setStatus(405);
                 return;
             }
 

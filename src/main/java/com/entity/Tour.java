@@ -17,7 +17,9 @@ public class Tour {
     private String arrivalStationRu;
     private int arrivalStationId;
     private String tourTime;
-    private long tourPrice;
+    private double tourPriceEco;
+    private double tourPriceBusiness;
+    private double tourPriceComfort;
 
     public void setDepartureStationRu(String departureStationRu) {
         this.departureStationRu = departureStationRu;
@@ -31,8 +33,16 @@ public class Tour {
         this.tourTime = tourTime;
     }
 
-    public void setTourPrice(long tourPrice) {
-        this.tourPrice = tourPrice;
+    public void setTourPriceEco(double tourPriceEco) {
+        this.tourPriceEco = tourPriceEco;
+    }
+
+    public void setTourPriceBusiness(double tourPriceBusiness) {
+        this.tourPriceBusiness = tourPriceBusiness;
+    }
+
+    public void setTourPriceComfort(double tourPriceComfort) {
+        this.tourPriceComfort = tourPriceComfort;
     }
 
     public String getCode() {

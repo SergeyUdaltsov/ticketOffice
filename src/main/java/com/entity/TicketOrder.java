@@ -6,15 +6,43 @@ public class TicketOrder {
 
     private int id;
     private User user;
-    private String trainNumber;
     private int countOfEconomy;
     private int countOfBusiness;
     private int countOfComfort;
     private Station stationFrom;
     private Station stationTo;
     private LocalTime departureTime;
-    private LocalTime arrivalTime;
     private int routeId;
+    private double ecoPrice;
+    private double busPrice;
+    private double comPrice;
+
+
+
+
+    public double getEcoPrice() {
+        return ecoPrice;
+    }
+
+    public void setEcoPrice(double ecoPrice) {
+        this.ecoPrice = ecoPrice;
+    }
+
+    public double getBusPrice() {
+        return busPrice;
+    }
+
+    public void setBusPrice(double busPrice) {
+        this.busPrice = busPrice;
+    }
+
+    public double getComPrice() {
+        return comPrice;
+    }
+
+    public void setComPrice(double comPrice) {
+        this.comPrice = comPrice;
+    }
 
     public int getId() {
         return id;
@@ -32,9 +60,6 @@ public class TicketOrder {
         this.user = user;
     }
 
-    public void setTrainNumber(String trainNumber) {
-        this.trainNumber = trainNumber;
-    }
 
     public int getCountOfEconomy() {
         return countOfEconomy;

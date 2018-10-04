@@ -1,56 +1,217 @@
-2018-10-02 16:01:41 ERROR RegisterNewUserCommand:53 - ??????????? ??? ???????????????.
-2018-10-02 16:05:06 ERROR RegisterNewUserCommand:53 - ??????????? ??? ???????????????.
-2018-10-02 16:13:29 ERROR RegisterNewUserCommand:53 - Пользователь.
-2018-10-02 17:15:44 INFO  JDBCRouteDAO:53 - Маршрут создан(а) из 1в 5
-2018-10-02 17:15:44 INFO  JDBCRouteDAO:86 - Промежуточная станция добавлена
-2018-10-02 17:15:44 INFO  JDBCRouteDAO:86 - Промежуточная станция добавлена
-2018-10-02 17:16:47 INFO  JDBCRouteDAO:86 - Промежуточная станция добавлена
-2018-10-02 17:16:57 INFO  JDBCRouteDAO:100 - Маршрут 3удален(а)
-2018-10-02 17:16:57 INFO  DeleteRouteByIdCommand:39 - Маршрут удален(а)
-2018-10-02 17:17:23 INFO  AddNewTrainCommand:40 - Поезд Intercity3создан(а) 
-2018-10-02 17:39:47 INFO  AddNewTrainCommand:40 - TrainOberihcreated
-2018-10-02 17:40:09 INFO  JDBCRouteDAO:86 - Intermediate.station.added
-2018-10-02 18:41:41 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 18:41:43 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 18:59:29 INFO  MySQLUserService:36 - Пользователь зарегистрирован
-2018-10-02 19:00:00 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 19:00:02 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 19:00:15 INFO  MySQLUserService:97 - Пользовательsergey udaltsovкупил билеты
-2018-10-02 19:00:17 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 19:11:39 INFO  MySQLUserService:97 - Пользовательsergey udaltsovкупил билеты
-2018-10-02 19:11:41 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 19:11:56 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 19:11:58 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 19:12:14 INFO  MySQLUserService:97 - Пользовательsergey udaltsovкупил билеты
-2018-10-02 19:12:16 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 19:12:25 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 19:12:27 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 19:59:03 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
-2018-10-02 19:59:05 INFO  MySQLUserService:128 - Mail.sent.
-2018-10-02 19:59:31 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
-2018-10-02 19:59:32 INFO  MySQLUserService:128 - Mail.sent.
-2018-10-02 20:00:37 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
-2018-10-02 20:00:39 INFO  MySQLUserService:128 - Mail.sent.
-2018-10-02 20:02:07 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 20:02:09 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 20:02:43 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 20:02:44 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 20:03:09 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 20:03:10 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 20:07:02 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
-2018-10-02 20:07:04 INFO  MySQLUserService:128 - Mail.sent.
-2018-10-02 20:07:45 INFO  MySQLUserService:97 - UserСергей Удальцовbought.tickets.
-2018-10-02 20:07:47 INFO  MySQLUserService:128 - Mail.sent.
-2018-10-02 20:12:22 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 20:12:24 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 20:13:06 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 20:13:07 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 20:28:40 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 20:28:43 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 20:29:14 INFO  MySQLUserService:97 - ПользовательСергей Удальцовкупил билеты
-2018-10-02 20:29:15 INFO  MySQLUserService:128 - Письмо послано
-2018-10-02 21:24:12 INFO  JDBCRouteDAO:100 - Route8deleted
-2018-10-02 21:24:12 INFO  DeleteRouteByIdCommand:39 - Routedeleted
-2018-10-02 21:32:14 INFO  JDBCRouteDAO:86 - Intermediate.station.added
-2018-10-02 21:32:28 INFO  JDBCRouteDAO:100 - Route6deleted
-2018-10-02 21:32:28 INFO  DeleteRouteByIdCommand:39 - Routedeleted
+2018-10-03 23:27:39 ERROR AddNewStationCommand:53 - Stationexists.
+2018-10-03 23:28:05 ERROR AddNewStationCommand:53 - Stationexists.
+2018-10-03 23:28:49 ERROR AddNewTrainCommand:52 - Train already exists.
+2018-10-03 23:38:16 ERROR AddIntermediateStationCommand:59 - Could not persist station.
+2018-10-03 23:38:40 ERROR AddIntermediateStationCommand:59 - Wrong date or time of intermediate station
+2018-10-03 23:46:07 ERROR AddIntermediateStationCommand:59 - Wrong date or time of intermediate station
+2018-10-03 23:46:19 ERROR AddIntermediateStationCommand:59 - Wrong date or time of intermediate station
+2018-10-03 23:46:42 ERROR AddIntermediateStationCommand:59 - Wrong date or time of intermediate station
+2018-10-03 23:47:57 ERROR AddNewRouteCommand:54 - Could not persist route
+2018-10-03 23:48:28 INFO  GetAllTrainsCommand:48 - TrainIntercity3updated
+2018-10-03 23:48:55 ERROR AddNewTrainCommand:52 - Train already exists.
+2018-10-03 23:49:27 ERROR AddNewTrainCommand:52 - Train already exists.
+2018-10-04 09:03:26 INFO  JDBCRouteDAO:59 - Routecreatedfrom3to6
+2018-10-04 09:03:26 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:03:26 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:03:49 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:04:07 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:04:26 ERROR AddIntermediateStationCommand:59 - Wrong date or time of intermediate station
+2018-10-04 09:04:37 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:14:53 INFO  JDBCRouteDAO:59 - Routecreatedfrom5to7
+2018-10-04 09:14:53 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:14:53 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:15:19 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:15:39 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:38:36 ERROR ShowTrainsBetweenStationsCommand:65 - Wrong route data received from client side.
+2018-10-04 09:45:50 ERROR ShowTrainsBetweenStationsCommand:67 - Wrong route data received from client side.
+2018-10-04 09:47:15 ERROR ShowTrainsBetweenStationsCommand:68 - Wrong route data received from client side.
+2018-10-04 09:48:25 ERROR ShowTrainsBetweenStationsCommand:68 - Wrong route data received from client side.
+2018-10-04 09:55:41 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to8
+2018-10-04 09:55:41 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:55:41 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:56:04 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 09:56:20 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 11:50:40 INFO  MySQLUserService:117 - UserСергей Удальцов bought.tickets.
+2018-10-04 11:50:42 INFO  MySQLUserService:156 - Mail.sent.
+2018-10-04 11:52:23 INFO  MySQLUserService:117 - UserСергей Удальцов bought.tickets.
+2018-10-04 11:52:24 INFO  MySQLUserService:156 - Mail.sent.
+2018-10-04 12:05:35 INFO  MySQLUserService:117 - UserСергей Удальцов bought.tickets.
+2018-10-04 12:05:37 INFO  MySQLUserService:161 - Mail.sent.
+2018-10-04 12:25:48 INFO  MySQLUserService:117 - ПользовательСергей Удальцов купил билеты
+2018-10-04 12:25:50 INFO  MySQLUserService:161 - Письмо послано
+2018-10-04 12:26:21 INFO  MySQLUserService:117 - ПользовательСергей Удальцов купил билеты
+2018-10-04 12:26:23 INFO  MySQLUserService:161 - Письмо послано
+2018-10-04 12:35:35 INFO  MySQLUserService:118 - UserСергей Удальцов bought.tickets.
+2018-10-04 12:35:37 INFO  MySQLUserService:164 - Mail.sent.
+2018-10-04 14:29:52 ERROR AddNewRouteCommand:54 - Could not persist route
+2018-10-04 14:30:08 ERROR AddNewRouteCommand:54 - Could not persist route
+2018-10-04 14:33:40 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to3
+2018-10-04 14:33:40 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:33:49 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:35:20 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to3
+2018-10-04 14:35:20 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:35:24 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:40:08 ERROR AddNewRouteCommand:54 - Could not persist route
+2018-10-04 14:40:18 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to4
+2018-10-04 14:40:18 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:40:18 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:41:13 INFO  JDBCRouteDAO:116 - Route17deleted
+2018-10-04 14:41:13 INFO  DeleteRouteByIdCommand:48 - Routedeleted
+2018-10-04 14:41:21 INFO  JDBCRouteDAO:116 - Route16deleted
+2018-10-04 14:41:21 INFO  DeleteRouteByIdCommand:48 - Routedeleted
+2018-10-04 14:41:55 INFO  JDBCRouteDAO:59 - Routecreatedfrom2to5
+2018-10-04 14:41:55 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:41:55 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:45:56 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to9
+2018-10-04 14:45:56 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 14:45:56 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 16:13:52 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 16:13:52 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 16:13:52 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 16:15:30 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 16:15:30 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 16:15:30 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 16:39:49 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 16:39:49 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 16:39:49 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 16:41:48 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 16:41:48 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 16:41:48 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 17:46:05 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 17:46:05 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 17:46:05 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 17:46:05 ERROR MySQLRouteService:261 - Could not set train to route.
+2018-10-04 17:47:08 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 17:47:08 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 17:47:08 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 17:47:08 ERROR MySQLRouteService:261 - Could not set train to route.
+2018-10-04 17:48:47 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 17:48:47 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 17:48:47 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 17:48:47 ERROR MySQLRouteService:261 - Could not set train to route.
+2018-10-04 17:54:31 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 17:54:31 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 17:54:31 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 18:04:00 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 18:04:00 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 18:04:00 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 18:04:54 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 18:04:54 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 18:04:54 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 18:46:51 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 18:46:51 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 18:46:51 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 19:14:10 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 19:50:20 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 19:50:46 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 19:56:21 INFO  JDBCStationDAO:84 - Station5deleted
+2018-10-04 19:57:48 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to7
+2018-10-04 19:57:48 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 19:57:48 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 19:58:10 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 19:58:40 INFO  AddNewTrainCommand:48 - TrainIntercity1created
+2018-10-04 19:59:06 INFO  GetAllTrainsCommand:48 - TrainIntercity1updated
+2018-10-04 19:59:39 ERROR AddNewTrainCommand:52 - Train already exists.
+2018-10-04 19:59:45 INFO  AddNewTrainCommand:48 - TrainIntercity2created
+2018-10-04 20:01:07 INFO  DeleteTrainByIdCommand:49 - Train4deleted
+2018-10-04 20:01:49 INFO  AddNewTrainCommand:48 - TrainIntercity2created
+2018-10-04 20:01:53 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:01:59 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:02:21 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:02:26 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:03:17 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:03:38 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:03:51 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:06:54 INFO  DeleteTrainByIdCommand:49 - Train1deleted
+2018-10-04 20:07:28 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:07:29 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:07:38 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:14:39 INFO  AddNewTrainCommand:48 - TrainIntercity3created
+2018-10-04 20:14:41 INFO  DeleteTrainByIdCommand:49 - Train6deleted
+2018-10-04 20:15:36 INFO  AddNewTrainCommand:48 - TrainIntercity3created
+2018-10-04 20:16:18 INFO  DeleteTrainByIdCommand:49 - Train2deleted
+2018-10-04 20:16:21 INFO  DeleteTrainByIdCommand:49 - Train5deleted
+2018-10-04 20:16:23 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:16:34 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 20:28:20 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to8
+2018-10-04 20:29:03 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to7
+2018-10-04 20:48:13 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to6
+2018-10-04 20:49:37 INFO  JDBCRouteDAO:116 - Route13deleted
+2018-10-04 20:49:37 INFO  DeleteRouteByIdCommand:48 - Routedeleted
+2018-10-04 20:49:40 INFO  JDBCRouteDAO:116 - Route12deleted
+2018-10-04 20:49:40 INFO  DeleteRouteByIdCommand:48 - Routedeleted
+2018-10-04 20:50:28 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to7
+2018-10-04 20:52:36 INFO  JDBCRouteDAO:116 - Route14deleted
+2018-10-04 20:52:36 INFO  DeleteRouteByIdCommand:48 - Routedeleted
+2018-10-04 20:53:14 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to7
+2018-10-04 20:55:20 INFO  JDBCRouteDAO:116 - Route15deleted
+2018-10-04 20:55:20 INFO  DeleteRouteByIdCommand:48 - Routedeleted
+2018-10-04 20:55:51 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to7
+2018-10-04 21:03:17 INFO  JDBCRouteDAO:116 - Route16deleted
+2018-10-04 21:03:17 INFO  DeleteRouteByIdCommand:48 - Routedeleted
+2018-10-04 21:03:35 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to7
+2018-10-04 21:03:35 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 21:03:35 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 21:03:57 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 21:04:34 INFO  AddNewTrainCommand:48 - TrainIntercity1created
+2018-10-04 21:04:39 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 21:08:24 INFO  JDBCStationDAO:84 - Station1deleted
+2018-10-04 21:08:26 INFO  JDBCStationDAO:84 - Station2deleted
+2018-10-04 21:08:27 INFO  JDBCStationDAO:84 - Station3deleted
+2018-10-04 21:09:58 INFO  AddNewTrainCommand:48 - TrainOberihcreated
+2018-10-04 21:10:40 INFO  JDBCRouteDAO:59 - Routecreatedfrom7to11
+2018-10-04 21:10:40 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 21:10:40 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 21:11:37 INFO  JDBCRouteDAO:59 - Routecreatedfrom7to11
+2018-10-04 21:11:37 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 21:11:37 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 21:11:54 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 21:24:28 INFO  MySQLUserService:118 - UserСергей Удальцов bought.tickets.
+2018-10-04 21:24:30 INFO  MySQLUserService:163 - Mail.sent.
+2018-10-04 21:41:10 INFO  MySQLUserService:36 - User created.
+2018-10-04 21:44:23 INFO  MySQLUserService:36 - User created.
+2018-10-04 21:50:24 INFO  MySQLUserService:36 - User created.
+2018-10-04 21:54:07 INFO  MySQLUserService:36 - User created.
+2018-10-04 21:58:15 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:06:21 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:07:52 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:07:54 ERROR RegisterNewUserCommand:63 - User already exists.
+2018-10-04 22:09:17 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:10:55 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:15:01 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:16:48 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:17:36 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:17:39 ERROR RegisterNewUserCommand:63 - User already exists.
+2018-10-04 22:19:12 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:20:18 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:24:14 INFO  MySQLUserService:36 - User created.
+2018-10-04 22:25:25 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 22:25:32 ERROR DeleteTrainByIdCommand:55 - Could not delete train. 
+2018-10-04 22:26:09 INFO  JDBCRouteDAO:59 - Routecreatedfrom8to10
+2018-10-04 22:26:09 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 22:26:09 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 22:28:35 INFO  JDBCRouteDAO:59 - Routecreatedfrom4to8
+2018-10-04 22:28:35 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 22:28:35 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:14:25 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 23:14:25 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:14:25 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:14:25 ERROR MySQLRouteService:263 - Could not set train to route.
+2018-10-04 23:16:07 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 23:16:07 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:16:07 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:16:07 ERROR MySQLRouteService:263 - Could not set train to route.
+2018-10-04 23:28:53 INFO  JDBCRouteDAO:59 - Routecreatedfrom1to2
+2018-10-04 23:29:57 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:29:57 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:30:07 ERROR MySQLRouteService:263 - Could not set train to route.
+2018-10-04 23:40:39 INFO  JDBCStationDAO:84 - Station1deleted
+2018-10-04 23:40:57 INFO  JDBCStationDAO:84 - Station3deleted
+2018-10-04 23:42:00 INFO  JDBCStationDAO:84 - Station2deleted
+2018-10-04 23:43:34 INFO  JDBCRouteDAO:59 - Routecreatedfrom15to13
+2018-10-04 23:43:34 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:43:34 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:43:52 INFO  JDBCRouteDAO:97 - Intermediate.station.added
+2018-10-04 23:44:20 INFO  AddNewTrainCommand:48 - TrainIntercity1created
+2018-10-04 23:44:47 INFO  AddNewTrainCommand:48 - TrainIntercity2created
+2018-10-04 23:45:27 INFO  MySQLUserService:36 - User created.

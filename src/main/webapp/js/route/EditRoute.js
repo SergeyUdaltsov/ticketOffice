@@ -4,9 +4,8 @@ var language;
 var arrDate;
 $(window).ready(function () {
 
-    if(JSON.parse(window.localStorage.getItem('status')) !== 'admin'){
-        $(location).attr('href', 'http://localhost:9999/index.jsp');
-    }
+   validateUser();
+
     var routeId = window.location.href.split("?")[1].split("=")[1];
 
     vocabulary = getVocabulary();
@@ -89,6 +88,31 @@ $(window).ready(function () {
 
 });
 
+function validateUser() {
+    var password = readCookie('password');
+    var user = JSON.parse(window.localStorage.getItem('user'));
+
+    if (password !== user.password ||
+        JSON.parse(window.localStorage.getItem('status')) !== 'admin') {
+
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+    }
+}
+
+function readCookie(name) {
+    var i, c, ca, nameEQ = name + "=";
+    ca = document.cookie.split(';');
+    for (i = 0; i < ca.length; i++) {
+        c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1, c.length);
+        }
+        if (c.indexOf(nameEQ) == 0) {
+            return c.substring(nameEQ.length, c.length);
+        }
+    }
+    return '';
+}
 
 function translatePage(transLang) {
 
@@ -162,7 +186,7 @@ function addItem(data, url) {
         },
         error: function (data) {
             if (data.status === 406) {
-                alert(vocabulary[language]['exists']);
+                alert(vocabulary[language]['stExists']);
             }
         },
         complete: function (data) {
@@ -311,7 +335,8 @@ function getVocabulary() {
             'fillUp': 'Заполните все поля.',
             'setTrain': 'Назначить поезд',
             'station added': 'Станция успешно добавлена',
-            'exists': 'Маршрут уже существует.'
+            'exists': 'Маршрут уже существует.',
+            'stExists': 'Станция уже добавлена или неверное время или дата.'
         },
         en: {
             'title': 'Edit route',
@@ -334,6 +359,7 @@ function getVocabulary() {
             'cancel': 'Cancel',
             'setTrain': 'Set train',
             'delete': 'Delete route',
+            'stExists': 'Station already exists or wrong date or time.',
             'create': 'Create',
             'station added': 'Station successfully added.',
             'fillUp': 'Please fill up all the fields.',

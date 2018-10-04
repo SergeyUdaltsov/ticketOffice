@@ -35,7 +35,7 @@ $(window).ready(function () {
 
     $("#cancelButton").click(function () {
 
-        window.localStorage.setItem('status', JSON.stringify(''));
+        window.localStorage.removeItem('status');
 
         $(location).attr('href', 'http://localhost:9999/index.jsp');
 
@@ -69,7 +69,7 @@ function getVocabulary() {
             'trains': 'Поезда',
             'lName': 'Фамилия',
             'register': 'Зарегистрировать',
-            'cancel': 'Отмена',
+            'cancel': 'Выход',
             'pass': 'Пароль',
             'exists': 'Пользователь с таким адресом уже зарегистрирован.',
             'fillUp': 'Заполните все поля.'
@@ -81,7 +81,7 @@ function getVocabulary() {
             'trains': 'Trains',
             'lName': 'Last name',
             'register': 'Register',
-            'cancel': 'Cancel',
+            'cancel': 'Exit',
             'pass': 'Password',
             'exists': 'User with this email already registered.',
             'fillUp': 'Fill up all the fields'

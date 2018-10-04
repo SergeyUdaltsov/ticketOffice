@@ -3,7 +3,7 @@ package com.entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Route implements Sendable {
+public class Route {
 
     private int id;
     private int startStationId;

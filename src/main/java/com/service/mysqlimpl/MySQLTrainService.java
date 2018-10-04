@@ -10,7 +10,9 @@ import com.service.TrainService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -108,7 +110,7 @@ public class MySQLTrainService implements TrainService {
      * @return {@code List<Tour>} list of tours between specified stations.
      */
     @Override
-    public List<Tour> getTrainsByStations(int departureStationId, int arrivalStationId) {
+    public List<Tour> getTrainsByStations(int departureStationId, int arrivalStationId, LocalDate depDate) {
 
         List<Tour> tours = new ArrayList<>();
 
@@ -117,7 +119,7 @@ public class MySQLTrainService implements TrainService {
 
             MySQLConnectorManager.startTransaction(connection);
 
-            ResultSet resultSet = TRAIN_DAO.getTrainsByStations(statement, departureStationId, arrivalStationId);
+            ResultSet resultSet = TRAIN_DAO.getTrainsByStations(statement, departureStationId, arrivalStationId, depDate);
 
             tours = getToursFromResultSet(resultSet);
 
@@ -166,7 +168,12 @@ public class MySQLTrainService implements TrainService {
             String time = timeInTour / 60 + " hrs, " + timeInTour % 60 + " min.";
 
             tour.setTourTime(time);
-            tour.setTourPrice((int) (timeInTour * TRIP_PRICE));
+            tour.setTourPriceEco(BigDecimal.valueOf(timeInTour * TRIP_PRICE_ECO)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            tour.setTourPriceBusiness(BigDecimal.valueOf(timeInTour * TRIP_PRICE_BUS)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            tour.setTourPriceComfort(BigDecimal.valueOf(timeInTour * TRIP_PRICE_COM)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
             tours.add(tour);
         }

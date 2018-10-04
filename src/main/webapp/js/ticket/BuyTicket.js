@@ -7,22 +7,16 @@ var comfortCount;
 
 $(window).ready(function () {
 
-    var password = readCookie('password');
-    var user = JSON.parse(window.localStorage.getItem('user'));
+    language = JSON.parse(window.localStorage.getItem('lang'));
 
-    console.log(JSON.parse(window.localStorage.getItem('status')));
-    if (password !== user.password ||
-        JSON.parse(window.localStorage.getItem('status')) !== 'entered') {
-
-        $(location).attr('href', 'http://localhost:9999/index.jsp');
-
-    }
-
-
+    validateUser();
 
     var routeId = window.location.href.split("?")[1].split("=")[1].split("&")[0];
     var depStId = window.location.href.split("&")[1].split("=")[1];
     var arrStId = window.location.href.split("&")[2].split("=")[1];
+    var ecoPr = window.location.href.split("&")[3].split("=")[1];
+    var busPr = window.location.href.split("&")[4].split("=")[1];
+    var comPr = window.location.href.split("&")[5].split("=")[1];
 
     loadTicketsInfo(routeId, depStId, arrStId);
 
@@ -30,7 +24,6 @@ $(window).ready(function () {
 
     vocabulary = getVocabulary();
 
-    language = JSON.parse(window.localStorage.getItem('lang'));
 
     if (language !== null && language !== undefined) {
         translatePage(language);
@@ -46,6 +39,9 @@ $(window).ready(function () {
         request.routeId = routeId;
         request.depStId = depStId;
         request.arrStId = arrStId;
+        request.ecoPr = ecoPr;
+        request.busPr = busPr;
+        request.comPr = comPr;
 
         (request.ecoCountToBuy === 0 && request.busCountToBuy === 0 && request.comCountToBuy === 0)
             ? alert(vocabulary[language]['fillUp'])
@@ -63,6 +59,9 @@ $(window).ready(function () {
     });
 
     $('.translate').click(function () {
+
+        location.reload();
+
         var transLang = $(this).attr('id');
 
         translatePage(transLang);
@@ -70,6 +69,19 @@ $(window).ready(function () {
         window.localStorage.setItem('lang', JSON.stringify(transLang));
     });
 });
+
+function validateUser() {
+    var password = readCookie('password');
+
+    var user = JSON.parse(window.localStorage.getItem('user'));
+    var status = JSON.parse(window.localStorage.getItem('status'));
+
+    if (password !== user.password || status !== 'registered') {
+
+        $(location).attr('href', 'http://localhost:9999/index.jsp');
+
+    }
+}
 
 function buyTickets(request) {
     $.ajax({
@@ -140,7 +152,7 @@ function loadTrip(routeId, depSt, arrSt) {
                 cell2 = document.createElement("td");
                 cell3 = document.createElement("td");
 
-                textNode1 = document.createTextNode(this.name);
+                textNode1 = document.createTextNode((language === 'ru') ? this.nameRu : this.name);
                 textNode2 = document.createTextNode(this.arrDateTimeString);
                 textNode3 = document.createTextNode(this.depTimeString);
 
@@ -201,7 +213,6 @@ function translatePage(transLang) {
 }
 
 function getVocabulary() {
-
     return {
         ru: {
             'title': 'Купить билет',
@@ -242,6 +253,5 @@ function getVocabulary() {
             'exists': 'Station already exists.',
             'fillUp': 'Fill up all the fields'
         }
-
     };
 }

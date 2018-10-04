@@ -160,8 +160,8 @@ function getVocabulary() {
             'bus': 'Плацкарт',
             'comf': 'Купе',
             'delete': 'Удалить поезд',
+            'cDelete': 'Поезд назначен на маршрут, удаленние невозможно',
             'fillUp': 'Заполните все поля.',
-            'fillUpe': 'Заполните ееееееее.',
             'station added': 'Станция успешно добавлена',
             'exists': 'Поезд уже существует.'
         },
@@ -173,6 +173,7 @@ function getVocabulary() {
             'econ': 'Economy',
             'bus': 'Business',
             'comf': 'Comfort',
+            'cDelete': 'Could not delete train because it has been set to route.',
             'cancel': 'Cancel',
             'delete': 'Delete train',
             'fillUp': 'Please fill up all the fields.',

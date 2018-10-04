@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.utils.UtilConstants.*;
@@ -51,8 +52,11 @@ public class ShowTrainsBetweenStationsCommand implements Command {
 
             int departureStationId = jsonObject.getInt("depSt");
             int arrivalStationId = jsonObject.getInt("arrSt");
+            String depDateStr = jsonObject.getString("date");
 
-           List<Tour> tours = SERVICE.getTrainsByStations(departureStationId, arrivalStationId);
+            LocalDate depDate = (depDateStr.equals("")) ? LocalDate.now() : LocalDate.parse(depDateStr);
+
+           List<Tour> tours = SERVICE.getTrainsByStations(departureStationId, arrivalStationId, depDate);
 
             response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding(ENCODING);
